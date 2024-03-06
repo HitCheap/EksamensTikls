@@ -38,15 +38,17 @@
         echo '<button class="bg-gray-950 text-white px-5 py-1 rounded w-fit font-semibold tracking-wide hover:translate-y-0.5 duration-200 hover:bg-gray-800 text-sm">
         Like
       </button>';
-      echo '<button class="bg-gray-950 text-white px-5 py-1 rounded w-fit font-semibold tracking-wide hover:translate-y-0.5 duration-200 hover:bg-gray-800 text-sm">
+      echo '<button id="openModalBtn" class="bg-gray-950 text-white px-5 py-1 rounded w-fit font-semibold tracking-wide hover:translate-y-0.5 duration-200 hover:bg-gray-800 text-sm">
         Comment
       </button>';
       echo '<button class="bg-gray-950 text-white px-5 py-1 rounded w-fit font-semibold tracking-wide hover:translate-y-0.5 duration-200 hover:bg-gray-800 text-sm">
         Reply
       </button>';
+      if (isset($_SESSION['lietotaji_id']) && $_SESSION['lietotaji_id'] == $comment['lietotaja_id']) {
       echo '<button class="bg-gray-950 text-white px-5 py-1 rounded w-fit font-semibold tracking-wide hover:translate-y-0.5 duration-200 hover:bg-gray-800 text-sm">
         Dzēst
       </button>';
+      }
         echo '</div>';
       }
     } else {
@@ -55,6 +57,45 @@
   }
 
 ?>
+
+<!-- Add this script to your HTML file -->
+<script>
+    function handleLike(postID) {
+        // Send an Ajax request to like.php
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', 'like.php', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                const response = JSON.parse(xhr.responseText);
+
+                // Handle the response
+                if (response.error) {
+                    console.error(response.error);
+                } else {
+                    // Update the UI based on the response
+                    const likeButton = document.getElementById(`likeButton_${postID}`);
+                    const likeCount = document.getElementById(`likeCount_${postID}`);
+
+                    if (response.action === 'like') {
+                        likeButton.innerText = 'Unlike';
+                        likeCount.innerText = parseInt(likeCount.innerText) + 1;
+                    } else if (response.action === 'unlike') {
+                        likeButton.innerText = 'Like';
+                        likeCount.innerText = parseInt(likeCount.innerText) - 1;
+                    }
+                }
+            }
+        };
+        xhr.send(`post_id=${postID}`);
+    }
+</script>
+
+<!-- Your post with like button and like count -->
+<div>
+    <button id="likeButton_1" onclick="handleLike(1)">Like</button>
+    <span id="likeCount_1">0</span>
+</div>
 
 <!DOCTYPE html>
 <html lang="lv">
@@ -126,54 +167,87 @@
       window.location.href = 'profile.php';
     }
   </script>
-  </main>
-</body>
-</html>
-
-<!-- Add this script to your HTML file -->
-<script>
-    function handleLike(postID) {
-        // Send an Ajax request to like.php
-        const xhr = new XMLHttpRequest();
-        xhr.open('POST', 'like.php', true);
-        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                const response = JSON.parse(xhr.responseText);
-
-                // Handle the response
-                if (response.error) {
-                    console.error(response.error);
-                } else {
-                    // Update the UI based on the response
-                    const likeButton = document.getElementById(`likeButton_${postID}`);
-                    const likeCount = document.getElementById(`likeCount_${postID}`);
-
-                    if (response.action === 'like') {
-                        likeButton.innerText = 'Unlike';
-                        likeCount.innerText = parseInt(likeCount.innerText) + 1;
-                    } else if (response.action === 'unlike') {
-                        likeButton.innerText = 'Like';
-                        likeCount.innerText = parseInt(likeCount.innerText) - 1;
-                    }
-                }
-            }
-        };
-        xhr.send(`post_id=${postID}`);
-    }
-</script>
-
-<!-- Your post with like button and like count -->
-<div>
-    <button id="likeButton_1" onclick="handleLike(1)">Like</button>
-    <span id="likeCount_1">0</span>
-</div>
-
-<!-- Repeat the structure for each post, updating the IDs accordingly -->
+  <!-- Repeat the structure for each post, updating the IDs accordingly -->
 <div>
     <button id="likeButton_2" onclick="handleLike(2)">Like</button>
     <span id="likeCount_2">0</span>
 </div>
 
+  </main>
+</body>
+</html>
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modal Example</title>
+  <style>
+    /* Styles for the modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 20px;
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+    }
 
+    /* Styles for the overlay */
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 900;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Button to open the modal -->
+<button id="openModalBtn">Open Modal</button>
+
+<!-- The modal and overlay elements -->
+<div id="myModal" class="modal">
+  <p>This is a modal!</p>
+  <button id="closeModalBtn">Close Modal</button>
+</div>
+
+<div id="overlay" class="overlay"></div>
+
+<script>
+  // Get references to modal and overlay elements
+  var modal = document.getElementById('myModal');
+  var overlay = document.getElementById('overlay');
+
+  // Get references to open and close modal buttons
+  var openModalBtn = document.getElementById('openModalBtn');
+  var closeModalBtn = document.getElementById('closeModalBtn');
+
+  // Function to open the modal
+  function openModal() {
+    modal.style.display = 'block';
+    overlay.style.display = 'block';
+  }
+
+  // Function to close the modal
+  function closeModal() {
+    modal.style.display = 'none';
+    overlay.style.display = 'none';
+  }
+
+  // Attach click event listeners to open and close modal buttons
+  openModalBtn.addEventListener('click', openModal);
+  closeModalBtn.addEventListener('click', closeModal);
+</script>
+
+</body>
+</html>
