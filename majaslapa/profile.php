@@ -5,6 +5,7 @@
   // Check if the user is logged in
   if (!isset($_SESSION['id'])) {
     header('Location: login.php');
+    exit();
   }
   $host = 'localhost';
   $username = 'root';
@@ -12,8 +13,45 @@
   $database = 'majaslapa';
 
   $conn = new mysqli($host, $username, $password, $database);
+
+  if ($conn->connect_error) {
+    die('Database connection failed: ' . $conn->connect_error);
+}
+
 ?>
 
+
+<?php
+
+
+
+// Retrieve username from URL parameter
+if (isset($_GET['username'])) {
+    $username = $_GET['username'];
+
+    // Query to fetch profile information based on username
+    $sql = $conn->prepare("SELECT vards, uzvards, epasts FROM lietotaji WHERE vards = ? AND uzvards = ?");
+    $sql->bind_param('ss', $vards, $uzvards);
+    list($vards, $uzvards) = explode(' ', $username);
+    $sql->execute();
+    $result = $sql->get_result();
+
+    if ($result->num_rows > 0) {
+        // Fetch and display profile information
+        $profileInfo = $result->fetch_assoc();
+        ?>
+        <p>Vārds: <?php echo $profileInfo['vards']; ?></p>
+        <p>Uzvārds: <?php echo $profileInfo['uzvards']; ?></p>
+        <p>E-pasts: <?php echo $profileInfo['epasts']; ?></p>
+        <?php
+    } else {
+        echo "Profile not found.";
+    }
+} else {
+    echo "Username not provided.";
+}
+
+?>
 
 
 <!DOCTYPE html>

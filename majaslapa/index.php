@@ -29,7 +29,7 @@ $_SESSION['user_id'] = $user_id; // Store user ID in session variable
 
       while ($rinda = $rezultats->fetch_assoc()) {
 
-        $sql2 = $conn->prepare("SELECT vards, uzvards FROM lietotaji WHERE id = ?");
+        $sql2 = $conn->prepare("SELECT id, vards, uzvards FROM lietotaji WHERE id = ?");
         $sql2->bind_param('s', $rinda['lietotaja_id']);
         $sql2->execute();
 
@@ -37,16 +37,16 @@ $_SESSION['user_id'] = $user_id; // Store user ID in session variable
         $rezultats2 = $rezultats2->fetch_object();
 
         echo '<div class="border p-5 rounded mb-3">';
-        echo '<p class="text-gray-600 font-bold" onclick="redirectToProfile(\'' . $rezultats2->vards . ' ' . $rezultats2->uzvards . '\')">' . $rezultats2->vards . " " . $rezultats2->uzvards . '</p>';
-        echo '<small class="text-xs text-gray-600">' . date_format(date_create($rinda['datums']), "g:i A l, F j, Y") . '</small>';
+        // Modify the onclick function to pass the user ID
+        echo '<p class="text-gray-600 font-bold profile-link" onclick="redirectToProfile(\'' . $rezultats2->vards . ' ' . $rezultats2->uzvards . '\')">' . $rezultats2->vards . " " . $rezultats2->uzvards . '</p>';
+        echo '<small class="text-xs text-gray-600">' . date_format(date_create($rinda['datums']), "g:i A l, F j, Y") . '</small>';    
+        
         echo '<p class="font-semibold">' . $rinda['teksts'] . '</p>';
         echo '<button id="likeButton_1" onclick="handleLike(1)" class="bg-gray-950 text-white px-5 py-1 rounded w-fit font-semibold tracking-wide hover:translate-y-0.5 duration-200 hover:bg-gray-800 text-sm">
         Patīk
         <span class="like-count">0</span>
       </button>';
-      echo '<button id="openModalBtn" class="bg-gray-950 text-white px-5 py-1 rounded w-fit font-semibold tracking-wide hover:translate-y-0.5 duration-200 hover:bg-gray-800 text-sm">
-        Komentēt
-      </button>';
+      echo '<button class="bg-gray-950 text-white px-5 py-1 rounded w-fit font-semibold tracking-wide hover:translate-y-0.5 duration-200 hover:bg-gray-800 text-sm" onclick="openModal(' . $rinda['comment_id'] . ')">Komentēt</button>';
       echo '<button class="bg-gray-950 text-white px-5 py-1 rounded w-fit font-semibold tracking-wide hover:translate-y-0.5 duration-200 hover:bg-gray-800 text-sm">
         Atbildēt
       </button>';
@@ -62,7 +62,30 @@ $_SESSION['user_id'] = $user_id; // Store user ID in session variable
     }
   }
 
+    // Assuming you have a likes_table with columns: like_id, post_id, user_id
+
+// Display comments
+if ($rezultats->num_rows > 0) {
+  while ($rinda = $rezultats->fetch_assoc()) {
+      $commentId = $rinda['comment_id'];
+      $commentText = $rinda['teksts'];
+
+      // Fetch the number of likes for this comment
+      $sqlLikes = "SELECT COUNT(*) AS like_count FROM likes_table WHERE post_id = $commentId";
+      $likeResult = $conn->query($sqlLikes);
+      $likeCount = ($likeResult->num_rows > 0) ? $likeResult->fetch_assoc()['like_count'] : 0;
+
+      // Output comment HTML
+      echo '<div class="comment" id="comment_' . $commentId . '">';
+      echo '<p>' . $commentText . '</p>';
+      echo '<button onclick="handleLike(' . $commentId . ')">Like (' . $likeCount . ')</button>';
+      echo '</div>';
+  }
+}
+
 ?>
+
+
 
 <script>
 function confirmDelete(commentId) {
@@ -143,6 +166,8 @@ function deleteComment(commentId) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -162,7 +187,9 @@ function deleteComment(commentId) {
     <div class="border my-5 p-5 rounded">
       <div class="flex justify-between items-center">
         <p class="text-lg text-start font-bold">Sveicinati, <?php echo $_SESSION['epasts'] ?>!</p>
-        <button onclick="openProfileTab()">Profils</button>
+        <button onclick="redirectToProfile()">Profils</button>
+
+
         <a href="logout.php" class="hover:underline text-sm font-semibold cursor-pointer">Atslēgties</a>
       </div>
       <form action="komentars.php" method="POST" class="mt-3 w-full flex flex-col gap-3">
@@ -243,11 +270,7 @@ function deleteComment(commentId) {
       }
     }
   </script>
-  <script>
-    function openProfileTab() {
-      window.location.href = 'profile.php';
-    }
-  </script>
+
 
 <script>
 function redirectToProfile(username) {
@@ -315,7 +338,7 @@ function redirectToProfile(username) {
 
 <!-- The modal and overlay elements -->
 <div id="myModal" class="modal">
-  <p>This is a modal!</p>
+  <input type="text">
   <button id="closeModalBtn">Close Modal</button>
 </div>
 
