@@ -1,6 +1,11 @@
 <?php
 
   session_start();
+  // After successful login
+$user_id = $_SESSION['id']; // Retrieve user ID from database or other source
+$_SESSION['user_id'] = $user_id; // Store user ID in session variable
+  // After successful login
+  $_SESSION['lietotaji_id'] = $user_id; // Set the user ID in the session
 
   if (!isset($_SESSION['id'])) {
     header('Location: login.php');
@@ -32,22 +37,23 @@
         $rezultats2 = $rezultats2->fetch_object();
 
         echo '<div class="border p-5 rounded mb-3">';
-        echo '<p class="text-gray-600 font-bold">' . $rezultats2->vards . " " . $rezultats2->uzvards . '</p>';
+        echo '<p class="text-gray-600 font-bold" onclick="redirectToProfile(\'' . $rezultats2->vards . ' ' . $rezultats2->uzvards . '\')">' . $rezultats2->vards . " " . $rezultats2->uzvards . '</p>';
         echo '<small class="text-xs text-gray-600">' . date_format(date_create($rinda['datums']), "g:i A l, F j, Y") . '</small>';
         echo '<p class="font-semibold">' . $rinda['teksts'] . '</p>';
-        echo '<button class="bg-gray-950 text-white px-5 py-1 rounded w-fit font-semibold tracking-wide hover:translate-y-0.5 duration-200 hover:bg-gray-800 text-sm">
-        Like
+        echo '<button id="likeButton_1" onclick="handleLike(1)" class="bg-gray-950 text-white px-5 py-1 rounded w-fit font-semibold tracking-wide hover:translate-y-0.5 duration-200 hover:bg-gray-800 text-sm">
+        Patīk
+        <span class="like-count">0</span>
       </button>';
       echo '<button id="openModalBtn" class="bg-gray-950 text-white px-5 py-1 rounded w-fit font-semibold tracking-wide hover:translate-y-0.5 duration-200 hover:bg-gray-800 text-sm">
-        Comment
+        Komentēt
       </button>';
       echo '<button class="bg-gray-950 text-white px-5 py-1 rounded w-fit font-semibold tracking-wide hover:translate-y-0.5 duration-200 hover:bg-gray-800 text-sm">
-        Reply
+        Atbildēt
       </button>';
-      if (isset($_SESSION['lietotaji_id']) && $_SESSION['lietotaji_id'] == $comment['lietotaja_id']) {
-      echo '<button class="bg-gray-950 text-white px-5 py-1 rounded w-fit font-semibold tracking-wide hover:translate-y-0.5 duration-200 hover:bg-gray-800 text-sm">
-        Dzēst
-      </button>';
+      if (isset($_SESSION['lietotaji_id']) && $_SESSION['lietotaji_id'] == $rinda['lietotaja_id']) {
+        echo '<button class="bg-gray-950 text-white px-5 py-1 rounded w-fit font-semibold tracking-wide hover:translate-y-0.5 duration-200 hover:bg-gray-800 text-sm" onclick="confirmDelete(' . $rinda['comment_id'] . ')">
+            Dzēst
+          </button>';
       }
         echo '</div>';
       }
@@ -57,6 +63,41 @@
   }
 
 ?>
+
+<script>
+function confirmDelete(commentId) {
+  if (confirm("Vai tiešām vēlaties dzēst šo komentāru?")) {
+    // User clicked "OK"
+    deleteComment(commentId);
+  } else {
+    // User clicked "Cancel"
+    // Do nothing
+  }
+}
+
+function deleteComment(commentId) {
+  // AJAX request to delete the comment
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", "delete_comment.php", true);
+  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+      // Response received
+      var response = JSON.parse(xhr.responseText);
+      if (response.success) {
+        // Comment deleted successfully
+        // Optionally, you can update the UI to reflect the deletion
+        location.reload(); // Refresh the page
+      } else {
+        // Error deleting the comment
+        alert("Radās kļūda dzēšot komentāru");
+      }
+    }
+  };
+  xhr.send("comment_id=" + commentId);
+}
+</script>
+
 
 <!-- Add this script to your HTML file -->
 <script>
@@ -120,16 +161,39 @@
   <main class="login border rounded shadow-xl my-10 p-5 mx-auto max-w-[1000px] min-h-[90vh] flex flex-col">
     <div class="border my-5 p-5 rounded">
       <div class="flex justify-between items-center">
-        <p class="text-lg text-start font-bold">Sveicinati, <?php echo $_SESSION['vards'] ?>!</p>
+        <p class="text-lg text-start font-bold">Sveicinati, <?php echo $_SESSION['epasts'] ?>!</p>
         <button onclick="openProfileTab()">Profils</button>
         <a href="logout.php" class="hover:underline text-sm font-semibold cursor-pointer">Atslēgties</a>
       </div>
       <form action="komentars.php" method="POST" class="mt-3 w-full flex flex-col gap-3">
-        <input type="text" name="teksts" placeholder="Raksti komentāru" class="p-3 placeholder:italic border outline-none rounded"/>
+        <input type="text" name="teksts" placeholder="Raksti komentāru" id="commentText" class="p-3 placeholder:italic border outline-none rounded" oninput="enableButton()"/>
         <div class="text-end">
-          <button class="bg-gray-950 text-white px-5 py-1 rounded w-fit font-semibold tracking-wide hover:translate-y-0.5 duration-200 hover:bg-gray-800 text-sm">
-            Publicēt
-          </button>
+<button id="submitButton" class="bg-gray-950 text-white px-5 py-1 rounded w-fit font-semibold tracking-wide hover:translate-y-0.5 duration-200 hover:bg-gray-800 text-sm" onclick="validateAndSubmit()" disabled>
+    Publicēt
+</button>
+
+<script>
+    function enableButton() {
+        var commentText = document.getElementById('commentText').value.trim();
+        var submitButton = document.getElementById('submitButton');
+        if (commentText !== '') {
+            submitButton.disabled = false;
+        } else {
+            submitButton.disabled = true;
+        }
+    }
+
+    function validateAndSubmit() {
+        var commentText = document.getElementById('commentText').value.trim();
+        if (commentText === '') {
+            alert('Comment text cannot be empty');
+        } else {
+            // If comment text is not empty, submit the form
+            document.getElementById('commentForm').submit();
+        }
+    }
+</script>
+
         </div>
       </form>
     </div>
@@ -150,6 +214,23 @@
   ];
 ?>
 
+<script>
+    function validateAndSubmit() {
+        // Get the comment text value and trim any whitespace
+        var commentText = document.getElementById('commentText').value.trim();
+        
+        // Check if the comment text is empty
+        if (commentText === '') {
+            // If empty, show an alert message to the user
+            alert('Comment text cannot be empty');
+        } else {
+            // If not empty, submit the form
+            document.getElementById('commentForm').submit();
+        }
+    }
+</script>
+
+
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -167,6 +248,25 @@
       window.location.href = 'profile.php';
     }
   </script>
+
+<script>
+function redirectToProfile(username) {
+    // Redirect the user to the profile page based on the username
+    window.location.href = 'profile.php?username=' + encodeURIComponent(username);
+}
+</script>
+
+<script>
+        function validateForm() {
+            var commentText = document.getElementById('commentText').value.trim();
+            if (commentText === '') {
+                alert('Comment text cannot be empty');
+                return false; // Prevent form submission
+            }
+            return true; // Allow form submission
+        }
+    </script>
+
   <!-- Repeat the structure for each post, updating the IDs accordingly -->
 <div>
     <button id="likeButton_2" onclick="handleLike(2)">Like</button>
@@ -178,7 +278,7 @@
 </html>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="lv">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -212,8 +312,6 @@
 </head>
 <body>
 
-<!-- Button to open the modal -->
-<button id="openModalBtn">Open Modal</button>
 
 <!-- The modal and overlay elements -->
 <div id="myModal" class="modal">
@@ -247,6 +345,117 @@
   // Attach click event listeners to open and close modal buttons
   openModalBtn.addEventListener('click', openModal);
   closeModalBtn.addEventListener('click', closeModal);
+</script>
+
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Like Button Example</title>
+</head>
+<body>
+
+<!-- Sample posts -->
+<div class="post" data-post-id="1">
+  <p>Post content...</p>
+  <button class="like-btn">Like</button>
+  <span class="like-count">0</span>
+</div>
+
+<div class="post" data-post-id="2">
+  <p>Another post...</p>
+  <button class="like-btn">Like</button>
+  <span class="like-count">0</span>
+</div>
+
+<!-- Include jQuery for simplicity -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+  $(document).ready(function() {
+    // Event listener for like buttons
+    $('.like-btn').click(function() {
+      // Get the post ID from the data attribute of the parent post element
+      var postId = $(this).closest('.post').data('post-id');
+
+      // Simulate sending a request to the server to update the like count
+      $.ajax({
+        url: 'like.php',
+        method: 'POST',
+        data: { postId: postId },
+        success: function(response) {
+          // Update the like count displayed on the page
+          var likeCount = parseInt($('.post[data-post-id="' + postId + '"] .like-count').text());
+          $('.post[data-post-id="' + postId + '"] .like-count').text(likeCount + 1);
+        },
+        error: function(xhr, status, error) {
+          console.error('Error:', error);
+        }
+      });
+    });
+  });
+</script>
+
+<div class="comment">
+    <p><?php echo $rinda; ?></p>
+    <button class="like-btn" data-comment-id="<?php echo $comment_id; ?>">Like</button>
+    <span class="like-count">0</span>
+</div>
+
+
+<h1>NEW CODE</h1>
+
+<!-- HTML code for displaying comments -->
+<div class="comment">
+    <p>Comment text...</p>
+    <button class="like-btn" data-comment-id="1">Like</button>
+    <span class="like-count">0</span>
+</div>
+
+
+<div class="comment">
+    <p>Another comment text...</p>
+    <button class="like-btn" data-comment-id="2">Like</button>
+    <span class="like-count">0</span>
+</div>
+
+<!-- JavaScript code -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Attach click event listener to all like buttons
+        var likeButtons = document.querySelectorAll('.like-btn');
+        likeButtons.forEach(function(button) {
+            button.addEventListener('click', function() {
+                // Extract the comment_id from the data attribute
+                var commentId = button.getAttribute('data-comment-id');
+                
+                // Send the comment_id to the server to handle the like action
+                // You can use AJAX here to send a request to your server-side script
+                // and update the like count for the corresponding comment
+                // Example using fetch API:
+                fetch('like.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ comment_id: commentId })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Update the like count displayed on the page
+                    var likeCountElement = button.nextElementSibling; // Assuming like count is the next sibling element
+                    likeCountElement.textContent = data.like_count;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            });
+        });
+    });
 </script>
 
 </body>

@@ -17,16 +17,19 @@
 
     if($_SERVER['REQUEST_METHOD'] == "POST") {
 
+
       $teksts = $_POST['teksts'];
       $lietotaja_id = $_SESSION['id'];
-  
+
+      if($teksts === ''){}else{
         $sql = $conn -> prepare("INSERT INTO komentari (teksts, lietotaja_id) VALUES (?, ?)");
         $sql -> bind_param("ss", $teksts, $lietotaja_id);
-  
+      
   
         if($sql -> execute()) {
           header("Location: index.php");
-        } 
+        }
+      } 
     }
 
 ?>

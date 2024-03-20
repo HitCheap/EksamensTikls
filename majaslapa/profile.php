@@ -57,8 +57,8 @@
             'epasts' => $_SESSION['epasts']
           ];
         ?>
-        <p>Vārds: <?php echo $profileInfo['vards']; ?></p>
-        <p>Uzvārds: <?php echo $profileInfo['epasts']; ?></p>
+        <p>Vārds: <?php echo $profileInfo['epasts']; ?></p>
+        <p>Uzvārds: <?php echo $profileInfo['vards']; ?></p>
         <p>E-pasts: <?php echo $profileInfo['uzvards']; ?></p>
     </div>
     <script>

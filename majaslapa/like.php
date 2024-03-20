@@ -83,16 +83,37 @@ $conn->close();
         };
         xhr.send(`post_id=${postID}`);
     }
+
+    document.addEventListener('DOMContentLoaded', function() {
+    // Attach click event listener to all like buttons
+    var likeButtons = document.querySelectorAll('.like-btn');
+    likeButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            // Extract the comment_id from the data attribute
+            var commentId = button.getAttribute('data-comment-id');
+            
+            // Send the comment_id to the server to handle the like action
+            // You can use AJAX here to send a request to your server-side script
+            // and update the like count for the corresponding comment
+            // Example using fetch API:
+            fetch('like.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ comment_id: commentId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Update the like count displayed on the page
+                var likeCountElement = button.nextElementSibling; // Assuming like count is the next sibling element
+                likeCountElement.textContent = data.like_count;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    });
+});
+
 </script>
-
-<!-- Your post with like button and like count -->
-<div>
-    <button id="likeButton_1" onclick="handleLike(1)">Like</button>
-    <span id="likeCount_1">0</span>
-</div>
-
-<!-- Repeat the structure for each post, updating the IDs accordingly -->
-<div>
-    <button id="likeButton_2" onclick="handleLike(2)">Like</button>
-    <span id="likeCount_2">0</span>
-</div>
