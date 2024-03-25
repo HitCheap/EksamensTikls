@@ -22,7 +22,7 @@ $_SESSION['user_id'] = $user_id; // Store user ID in session variable
 
     global $conn;
 
-    $sql = "SELECT * FROM komentari ORDER BY datums desc";
+    $sql = "SELECT * FROM komentari ORDER BY datums desc LIMIT 10";
     $rezultats = $conn->query($sql);
 
     if ($rezultats->num_rows > 0) {
@@ -36,15 +36,18 @@ $_SESSION['user_id'] = $user_id; // Store user ID in session variable
         $rezultats2 = $sql2->get_result();
         $rezultats2 = $rezultats2->fetch_object();
 
-        echo '<div class="border p-5 rounded mb-3">';
+        echo '<div class="border p-5 rounded mb-3 comment" id="comment_<?php echo $commentId; ?>">';
+        echo '<p><?php echo $commentText; ?></p>';
+        echo '<a href="view_comments.php?comment_id=<?php echo $commentId; ?>">View Comments</a>';
         // Modify the onclick function to pass the user ID
         echo '<p class="text-gray-600 font-bold profile-link" onclick="redirectToProfile(\'' . $rezultats2->vards . ' ' . $rezultats2->uzvards . '\')">' . $rezultats2->vards . " " . $rezultats2->uzvards . '</p>';
         echo '<small class="text-xs text-gray-600">' . date_format(date_create($rinda['datums']), "g:i A l, F j, Y") . '</small>';    
         
         echo '<p class="font-semibold">' . $rinda['teksts'] . '</p>';
-        echo '<button id="likeButton_1" onclick="handleLike(1)" class="bg-gray-950 text-white px-5 py-1 rounded w-fit font-semibold tracking-wide hover:translate-y-0.5 duration-200 hover:bg-gray-800 text-sm">
+        echo '<div class="post" data-post-id="2"> <button id="likeButton_1" onclick="handleLike(1)" class="bg-gray-950 text-white px-5 py-1 rounded w-fit font-semibold tracking-wide hover:translate-y-0.5 duration-200 hover:bg-gray-800 text-sm like-btn">
         Patīk
         <span class="like-count">0</span>
+        </div>
       </button>';
       echo '<button class="bg-gray-950 text-white px-5 py-1 rounded w-fit font-semibold tracking-wide hover:translate-y-0.5 duration-200 hover:bg-gray-800 text-sm" onclick="openModal(' . $rinda['comment_id'] . ')">Komentēt</button>';
       echo '<button class="bg-gray-950 text-white px-5 py-1 rounded w-fit font-semibold tracking-wide hover:translate-y-0.5 duration-200 hover:bg-gray-800 text-sm">
@@ -152,6 +155,13 @@ function deleteComment(commentId) {
             }
         };
         xhr.send(`post_id=${postID}`);
+    }
+</script>
+
+<script>
+    // JavaScript to open a new tab when a comment link is clicked
+    function openCommentsTab(commentId) {
+        window.open('view_comments.php?comment_id=' + commentId, '_blank');
     }
 </script>
 
@@ -334,6 +344,48 @@ function redirectToProfile(username) {
   </style>
 </head>
 <body>
+
+<!-- Your HTML content -->
+<div>
+    <!-- Assuming you have a button for each post with class 'like-btn' and data attribute 'data-post-id' -->
+    <button class="like-btn" data-post-id="1" onclick="handleLike(1)">Like</button>
+    <span id="likeCount_1">0</span>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Attach click event listener to all like buttons
+    var likeButtons = document.querySelectorAll('.like-btn');
+    likeButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            // Extract the post_id from the data attribute
+            var postId = button.getAttribute('data-post-id');
+            
+            // Send the post_id to the server to handle the like action
+            // You can use AJAX here to send a request to your server-side script (like.php)
+            // and update the like count for the corresponding post
+            fetch('like.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ post_id: postId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Update the like count displayed on the page
+                var likeCountElement = document.getElementById('likeCount_' + postId);
+                if (likeCountElement) {
+                    likeCountElement.textContent = parseInt(likeCountElement.textContent) + (data.action === 'like' ? 1 : -1);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    });
+});
+</script>
 
 
 <!-- The modal and overlay elements -->
