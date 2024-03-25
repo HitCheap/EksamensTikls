@@ -28,7 +28,7 @@ if (isset($_GET['comment_id'])) {
     if ($result->num_rows > 0) {
         // Output comments
         while ($row = $result->fetch_assoc()) {
-            echo "<p>" . $row['comment_text'] . "</p>";
+            echo "<p>" . $row['teksts'] . "</p>";
             // You can display other comment details as needed
         }
     } else {

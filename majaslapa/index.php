@@ -36,29 +36,44 @@ $_SESSION['user_id'] = $user_id; // Store user ID in session variable
         $rezultats2 = $sql2->get_result();
         $rezultats2 = $rezultats2->fetch_object();
 
-        echo '<div class="border p-5 rounded mb-3 comment" id="comment_<?php echo $commentId; ?>">';
-        echo '<p><?php echo $commentText; ?></p>';
-        echo '<a href="view_comments.php?comment_id=<?php echo $commentId; ?>">View Comments</a>';
-        // Modify the onclick function to pass the user ID
-        echo '<p class="text-gray-600 font-bold profile-link" onclick="redirectToProfile(\'' . $rezultats2->vards . ' ' . $rezultats2->uzvards . '\')">' . $rezultats2->vards . " " . $rezultats2->uzvards . '</p>';
-        echo '<small class="text-xs text-gray-600">' . date_format(date_create($rinda['datums']), "g:i A l, F j, Y") . '</small>';    
-        
-        echo '<p class="font-semibold">' . $rinda['teksts'] . '</p>';
-        echo '<div class="post" data-post-id="2"> <button id="likeButton_1" onclick="handleLike(1)" class="bg-gray-950 text-white px-5 py-1 rounded w-fit font-semibold tracking-wide hover:translate-y-0.5 duration-200 hover:bg-gray-800 text-sm like-btn">
-        Patīk
-        <span class="like-count">0</span>
-        </div>
-      </button>';
-      echo '<button class="bg-gray-950 text-white px-5 py-1 rounded w-fit font-semibold tracking-wide hover:translate-y-0.5 duration-200 hover:bg-gray-800 text-sm" onclick="openModal(' . $rinda['comment_id'] . ')">Komentēt</button>';
-      echo '<button class="bg-gray-950 text-white px-5 py-1 rounded w-fit font-semibold tracking-wide hover:translate-y-0.5 duration-200 hover:bg-gray-800 text-sm">
-        Atbildēt
-      </button>';
-      if (isset($_SESSION['lietotaji_id']) && $_SESSION['lietotaji_id'] == $rinda['lietotaja_id']) {
-        echo '<button class="bg-gray-950 text-white px-5 py-1 rounded w-fit font-semibold tracking-wide hover:translate-y-0.5 duration-200 hover:bg-gray-800 text-sm" onclick="confirmDelete(' . $rinda['comment_id'] . ')">
+       // Assuming you have fetched comment ID and comment text from the database
+$commentId = $rinda['comment_id']; 
+$commentText = $rinda['teksts'];
+
+// Wrap the entire comment block in an anchor tag
+echo '<a href="view_comments.php?comment_id=' . $commentId . '" class="comment-link">';
+
+echo '<div class="border p-5 rounded mb-3 comment" id="comment_' . $commentId . '">';
+// View Comments link
+echo '<p><a href="view_comments.php?comment_id=' . $commentId . '">View Comments</a></p>';
+// User profile link
+echo '<p class="text-gray-600 font-bold profile-link" onclick="redirectToProfile(\'' . $rezultats2->vards . ' ' . $rezultats2->uzvards . '\')">' . $rezultats2->vards . " " . $rezultats2->uzvards . '</p>';
+echo '<small class="text-xs text-gray-600">' . date_format(date_create($rinda['datums']), "g:i A l, F j, Y") . '</small>';    
+echo '<p class="font-semibold">' . $rinda['teksts'] . '</p>';
+
+// Like button
+echo '<div class="post" data-post-id="' . $commentId . '"> 
+        <button id="likeButton_' . $commentId . '" onclick="handleLike(' . $commentId . ')" class="bg-gray-950 text-white px-5 py-1 rounded w-fit font-semibold tracking-wide hover:translate-y-0.5 duration-200 hover:bg-gray-800 text-sm like-btn">
+          Patīk
+          <span class="like-count">0</span>
+        </button>
+      </div>';
+
+// Comment button
+echo '<button class="bg-gray-950 text-white px-5 py-1 rounded w-fit font-semibold tracking-wide hover:translate-y-0.5 duration-200 hover:bg-gray-800 text-sm" onclick="openModal(' . $commentId . ')">Komentēt</button>';
+
+// Reply button
+echo '<button class="bg-gray-950 text-white px-5 py-1 rounded w-fit font-semibold tracking-wide hover:translate-y-0.5 duration-200 hover:bg-gray-800 text-sm">Atbildēt</button>';
+
+// Delete button (if the user is the owner of the comment)
+if (isset($_SESSION['lietotaji_id']) && $_SESSION['lietotaji_id'] == $rinda['lietotaja_id']) {
+    echo '<button class="bg-gray-950 text-white px-5 py-1 rounded w-fit font-semibold tracking-wide hover:translate-y-0.5 duration-200 hover:bg-gray-800 text-sm" onclick="confirmDelete(' . $commentId . ')">
             Dzēst
           </button>';
-      }
-        echo '</div>';
+}
+
+echo '</div>'; // Close the comment div
+echo '</a>'; // Close the anchor tag
       }
     } else {
       echo '<p class="italic text-gray-500 text-sm text-center mt-20">Nav pieejamu tvītu.</p>';
@@ -474,29 +489,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 </script>
-
-<div class="comment">
-    <p><?php echo $rinda; ?></p>
-    <button class="like-btn" data-comment-id="<?php echo $comment_id; ?>">Like</button>
-    <span class="like-count">0</span>
-</div>
-
-
-<h1>NEW CODE</h1>
-
-<!-- HTML code for displaying comments -->
-<div class="comment">
-    <p>Comment text...</p>
-    <button class="like-btn" data-comment-id="1">Like</button>
-    <span class="like-count">0</span>
-</div>
-
-
-<div class="comment">
-    <p>Another comment text...</p>
-    <button class="like-btn" data-comment-id="2">Like</button>
-    <span class="like-count">0</span>
-</div>
 
 <!-- JavaScript code -->
 <script>
