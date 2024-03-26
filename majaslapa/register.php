@@ -15,7 +15,7 @@ if ($conn->connect_error) {
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     
     if (empty($_POST['epasts']) || empty($_POST['parole']) || empty($_POST['atkartoParoli'])) {
-        $_SESSION['error'] = "Visi obligātie lauki ir jāaizpilda.";
+        $_SESSION['error'] = "Visi lauki ir jāaizpilda.";
         header("Location: register.php");
         exit();
     }
@@ -53,9 +53,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
 
-
-  <script src="https://cdn.tailwindcss.com"></script>
+ <!-- <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
@@ -66,87 +66,85 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         }
       }
     }
-  </script>
+  </script> -->
 
   <title>Majaslapa</title>
 </head>
 <body class="mx-2">
-  <main class="login border rounded shadow-xl my-10 py-5 px-10 mx-auto max-w-[800px]
-                flex flex-col">
+  <main class="register-container">
     
 
     <hr>
 
   
-    <form class="mt-5 flex flex-col justify-center gap-3"
+    <form class="register-form"
           action="register.php"
           method="POST">
 
-      <p class="text-xl text-center font-bold">REĢISTRĀCIJA</p>
+      <p class="register-title">REĢISTRĀCIJA</p>
 
-      <div class="flex flex-col gap-2">
+      <div class="input-group">
         <label  for="vards"
-                class="font-semibold">
+                class="input-label">
           Vārds:
         </label>
         <input type="text"
                 id="vards"
                 name="vards" 
                 placeholder="Vārds"
-                class="border rounded px-3 py-1 placeholder:italic outline-none"/>
+                class="input-field"/>
       </div>
 
-      <div class="flex flex-col gap-2">
+      <div class="input-group">
         <label  for="uzvards"
-                class="font-semibold">
+                class="input-label">
           Uzvārds:
         </label>
         <input type="text"
                 id="uzvards"
                 name="uzvards" 
                 placeholder="Uzvārds"
-                class="border rounded px-3 py-1 placeholder:italic outline-none"/>
+                class="input-field"/>
       </div>
 
-      <div class="flex flex-col gap-2">
+      <div class="input-group">
         <label  for="epasts"
-                class="font-semibold">
-          E-pasts*:
+                class="input-label">
+          E-pasts:
         </label>
         <input type="text"
                 id="epasts"
                 name="epasts" 
                 placeholder="epasts@gmail.com"
-                class="border rounded px-3 py-1 placeholder:italic outline-none"/>
+                class="input-field"/>
       </div>
 
-      <div class="flex flex-col gap-2">
+      <div class="input-group">
         <label  for="parole"
-                class="font-semibold">
-          Parole*:
+                class="input-label">
+          Parole:
         </label>
         <input type="password"
                 id="parole"
                 name="parole" 
                 placeholder="••••••"
-                class="border rounded px-3 py-1 placeholder:italic outline-none"/>
+                class="input-field"/>
       </div>
 
-      <div class="flex flex-col gap-2">
+      <div class="input-group">
         <label  for="atkartoParoli"
-                class="font-semibold">
-          Atkārto Paroli*:
+                class="input-label">
+          Atkārto Paroli:
         </label>
         <input type="password"
                 id="atkartoParoli"
                 name="atkartoParoli" 
                 placeholder="••••••"
-                class="border rounded px-3 py-1 placeholder:italic outline-none"/>
+                class="input-field"/>
       </div>
 
-      <div class="flex flex-col gap-2">
-        <button class="bg-gray-950 rounded text-white font-semibold tracking-wide
-                        py-1 mt-5 hover:translate-y-0.5 duration-300 hover:bg-gray-800"
+      <div class="button-group">
+        <button class="login-button"
                 type="submit">
           Reģistrēties
         </button>
@@ -154,7 +152,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
           <?php
             if(isset($_SESSION['error'])) {
               echo '
-                      <div class="bg-red-200 rounded text-center p-2 w-full text-xs mt-3 italic">
+                      <div class="error-message">
                         '.$_SESSION['error'].'
                       </div>
                     ';
@@ -163,7 +161,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
           ?>
 
         <a href="login.php"
-          class="text-end hover:underline italic text-xs">
+          class="login-link">
           Esi reģistrējies?
         </a>
       </div>

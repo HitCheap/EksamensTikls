@@ -47,3 +47,33 @@ if (isset($_GET['comment_id'])) {
 // Close the database connection
 $conn->close();
 ?>
+
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>Mājaslapa</title>
+</head>
+<body class="mx-2">
+  <main class="main">
+    <div class="border">
+      <div class="items">
+        <?php
+        // Assuming $result contains the query result with comments
+        while ($row = $result->fetch_assoc()) {
+            echo "<p>" . $row['teksts'] . "</p>";
+            // You can display other comment details as needed
+        }
+        ?>
+      </div>
+    </div>
+    <script>
+        function atpakalIndex() {
+      window.location.href = 'index.php';
+    }
+    </script>
+  </main>
+</body>
+</html>

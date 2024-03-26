@@ -40,9 +40,13 @@ if (isset($_GET['username'])) {
         // Fetch and display profile information
         $profileInfo = $result->fetch_assoc();
         ?>
+        <div class="border">
+      <div class="items">
         <p>Vārds: <?php echo $profileInfo['vards']; ?></p>
         <p>Uzvārds: <?php echo $profileInfo['uzvards']; ?></p>
-        <p>E-pasts: <?php echo $profileInfo['epasts']; ?></p>
+        <button class="button">Sekot</button>
+      </div>
+        </div>
         <?php
     } else {
         echo "Profile not found.";
@@ -59,29 +63,16 @@ if (isset($_GET['username'])) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            clifford: '#da373d',
-          }
-        }
-      }
-    }
-  </script>
+  <link rel="stylesheet" href="style.css">
   <title>Mājaslapa</title>
 </head>
 <body class="mx-2">
-  <main class="login border rounded shadow-xl my-10 p-5 mx-auto max-w-[1000px] min-h-[90vh] flex flex-col">
-    <div class="border my-5 p-5 rounded">
-      <div class="flex justify-between items-center">
-      </div>
-      <div class="flex justify-between items-center">
+  <main class="main">
+    <div class="border">
+      <div class="items">
         
-        <button onclick="atpakalIndex()">Atpakal</button>
-        <a href="logout.php" class="hover:underline text-sm font-semibold cursor-pointer">Atslēgties</a>
+        <button class="button" onclick="atpakalIndex()">Atpakal</button>
+        <a href="logout.php" class="logout">Atslēgties</a>
       </div>
 
       <?php

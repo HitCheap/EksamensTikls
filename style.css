@@ -1,8 +1,0 @@
-.profile-link {
-    cursor: pointer; /* Change cursor to pointer when hovered */
-    transition: color 0.3s; /* Add transition effect for color change */
-}
-
-.profile-link:hover {
-    color: blue; /* Change text color to blue when hovered */
-}

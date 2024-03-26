@@ -45,11 +45,12 @@
 <!DOCTYPE html>
 <html lang="lv">
 <head>
+  <link rel="stylesheet" href="style.css">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-  <script src="https://cdn.tailwindcss.com"></script>
+<!--  <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
@@ -60,49 +61,47 @@
         }
       }
     }
-  </script>
+  </script> -->
 
   <title>Mājaslapa</title>
 </head>
 <body class="mx-2">
-  <main class="login border rounded shadow-xl my-10 py-16 px-10 mx-auto max-w-[800px]
-                flex flex-col">
+  <main class="login-container">
     <hr>
 
    
-    <form class="mt-5 flex flex-col justify-center gap-3"
+    <form class="login-form"
           action="login.php"
           method="POST">
 
-      <p class="text-xl text-center font-bold">Pieslēgties</p>
+      <p class="login-title">PIESLĒGTIES</p>
 
-      <div class="flex flex-col gap-2">
+      <div class="input-group">
         <label  for="epasts"
-                class="font-semibold">
+                class="input-label">
           E-pasts:
         </label>
         <input type="text"
                 id="epasts"
                 name="epasts" 
                 placeholder="epasts@gmail.com"
-                class="border rounded px-3 py-1 placeholder:italic outline-none"/>
+                class="input-field"/>
       </div>
 
-      <div class="flex flex-col gap-2">
+      <div class="input-group">
         <label  for="parole"
-                class="font-semibold">
+                class="input-label">
           Parole:
         </label>
         <input type="password"
                 id="parole"
                 name="parole" 
                 placeholder="••••••"
-                class="border rounded px-3 py-1 placeholder:italic outline-none"/>
+                class="input-field"/>
       </div>
 
-      <div class="flex flex-col gap-2">
-        <button class="bg-gray-950 rounded text-white font-semibold tracking-wide
-                        py-1 mt-5 hover:translate-y-0.5 duration-300 hover:bg-gray-800"
+      <div class="button-group">
+        <button class="login-button"
                 type="submit">
           Pieslēgties
         </button>
@@ -110,7 +109,7 @@
         <?php
             if(isset($_SESSION['error'])) {
               echo '
-                      <div class="bg-red-200 rounded text-center p-2 w-full text-xs mt-3 italic">
+                      <div class="error-message">
                         '.$_SESSION['error'].'
                       </div>
                     ';
@@ -119,7 +118,7 @@
           ?>
 
         <a href="register.php"
-          class="text-end hover:underline italic text-xs">
+          class="register-link">
           Neesi reģistrējies?
         </a>
       </div>

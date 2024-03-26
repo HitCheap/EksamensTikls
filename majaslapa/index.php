@@ -10,7 +10,7 @@ $_SESSION['user_id'] = $user_id; // Store user ID in session variable
   if (!isset($_SESSION['id'])) {
     header('Location: login.php');
   }
-
+  
   $host = 'localhost';
   $username = 'root';
   $password = '';
@@ -43,31 +43,31 @@ $commentText = $rinda['teksts'];
 // Wrap the entire comment block in an anchor tag
 echo '<a href="view_comments.php?comment_id=' . $commentId . '" class="comment-link">';
 
-echo '<div class="border p-5 rounded mb-3 comment" id="comment_' . $commentId . '">';
+echo '<div class="comment-container" id="comment_' . $commentId . '">';
 // View Comments link
-echo '<p><a href="view_comments.php?comment_id=' . $commentId . '">View Comments</a></p>';
+echo '<p><a href="view_comments.php?comment_id=' . $commentId . '" class="view-comments-link">View Comments</a></p>';
 // User profile link
-echo '<p class="text-gray-600 font-bold profile-link" onclick="redirectToProfile(\'' . $rezultats2->vards . ' ' . $rezultats2->uzvards . '\')">' . $rezultats2->vards . " " . $rezultats2->uzvards . '</p>';
-echo '<small class="text-xs text-gray-600">' . date_format(date_create($rinda['datums']), "g:i A l, F j, Y") . '</small>';    
-echo '<p class="font-semibold">' . $rinda['teksts'] . '</p>';
+echo '<p class="profile-link" onclick="redirectToProfile(\'' . $rezultats2->vards . ' ' . $rezultats2->uzvards . '\')">' . $rezultats2->vards . " " . $rezultats2->uzvards . '</p>';
+echo '<small class="date">' . date_format(date_create($rinda['datums']), "g:i A l, F j, Y") . '</small>';    
+echo '<p class="fonts">' . $rinda['teksts'] . '</p>';
 
 // Like button
-echo '<div class="post" data-post-id="' . $commentId . '"> 
-        <button id="likeButton_' . $commentId . '" onclick="handleLike(' . $commentId . ')" class="bg-gray-950 text-white px-5 py-1 rounded w-fit font-semibold tracking-wide hover:translate-y-0.5 duration-200 hover:bg-gray-800 text-sm like-btn">
+echo '<div class="like-container" data-post-id="' . $commentId . '"> 
+        <button id="likeButton_' . $commentId . '" onclick="handleLike(' . $commentId . ')" class="like-btn">
           Patīk
           <span class="like-count">0</span>
         </button>
       </div>';
 
 // Comment button
-echo '<button class="bg-gray-950 text-white px-5 py-1 rounded w-fit font-semibold tracking-wide hover:translate-y-0.5 duration-200 hover:bg-gray-800 text-sm" onclick="openModal(' . $commentId . ')">Komentēt</button>';
+echo '<button class="comment-btn" onclick="openModal(' . $commentId . ')">Komentēt</button>';
 
 // Reply button
-echo '<button class="bg-gray-950 text-white px-5 py-1 rounded w-fit font-semibold tracking-wide hover:translate-y-0.5 duration-200 hover:bg-gray-800 text-sm">Atbildēt</button>';
+echo '<button class="reply-btn">Atbildēt</button>';
 
 // Delete button (if the user is the owner of the comment)
 if (isset($_SESSION['lietotaji_id']) && $_SESSION['lietotaji_id'] == $rinda['lietotaja_id']) {
-    echo '<button class="bg-gray-950 text-white px-5 py-1 rounded w-fit font-semibold tracking-wide hover:translate-y-0.5 duration-200 hover:bg-gray-800 text-sm" onclick="confirmDelete(' . $commentId . ')">
+    echo '<button class="delete-btn" onclick="confirmDelete(' . $commentId . ')">
             Dzēst
           </button>';
 }
@@ -76,30 +76,30 @@ echo '</div>'; // Close the comment div
 echo '</a>'; // Close the anchor tag
       }
     } else {
-      echo '<p class="italic text-gray-500 text-sm text-center mt-20">Nav pieejamu tvītu.</p>';
+      echo '<p class="nav">Nav pieejamu komentāru.</p>';
     }
   }
 
     // Assuming you have a likes_table with columns: like_id, post_id, user_id
 
 // Display comments
-if ($rezultats->num_rows > 0) {
-  while ($rinda = $rezultats->fetch_assoc()) {
-      $commentId = $rinda['comment_id'];
-      $commentText = $rinda['teksts'];
+// if ($rezultats->num_rows > 0) {
+//  while ($rinda = $rezultats->fetch_assoc()) {
+//      $commentId = $rinda['comment_id'];
+//      $commentText = $rinda['teksts'];
 
       // Fetch the number of likes for this comment
-      $sqlLikes = "SELECT COUNT(*) AS like_count FROM likes_table WHERE post_id = $commentId";
-      $likeResult = $conn->query($sqlLikes);
-      $likeCount = ($likeResult->num_rows > 0) ? $likeResult->fetch_assoc()['like_count'] : 0;
+//      $sqlLikes = "SELECT COUNT(*) AS like_count FROM likes_table WHERE post_id = $commentId";
+//      $likeResult = $conn->query($sqlLikes);
+//      $likeCount = ($likeResult->num_rows > 0) ? $likeResult->fetch_assoc()['like_count'] : 0;
 
       // Output comment HTML
-      echo '<div class="comment" id="comment_' . $commentId . '">';
-      echo '<p>' . $commentText . '</p>';
-      echo '<button onclick="handleLike(' . $commentId . ')">Like (' . $likeCount . ')</button>';
-      echo '</div>';
-  }
-}
+//      echo '<div class="comment" id="comment_' . $commentId . '">';
+//      echo '<p>' . $commentText . '</p>';
+//      echo '<button onclick="handleLike(' . $commentId . ')">Like (' . $likeCount . ')</button>';
+//      echo '</div>';
+//  }
+//}
 
 ?>
 
@@ -181,10 +181,10 @@ function deleteComment(commentId) {
 </script>
 
 <!-- Your post with like button and like count -->
-<div>
-    <button id="likeButton_1" onclick="handleLike(1)">Like</button>
-    <span id="likeCount_1">0</span>
-</div>
+<!--  <div>
+      <button id="likeButton_1" onclick="handleLike(1)">Like</button>
+      <span id="likeCount_1">0</span>
+  </div> -->
 
 <!DOCTYPE html>
 <html lang="lv">
@@ -193,7 +193,7 @@ function deleteComment(commentId) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
   <script src="script.js"></script>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
@@ -204,23 +204,24 @@ function deleteComment(commentId) {
         }
       }
     }
-  </script>
+  </script> -->
   <title>Mājaslapa</title>
 </head>
 <body class="mx-2">
-  <main class="login border rounded shadow-xl my-10 p-5 mx-auto max-w-[1000px] min-h-[90vh] flex flex-col">
-    <div class="border my-5 p-5 rounded">
-      <div class="flex justify-between items-center">
-        <p class="text-lg text-start font-bold">Sveicinati, <?php echo $_SESSION['epasts'] ?>!</p>
-        <button onclick="redirectToProfile()">Profils</button>
+  <main class="main">
+    <div class="border">
+      <div class="items">
+        <p class="text">Sveicinati, <?php echo $_SESSION['epasts'] ?>!</p>
+        <button class="button" onclick="redirectToProfile()">Profils</button>
+        <button class="button" onclick="redirectToSettings()">Iestatījumi</button>
 
 
-        <a href="logout.php" class="hover:underline text-sm font-semibold cursor-pointer">Atslēgties</a>
+        <a href="logout.php" class="logout">Atslēgties</a>
       </div>
-      <form action="komentars.php" method="POST" class="mt-3 w-full flex flex-col gap-3">
-        <input type="text" name="teksts" placeholder="Raksti komentāru" id="commentText" class="p-3 placeholder:italic border outline-none rounded" oninput="enableButton()"/>
+      <form action="komentars.php" method="POST" class="comment">
+        <input type="text" name="teksts" placeholder="Raksti komentāru" id="commentText" class="publicet-text" oninput="enableButton()"/>
         <div class="text-end">
-<button id="submitButton" class="bg-gray-950 text-white px-5 py-1 rounded w-fit font-semibold tracking-wide hover:translate-y-0.5 duration-200 hover:bg-gray-800 text-sm" onclick="validateAndSubmit()" disabled>
+<button id="submitButton" class="publicet" onclick="validateAndSubmit()" disabled>
     Publicēt
 </button>
 
@@ -283,7 +284,7 @@ function deleteComment(commentId) {
 </script>
 
 
-  <script src="https://cdn.tailwindcss.com"></script>
+ <!-- <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
@@ -294,13 +295,17 @@ function deleteComment(commentId) {
         }
       }
     }
-  </script>
+  </script> -->
 
 
 <script>
 function redirectToProfile(username) {
     // Redirect the user to the profile page based on the username
     window.location.href = 'profile.php?username=' + encodeURIComponent(username);
+}
+function redirectToSettings(username) {
+    // Redirect the user to the profile page based on the username
+    window.location.href = 'settings.php';
 }
 </script>
 
@@ -315,12 +320,6 @@ function redirectToProfile(username) {
         }
     </script>
 
-  <!-- Repeat the structure for each post, updating the IDs accordingly -->
-<div>
-    <button id="likeButton_2" onclick="handleLike(2)">Like</button>
-    <span id="likeCount_2">0</span>
-</div>
-
   </main>
 </body>
 </html>
@@ -331,41 +330,15 @@ function redirectToProfile(username) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Modal Example</title>
-  <style>
-    /* Styles for the modal */
-    .modal {
-      display: none;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      padding: 20px;
-      background-color: #fff;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-      z-index: 1000;
-    }
-
-    /* Styles for the overlay */
-    .overlay {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.5);
-      z-index: 900;
-    }
-  </style>
 </head>
 <body>
 
 <!-- Your HTML content -->
-<div>
+<!-- <div> -->
     <!-- Assuming you have a button for each post with class 'like-btn' and data attribute 'data-post-id' -->
-    <button class="like-btn" data-post-id="1" onclick="handleLike(1)">Like</button>
+    <!-- <button class="like-btn" data-post-id="1" onclick="handleLike(1)">Like</button>
     <span id="likeCount_1">0</span>
-</div>
+</div> -->
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -450,7 +423,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <body>
 
 <!-- Sample posts -->
-<div class="post" data-post-id="1">
+<!-- <div class="post" data-post-id="1">
   <p>Post content...</p>
   <button class="like-btn">Like</button>
   <span class="like-count">0</span>
@@ -460,7 +433,7 @@ document.addEventListener('DOMContentLoaded', function() {
   <p>Another post...</p>
   <button class="like-btn">Like</button>
   <span class="like-count">0</span>
-</div>
+</div> -->
 
 <!-- Include jQuery for simplicity -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

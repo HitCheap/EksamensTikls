@@ -1,0 +1,489 @@
+        /*index.php*/
+
+
+
+.profile-link {
+    cursor: pointer; /* Change cursor to pointer when hovered */
+    transition: color 0.5s; /* Add transition effect for color change */
+}
+
+.profile-link:hover {
+    color: rgb(141, 22, 165); /* Change text color to blue when hovered */
+}
+
+.comment-link {
+    text-decoration: none;
+    color: inherit; /* Inherit the color from the parent element */
+}
+
+.comment-container {
+    border: 1px solid #a455a4;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.profile-link {
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+}
+
+.like-btn,
+.comment-btn,
+.reply-btn,
+.delete-btn {
+    background-color: #333;
+    color: #fff;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    margin-right: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.like-btn:hover,
+.comment-btn:hover,
+.reply-btn:hover,
+.delete-btn:hover {
+    background-color: #555;
+}
+
+    /* Styles for the modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 20px;
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+    }
+
+    /* Styles for the overlay */
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 900;
+    }
+
+
+.date {
+    color: #718096;
+}
+
+.fonts{
+    font-weight: 600;
+}
+    
+.nav{
+font-style: italic;
+color: #718096; /* This color code corresponds to a shade of gray */ 
+font-size: 0.875rem; /* This font size corresponds to small text */
+text-align: center;
+margin-top: 20px; /* Adjust the value as needed based on your design */     
+}
+
+.main{
+    border: 1px solid #e2e8f0; /* Border color */
+    border-radius: 0.375rem; /* Border radius */
+    box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.1); /* Box shadow */
+    margin-top: 2.5rem; /* Margin top */
+    padding: 1.25rem; /* Padding */
+    max-width: 1000px; /* Maximum width */
+    min-height: 90vh; /* Minimum height */
+    margin-left: auto; /* Margin left */
+    margin-right: auto; /* Margin right */
+    display: flex; /* Flex container */
+    flex-direction: column; /* Flex direction */
+}
+
+.border{
+        border: 1px solid #e2e8f0; /* Border color */
+        margin-top: 1.25rem; /* Margin top */
+        margin-bottom: 1.25rem; /* Margin bottom */
+        padding: 1.25rem; /* Padding */
+        border-radius: 0.375rem; /* Border radius */
+}
+
+.items{
+        display: flex; /* Display as flex container */
+        justify-content: space-between; /* Distribute items evenly with space between */
+        align-items: center; /* Align items vertically at the center */
+}
+
+.text{
+        font-size: 1.125rem; /* Equivalent to text-lg in Tailwind CSS */
+        text-align: left; /* Align text to the left */
+        font-weight: bold; /* Apply bold font weight */
+}
+
+/* CSS styling for the logout link */
+.logout {
+    /* Smaller font size */
+    font-size: 0.875rem; /* Equivalent to text-sm in Tailwind CSS */
+    /* Apply semi-bold font weight */
+    font-weight: 600; /* Equivalent to font-semibold in Tailwind CSS */
+    /* Cursor style pointer */
+    cursor: pointer;
+    display: inline-block; /* Make it a block element */
+    padding: 0.5rem 1rem; /* Add padding for better spacing */
+    background-color: #af4c4c; /* Add a background color */
+    color: #fff; /* Set text color to white */
+    text-decoration: none; /* Remove default underline */
+    border-radius: 0.25rem; /* Apply border radius */
+    transition: background-color 0.3s; /* Smooth transition for background color change */
+  }
+  
+  /* Hover effect */
+  .logout:hover {
+    background-color: #893a3a; /* Darken the background color on hover */
+  }
+
+/* CSS styling for the logout link */
+.button {
+    /* Smaller font size */
+    font-size: 0.875rem; /* Equivalent to text-sm in Tailwind CSS */
+    /* Apply semi-bold font weight */
+    font-weight: 600; /* Equivalent to font-semibold in Tailwind CSS */
+    /* Cursor style pointer */
+    cursor: pointer;
+    display: inline-block; /* Make it a block element */
+    padding: 0.5rem 1rem; /* Add padding for better spacing */
+    background-color: #9daf4c; /* Add a background color */
+    color: #fff; /* Set text color to white */
+    text-decoration: none; /* Remove default underline */
+    border-radius: 0.25rem; /* Apply border radius */
+    transition: background-color 0.3s; /* Smooth transition for background color change */
+  }
+  
+  /* Hover effect */
+  .button:hover {
+    background-color: #768238; /* Darken the background color on hover */
+  }
+
+  /* CSS styling for the "View Comments" link */
+.view-comments-link {
+    color:  #a06ea0; /* Set the text color */
+    text-decoration: none; /* Remove default underline */
+    font-weight: bold;
+  }
+  
+  /* Hover effect */
+  .view-comments-link:hover {
+    text-decoration: underline; /* Underline on hover */
+  }
+  
+  
+
+.comment{
+    /* Hover effect to underline text */
+    text-decoration: underline;
+  /* Smaller font size */
+    font-size: 0.875rem; /* Equivalent to text-sm in Tailwind CSS */
+  /* Apply semi-bold font weight */
+    font-weight: 600; /* Equivalent to font-semibold in Tailwind CSS */
+  /* Cursor style pointer */
+    cursor: pointer;
+}
+
+.publicet-text{
+    /* Apply padding */
+    padding: 0.75rem; /* Equivalent to p-3 in Tailwind CSS */
+  /* Set placeholder text to italic */
+    font-style: italic; /* Equivalent to placeholder-italic in Tailwind CSS */
+  /* Remove outline */
+    outline: none; /* Equivalent to outline-none in Tailwind CSS */
+  /* Apply border and rounding */
+    border: 1px solid #e5e7eb; /* Equivalent to border in Tailwind CSS */
+    border-radius: 0.375rem; /* Equivalent to rounded in Tailwind CSS */
+}
+
+.publicet{
+    /* Apply background color */
+    background-color: #1f2937; /* Equivalent to bg-gray-950 in Tailwind CSS */
+  /* Set text color */
+    color: #ffffff; /* Equivalent to text-white in Tailwind CSS */
+  /* Apply padding */
+    padding-left: 1.25rem; /* Equivalent to px-5 in Tailwind CSS */
+    padding-right: 1.25rem; /* Equivalent to px-5 in Tailwind CSS */
+    padding-top: 0.25rem; /* Equivalent to py-1 in Tailwind CSS */
+    padding-bottom: 0.25rem; /* Equivalent to py-1 in Tailwind CSS */
+  /* Apply border rounding */
+    border-radius: 0.375rem; /* Equivalent to rounded in Tailwind CSS */
+  /* Set width to fit content */
+    width: fit-content; /* Equivalent to w-fit in Tailwind CSS */
+  /* Apply font weight */
+    font-weight: 600; /* Equivalent to font-semibold in Tailwind CSS */
+  /* Set text tracking */
+    letter-spacing: 0.05em; /* Equivalent to tracking-wide in Tailwind CSS */
+  /* Set text size */
+    font-size: 0.875rem; /* Equivalent to text-sm in Tailwind CSS */
+}
+
+.publicet:hover {
+      /* Hover effect - background color change */
+      background-color: #374151; /* Equivalent to hover:bg-gray-800 in Tailwind CSS */
+       /* Hover effect - translate */
+    transform: translateY(-0.125rem); /* Equivalent to hover:translate-y-0.5 in Tailwind CSS */
+  }
+
+
+
+         /*login.php*/
+
+
+
+body.mx-2 {
+    margin-left: 2rem;
+    margin-right: 2rem;
+  }
+  
+  .main.login {
+    border: 1px solid #e5e7eb; /* Replace with your desired border color */
+    border-radius: 0.375rem; /* Replace with your desired border radius */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Replace with your desired box shadow */
+    margin-top: 2.5rem; /* Replace with your desired margin */
+    padding: 4rem 2.5rem; /* Replace with your desired padding */
+    max-width: 50rem; /* Replace with your desired max width */
+  }
+  
+  .main.login hr {
+    margin-top: 1.5rem; /* Replace with your desired margin top */
+  }
+  
+  .main.login form {
+    margin-top: 1.25rem; /* Replace with your desired margin top */
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem; /* Replace with your desired gap */
+  }
+  
+  .main.login form .text-xl {
+    font-size: 1.25rem; /* Replace with your desired font size */
+    text-align: center;
+    font-weight: 600; /* Replace with your desired font weight */
+  }
+  
+  .main.login form label {
+    font-weight: 600; /* Replace with your desired font weight */
+  }
+  
+  .main.login form input[type="text"],
+  .main.login form input[type="password"] {
+    border: 1px solid #e5e7eb; /* Replace with your desired border color */
+    border-radius: 0.375rem; /* Replace with your desired border radius */
+    padding: 0.75rem; /* Replace with your desired padding */
+    outline: none;
+  }
+  
+  .main.login form button {
+    background-color: #222; /* Replace with your desired background color */
+    color: #fff; /* Replace with your desired text color */
+    border-radius: 0.375rem; /* Replace with your desired border radius */
+    font-weight: 600; /* Replace with your desired font weight */
+    padding: 0.5rem 1.5rem; /* Replace with your desired padding */
+    cursor: pointer;
+    
+  }
+  
+  .main.login form button:hover {
+    transform: translateY(-0.125rem); /* Replace with your desired hover effect */
+    background-color: #333; /* Replace with your desired background color on hover */
+  }
+  
+  .main.login form .bg-red-200 {
+    background-color: #fcd9d9; /* Replace with your desired background color */
+    color: #7f1d1d; /* Replace with your desired text color */
+    border-radius: 0.375rem; /* Replace with your desired border radius */
+    text-align: center;
+    padding: 0.5rem; /* Replace with your desired padding */
+  }
+  
+  .main.login form .text-xs {
+    font-size: 0.75rem; /* Replace with your desired font size */
+  }
+  
+  .main.login form a {
+    text-align: end;
+    text-decoration: none;
+    font-style: italic;
+    font-size: 0.75rem; /* Replace with your desired font size */
+  }
+  
+  .main.login form a:hover {
+    text-decoration: underline;
+  }
+
+  /* styles.css */
+
+/* Container for the login section */
+.login-container {
+    border: 1px solid #a455a4; /* Replace with your desired border color */
+    border-radius: 0.375rem; /* Replace with your desired border radius */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Replace with your desired box shadow */
+    margin: 10rem auto; /* Replace with your desired margin */
+    padding: 4rem 2.5rem; /* Replace with your desired padding */
+    max-width: 50rem; /* Replace with your desired max width */
+  }
+  
+  /* Form styling */
+  .login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem; /* Replace with your desired gap */
+  }
+  
+  /* Title styling */
+  .login-title {
+    font-size: 1.25rem; /* Replace with your desired font size */
+    text-align: center;
+    font-weight: 600; /* Replace with your desired font weight */
+  }
+  
+  /* Input field styling */
+  .input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem; /* Replace with your desired gap */
+  }
+  
+  .input-label {
+    font-weight: 600; /* Replace with your desired font weight */
+  }
+  
+  .input-field {
+    border: 1px solid #e5e7eb; /* Replace with your desired border color */
+    border-radius: 0.375rem; /* Replace with your desired border radius */
+    padding: 0.75rem; /* Replace with your desired padding */
+    outline: none;
+  }
+  
+  /* Button styling */
+  .button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem; /* Replace with your desired gap */
+  }
+  
+  .login-button {
+    background-color: #a455a4; /* Replace with your desired background color */
+    color: #fff; /* Replace with your desired text color */
+    border-radius: 0.375rem; /* Replace with your desired border radius */
+    font-weight: 600; /* Replace with your desired font weight */
+    padding: 0.5rem 1.5rem; /* Replace with your desired padding */
+    cursor: pointer;
+    transition: background-color 0.3s; /* Smooth transition for background color change */
+  }
+  
+  .login-button:hover {
+    transform: translateY(0.095rem); /* Replace with your desired hover effect */
+    background-color: rgb(141, 22, 165); /* Replace with your desired background color on hover */
+  }
+  
+  /* Error message styling */
+  .error-message {
+    background-color: #fcd9d9; /* Replace with your desired background color */
+    color: #7f1d1d; /* Replace with your desired text color */
+    border-radius: 0.375rem; /* Replace with your desired border radius */
+    text-align: center;
+    padding: 0.5rem; /* Replace with your desired padding */
+  }
+  
+  /* Register link styling */
+  .register-link {
+    text-align: end;
+    text-decoration: none;
+    font-style: normal;
+    font-size: 0.75rem; /* Replace with your desired font size */
+  }
+  
+  .register-link:hover {
+    text-decoration: underline;
+  }
+  
+
+
+          /*register.php*/
+
+
+
+/* styles.css */
+
+/* Container for the register section */
+.register-container {
+    border: 1px solid #e5e7eb; /* Replace with your desired border color */
+    border-radius: 0.375rem; /* Replace with your desired border radius */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Replace with your desired box shadow */
+    margin: 10rem auto; /* Replace with your desired margin */
+    padding: 2rem 2.5rem; /* Replace with your desired padding */
+    max-width: 50rem; /* Replace with your desired max width */
+  }
+  
+  /* Form styling */
+  .register-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem; /* Replace with your desired gap */
+  }
+  
+  /* Title styling */
+  .register-title {
+    font-size: 1.25rem; /* Replace with your desired font size */
+    text-align: center;
+    font-weight: 600; /* Replace with your desired font weight */
+  }
+  
+  /* Input field styling */
+  .input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem; /* Replace with your desired gap */
+  }
+  
+  .input-label {
+    font-weight: 600; /* Replace with your desired font weight */
+  }
+  
+  .input-field {
+    border: 1px solid #e5e7eb; /* Replace with your desired border color */
+    border-radius: 0.375rem; /* Replace with your desired border radius */
+    padding: 0.75rem; /* Replace with your desired padding */
+    outline: none;
+  }
+  
+  /* Button styling */
+  .button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem; /* Replace with your desired gap */
+  }
+  
+  .register-button {
+    background-color: #222; /* Replace with your desired background color */
+    color: #fff; /* Replace with your desired text color */
+    border-radius: 0.375rem; /* Replace with your desired border radius */
+    font-weight: 600; /* Replace with your desired font weight */
+    padding: 0.5rem 1.5rem; /* Replace with your desired padding */
+  }
+
+    /* Register link styling */
+    .login-link {
+        text-align: end;
+        text-decoration: none;
+        font-style: normal;
+        font-size: 0.75rem; /* Replace with your desired font size */
+      }
+      
+      .login-link:hover {
+        text-decoration: underline;
+      }
+  
