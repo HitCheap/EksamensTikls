@@ -1,0 +1,121 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    background-color: #1b1b1b;
+}
+
+:root{
+    --color-light-black: #343434;
+    --color-red:#2a0000 ;
+    --color-light-red: #d63838;
+    --color-gray: #333333;
+    --color-dark-gray: #262626;
+    --color-black: #0A0A0A;
+}
+
+h1{
+    color: white;
+    font-size: 45px;
+    margin: 20px;
+    display: flex;
+    position: relative;
+    left: 435px;
+    width: 320px;
+}
+
+#logobut{
+    padding:0;
+    margin:0;
+    height: 58px;
+    width: 180px;
+    background: transparent;
+    border: none;
+}
+
+.gamecontainer{
+    padding:0;
+    margin: 0;
+    height: 600px;
+    width: 1230px;
+    position: absolute;
+    background-color: #0A0A0A;
+    left: 450px;
+    top: 150px;
+    border-radius: 25px;
+    border: solid 2px var(--color-light-red);
+    box-shadow: 0px 0px 15px 10px rgb(141, 22, 165);
+}
+
+#board{
+    padding:0;
+    position: relative;
+    left:45px;
+    top:45px;
+    box-shadow: 0px 0px 15px 5px rgb(141, 22, 165);
+}
+
+#scoretext{
+    color: white;
+    font-size: 45px;
+    top: 82px;
+    position: absolute;
+    left: 1490px;
+    width: 320px;
+}
+
+#end{
+    width: 250px;
+    height: 400px;
+    background-color: #0A0A0A;
+    position:absolute;
+    top:100px;
+    left: 485px;
+    border-radius: 25px;
+    border: solid 2px var(--color-light-red);
+    box-shadow: 0px 0px 15px 10px rgb(141, 22, 165);
+}
+
+#endscoretext{
+    margin:0;
+    color: white;
+    font-size: 35px;
+    position: absolute;
+    top: 45px;
+    left: 30px;
+    width: 300px;
+}
+
+#endscore{
+    margin:0;
+    color: white;
+    font-size: 55px;
+    position: absolute;
+    top: 45px;
+    left: 70px;
+    width: 300px;
+}
+
+/* CSS styling for the logout link */
+.button {
+    /* Smaller font size */
+    font-size: 0.875rem; /* Equivalent to text-sm in Tailwind CSS */
+    /* Apply semi-bold font weight */
+    font-weight: 600; /* Equivalent to font-semibold in Tailwind CSS */
+    /* Cursor style pointer */
+    cursor: pointer;
+    display: inline-block; /* Make it a block element */
+    padding: 0.5rem 1rem; /* Add padding for better spacing */
+    background-color: #9daf4c; /* Add a background color */
+    color: #fff; /* Set text color to white */
+    text-decoration: none; /* Remove default underline */
+    border-radius: 0.25rem; /* Apply border radius */
+    transition: background-color 0.3s; /* Smooth transition for background color change */
+  }
+  
+  /* Hover effect */
+  .button:hover {
+    background-color: #768238; /* Darken the background color on hover */
+  }

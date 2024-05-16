@@ -1,0 +1,21 @@
+/* CSS styling for the logout link */
+.button {
+    /* Smaller font size */
+    font-size: 0.875rem; /* Equivalent to text-sm in Tailwind CSS */
+    /* Apply semi-bold font weight */
+    font-weight: 600; /* Equivalent to font-semibold in Tailwind CSS */
+    /* Cursor style pointer */
+    cursor: pointer;
+    display: inline-block; /* Make it a block element */
+    padding: 0.5rem 1rem; /* Add padding for better spacing */
+    background-color: #9daf4c; /* Add a background color */
+    color: #fff; /* Set text color to white */
+    text-decoration: none; /* Remove default underline */
+    border-radius: 0.25rem; /* Apply border radius */
+    transition: background-color 0.3s; /* Smooth transition for background color change */
+  }
+  
+  /* Hover effect */
+  .button:hover {
+    background-color: #768238; /* Darken the background color on hover */
+  }

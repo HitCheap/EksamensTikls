@@ -1,0 +1,160 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    background-color: #333333;
+}
+
+:root{
+    --color-light-black: #343434;
+    --color-red:#2a0000 ;
+    --color-light-red: #d63838;
+    --color-gray: #333333;
+    --color-dark-gray: #262626;
+    --color-black: #0A0A0A;
+}
+
+h1{
+    color: white;
+    font-size: 45px;
+    margin: 20px;
+    display: flex;
+    position: relative;
+    left: 300px;
+    width: 300px;
+}
+
+.profilepicbut{
+    display: inline-block;
+    position: absolute;
+    padding: 0;
+    margin: 0;
+    vertical-align: top;
+    width: 60px;
+    height: 60px;
+    right: 5px;
+    border: 0;
+    background-color: transparent;
+    
+}
+
+.profilepic{
+    display: block;
+    width: 45px;
+    height: 45px;
+}
+.profilepic:hover{
+    transform: scale(1.1);
+}
+
+.cuhanilogotextdiv{
+    position: relative;
+    padding: 0;
+    width:180px;
+    height: auto;
+    margin: auto;
+    display: inline-block;
+}
+
+.cuhanilogotext{
+    height: 58px;
+    width: 180px;
+}
+
+#logobut{
+    padding:0;
+    margin:0;
+    height: 58px;
+    width: 180px;
+    background: transparent;
+    border: none;
+}
+
+
+.game{
+    width: 250px;
+    height: 450px;
+    background-color: #0A0A0A;
+    position: relative;
+    border-radius: 25px;
+    margin: 20px;
+    margin-left: 42px;
+    margin-right: 20px;
+    display: inline-block;
+    transition: transform .2s;
+    border: none;
+    z-index: 1;
+    left: 460px;
+}
+
+.game:hover{
+    transform: scale(1.1);
+    box-shadow: 0px 3px 15px 5px rgb(141, 22, 165);
+
+}
+
+p{
+    color: white;
+    position: relative;
+    font-size: 16px;
+    top: 15px;
+    width: fit-content;
+    transition: transform .2s;
+}
+
+.Mtext{
+    left: 572px;
+}
+
+.Ctext{
+    left: 910px;
+    top: -4px;
+}
+
+#merkisid{
+    width: 250px;
+    height: 450px;
+    border-radius: 25px;
+    filter: grayscale(60%) brightness(60%);
+}
+
+#merkisid:hover{
+    filter: grayscale(0%) brightness(80%) ;
+    
+}
+
+#cuskaid{
+    width: 250px;
+    height: 450px;
+    border-radius: 25px;
+    filter: grayscale(60%) brightness(60%);
+}
+
+#cuskaid:hover{
+    filter: grayscale(0%) brightness(80%) ;
+    
+}
+
+/* CSS styling for the logout link */
+.button {
+    /* Smaller font size */
+    font-size: 0.875rem; /* Equivalent to text-sm in Tailwind CSS */
+    /* Apply semi-bold font weight */
+    font-weight: 600; /* Equivalent to font-semibold in Tailwind CSS */
+    /* Cursor style pointer */
+    cursor: pointer;
+    display: inline-block; /* Make it a block element */
+    padding: 0.5rem 1rem; /* Add padding for better spacing */
+    background-color: #9daf4c; /* Add a background color */
+    color: #fff; /* Set text color to white */
+    text-decoration: none; /* Remove default underline */
+    border-radius: 0.25rem; /* Apply border radius */
+    transition: background-color 0.3s; /* Smooth transition for background color change */
+  }
+  
+  /* Hover effect */
+  .button:hover {
+    background-color: #768238; /* Darken the background color on hover */
+  }
