@@ -21,11 +21,7 @@ $_SESSION['user_id'] = $user_id; // Store user ID in session variable
 
   function attelotKomentarus() {
     global $conn;
-
-    // Get the ID of the current user
     $currentUserId = isset($_SESSION['id']) ? $_SESSION['id'] : null;
-
-    // Query comments while excluding those from blocked users
     $sql = "SELECT k.*, l.vards, l.uzvards
             FROM komentari k
             INNER JOIN lietotaji l ON k.lietotaja_id = l.id
@@ -42,15 +38,17 @@ $_SESSION['user_id'] = $user_id; // Store user ID in session variable
         while ($row = $result->fetch_assoc()) {
             $commentId = $row['comment_id'];
             $commentText = $row['teksts'];
+            $photo = $row['photo'];
 
-            echo '<a href="view_comments.php?comment_id=' . $commentId . '" class="comment-link">';
             echo '<div class="comment-container" id="comment_' . $commentId . '">';
-            echo '<p><a href="view_comments.php?comment_id=' . $commentId . '" class="view-comments-link">View Comments</a></p>';
             echo '<p class="profile-link" onclick="redirectToProfile(\'' . $row['vards'] . ' ' . $row['uzvards'] . '\')">' . $row['vards'] . ' ' . $row['uzvards'] . '</p>';
             echo '<small class="date">' . date_format(date_create($row['datums']), "g:i A l, F j, Y") . '</small>';
             echo '<p class="fonts">' . $commentText . '</p>';
 
-            // Like button
+            if ($photo) {
+                echo '<img src="' . $photo . '" alt="Uploaded photo" class="comment-photo">';
+            }
+
             echo '<div class="like-container" data-post-id="' . $commentId . '"> 
                     <button id="likeButton_' . $commentId . '" onclick="handleLike(' . $commentId . ')" class="like-btn">
                         Patīk
@@ -58,13 +56,9 @@ $_SESSION['user_id'] = $user_id; // Store user ID in session variable
                     </button>
                   </div>';
 
-            // Reply button
             echo '<button class="comment-btn" onclick="openModal(' . $commentId . ')">Atbildēt</button>';
-
-            // Repost button
             echo '<button class="reply-btn" id="repostButton">Pārpublicēt</button>';
 
-            // Delete and edit buttons (if the user is the owner of the comment)
             if (isset($_SESSION['id']) && $_SESSION['id'] == $row['lietotaja_id']) {
                 echo '<button class="delete-btn" onclick="confirmDelete(' . $commentId . ')">
                         Dzēst
@@ -77,7 +71,6 @@ $_SESSION['user_id'] = $user_id; // Store user ID in session variable
             }
 
             echo '</div>'; // Close the comment-container
-            echo '</a>'; // Close the comment-link
         }
     } else {
         echo '<p class="nav">Nav pieejamu komentāru.</p>';
@@ -85,8 +78,6 @@ $_SESSION['user_id'] = $user_id; // Store user ID in session variable
 
     $stmt->close();
 }
-
-
 
 
   function isBlocked($currentUserId, $commenterId) {
@@ -154,6 +145,17 @@ $_SESSION['user_id'] = $user_id; // Store user ID in session variable
 
 </script>
 
+<script>
+        function enableButton() {
+            const commentText = document.getElementById('commentText').value;
+            document.getElementById('submitButton').disabled = commentText.trim() === '';
+        }
+
+        function validateAndSubmit() {
+            // Additional validation can be added here
+            return true;
+        }
+    </script>
 
 <script>
 function confirmDelete(commentId) {
@@ -269,12 +271,14 @@ likeButtons.forEach(function(likeButton) {
         <p class="text">Sveicinati, <?php echo $_SESSION['epasts'] ?>!</p>
         <button class="button" onclick="redirectToProfile()">Profils</button>
         <button class="button" onclick="redirectToSettings()">Iestatījumi</button>
-
+        <!-- Add this in your main navigation HTML -->
+        <a href="notification.php">Notifications</a>
         <button class="button" onclick="redirectToGames()">Spēles</button>
         <a href="Pieslegsanas/logout.php" class="logout">Atslēgties</a>
       </div>
-      <form action="komentars.php" method="POST" class="comment">
+      <form action="komentars.php" method="POST" class="comment" enctype="multipart/form-data">
         <input type="text" name="teksts" placeholder="Raksti komentāru" id="commentText" class="publicet-text" oninput="enableButton()"/>
+        <input type="file" name="photo" id="photo" accept="image/*">
         <div class="text-end">
 <button id="submitButton" class="publicet" onclick="validateAndSubmit()" disabled>
     Publicēt

@@ -1,14 +1,38 @@
 <?php
 session_start();
 
-// Check if user is logged in
 if (!isset($_SESSION['id'])) {
     echo json_encode(['error' => 'User not logged in']);
     exit();
 }
 
-// Your database connection and follow/unfollow logic here
+$userId = $_SESSION['id'];
+$followedId = $_POST['followed_id'];
 
-// Example response
-echo json_encode(['success' => true, 'isFollowing' => $isFollowing]); // $isFollowing should be a boolean indicating current follow status
+$mysqli = new mysqli("localhost", "root", "", "majaslapa");
+
+if ($mysqli->connect_error) {
+    die("Connection failed: " . $mysqli->connect_error);
+}
+
+$query = $mysqli->prepare("SELECT * FROM follows WHERE follower_id = ? AND followed_id = ?");
+$query->bind_param("ii", $userId, $followedId);
+$query->execute();
+$result = $query->get_result();
+
+if ($result->num_rows > 0) {
+    $query = $mysqli->prepare("DELETE FROM follows WHERE follower_id = ? AND followed_id = ?");
+    $query->bind_param("ii", $userId, $followedId);
+    $query->execute();
+    $isFollowing = false;
+} else {
+    $query = $mysqli->prepare("INSERT INTO follows (follower_id, followed_id) VALUES (?, ?)");
+    $query->bind_param("ii", $userId, $followedId);
+    $query->execute();
+    $isFollowing = true;
+}
+
+$mysqli->close();
+
+echo json_encode(['success' => true, 'isFollowing' => $isFollowing]);
 ?>

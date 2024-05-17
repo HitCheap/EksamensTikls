@@ -1,0 +1,28 @@
+
+body {
+    background: black;
+    color: var(--color-light-black);
+    font-family: sans-serif;
+    font-size: 2em;
+    text-align: center;
+    margin: 0;
+    display: flex;
+    flex-direction: column; /* Align items vertically */
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  canvas {
+    width: auto;
+    height: auto;
+    max-height: 90%;
+    margin-bottom: 20px; 
+    border: 30px solid rgb(115, 17, 134);
+  }
+  
+  
+  #score {
+    color: white; 
+    font-size: 1em; 
+  }

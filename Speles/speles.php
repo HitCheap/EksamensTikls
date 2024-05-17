@@ -28,19 +28,26 @@ if (!isset($_SESSION['id'])) {
 
         <a href="merkaTreneris.php">
             <button class="game">
-                <img src="../bildes/merkis.png" id="merkisid">
+                <img src="../bildes/merkis.png" id="attelsid">
             </button>
         </a>
 
 
-    <a href="cuska.php">
+        <a href="cuska.php">
             <button class="game">
-                <img src="../bildes/cuska.png" id="cuskaid">
+                <img src="../bildes/cuska.png" id="attelsid">
+            </button>
+        </a>
+
+        <a href="tetris.php">
+            <button class="game">
+                <img src="../bildes/tetris.png" id="attelsid">
             </button>
         </a>
 
         <p class="Mtext">Mērķa Treneris</p>
         <p class="Ctext">Čūska</p>
+        <p class="Ttext">Tetris</p>
 
 
 

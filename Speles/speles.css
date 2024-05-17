@@ -106,33 +106,27 @@ p{
 
 .Mtext{
     left: 572px;
+    top: 1px;
 }
 
 .Ctext{
     left: 910px;
-    top: -4px;
+    top: -14.5px;
 }
 
-#merkisid{
+.Ttext{
+    left: 1240px;
+    top: -30px;
+}
+
+#attelsid{
     width: 250px;
     height: 450px;
     border-radius: 25px;
     filter: grayscale(60%) brightness(60%);
 }
 
-#merkisid:hover{
-    filter: grayscale(0%) brightness(80%) ;
-    
-}
-
-#cuskaid{
-    width: 250px;
-    height: 450px;
-    border-radius: 25px;
-    filter: grayscale(60%) brightness(60%);
-}
-
-#cuskaid:hover{
+#attelsid:hover{
     filter: grayscale(0%) brightness(80%) ;
     
 }
