@@ -1,34 +1,46 @@
 <?php
 session_start();
+header('Content-Type: application/json');
 
-// Check if the request method is POST
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Check if the user is logged in
-    if (!isset($_SESSION['id'])) {
-        echo json_encode(['error' => 'User not logged in']);
-        exit();
-    }
+$host = 'localhost';
+$username = 'root';
+$password = '';
+$database = 'majaslapa';
 
-    // Get the user ID from the session
-    $userId = $_SESSION['id'];
+$conn = new mysqli($host, $username, $password, $database);
 
-    // Get the post ID from the request (You need to adjust this according to your application)
-    $postId = isset($_POST['post_id']) ? $_POST['post_id'] : null;
+if ($conn->connect_error) {
+    die(json_encode(['success' => false, 'error' => 'Database connection failed.']));
+}
 
-    // Check if the post ID is valid
-    if (!$postId) {
-        echo json_encode(['error' => 'Invalid post ID']);
-        exit();
-    }
+if (!isset($_SESSION['id'])) {
+    echo json_encode(['success' => false, 'error' => 'You must be logged in to repost.']);
+    exit();
+}
 
-    // You need to implement your repost logic here
-    // For example, toggle the repost status in the database
+$userId = $_SESSION['id'];
+$contentId = $_POST['content_id'];
 
-    // Example response
-    $isReposted = true; // Assuming the post is reposted
-    echo json_encode(['success' => true, 'isReposted' => $isReposted]);
+// Check if the user has already reposted this content
+$sql = "SELECT * FROM reposts WHERE user_id = ? AND content_id = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("ii", $userId, $contentId);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows > 0) {
+    // User has already reposted, so we will remove the repost
+    $sql = "DELETE FROM reposts WHERE user_id = ? AND content_id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ii", $userId, $contentId);
+    $stmt->execute();
+    echo json_encode(['success' => true, 'isReposted' => false]);
 } else {
-    // Handle invalid request method
-    echo json_encode(['error' => 'Invalid request method']);
+    // User has not reposted yet, so we will add a new repost
+    $sql = "INSERT INTO reposts (user_id, content_id) VALUES (?, ?)";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ii", $userId, $contentId);
+    $stmt->execute();
+    echo json_encode(['success' => true, 'isReposted' => true]);
 }
 ?>

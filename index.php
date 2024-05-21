@@ -22,11 +22,11 @@ $_SESSION['user_id'] = $user_id; // Store user ID in session variable
   function attelotKomentarus() {
     global $conn;
     $currentUserId = isset($_SESSION['id']) ? $_SESSION['id'] : null;
-    $sql = "SELECT k.*, l.vards, l.uzvards
+    $sql = "SELECT k.*, l.lietotājvārds
             FROM komentari k
             INNER JOIN lietotaji l ON k.lietotaja_id = l.id
             LEFT JOIN blocked_users b ON k.lietotaja_id = b.blocked_user_id AND b.user_id = ?
-            WHERE b.id IS NULL
+            WHERE b.id IS NULL AND l.statuss != 'Deaktivizēts'
             ORDER BY k.datums DESC
             LIMIT 10";
     $stmt = $conn->prepare($sql);
@@ -41,7 +41,7 @@ $_SESSION['user_id'] = $user_id; // Store user ID in session variable
             $photo = $row['photo'];
 
             echo '<div class="comment-container" id="comment_' . $commentId . '">';
-            echo '<p class="profile-link" onclick="redirectToProfile(\'' . $row['vards'] . ' ' . $row['uzvards'] . '\')">' . $row['vards'] . ' ' . $row['uzvards'] . '</p>';
+            echo '<p class="profile-link" onclick="redirectToProfile(\'' . $row['lietotājvārds'] . ' \')">' . $row['lietotājvārds'] . '</p>';
             echo '<small class="date">' . date_format(date_create($row['datums']), "g:i A l, F j, Y") . '</small>';
             echo '<p class="fonts">' . $commentText . '</p>';
 
@@ -56,8 +56,9 @@ $_SESSION['user_id'] = $user_id; // Store user ID in session variable
                     </button>
                   </div>';
 
-            echo '<button class="comment-btn" onclick="openModal(' . $commentId . ')">Atbildēt</button>';
-            echo '<button class="reply-btn" id="repostButton">Pārpublicēt</button>';
+                  echo '<button class="comment-btn" onclick="openModal(' . $commentId . ')">Atbildēt</button>';
+            echo '<button class="reply-btn" id="repostButton" data-content-id="CONTENT_ID">Pārpublicēt</button>
+            ';
 
             if (isset($_SESSION['id']) && $_SESSION['id'] == $row['lietotaja_id']) {
                 echo '<button class="delete-btn" onclick="confirmDelete(' . $commentId . ')">
@@ -120,30 +121,27 @@ $_SESSION['user_id'] = $user_id; // Store user ID in session variable
 ?>
 
 <script>
-    // Listen for click event on the repost button
     document.getElementById("repostButton").addEventListener("click", function() {
-        // Send an AJAX request to the server to repost the content
+        var button = this;
+        var contentId = button.getAttribute("data-content-id");
+
         var xhr = new XMLHttpRequest();
         xhr.open("POST", "repost.php", true);
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
         xhr.onreadystatechange = function() {
             if (xhr.readyState === 4 && xhr.status === 200) {
-                // Handle the response from the server
                 var response = JSON.parse(xhr.responseText);
                 if (response.success) {
-                    // Update button text or style based on the repost status
-                    var repostButton = document.getElementById("repostButton");
-                    repostButton.textContent = response.isReposted ? "Atcelt pārpublicēšanu" : "Pārpublicēt";
+                    button.textContent = response.isReposted ? "Atcelt pārpublicēšanu" : "Pārpublicēt";
                 } else {
-                    // Handle error response
                     console.error(response.error);
                 }
             }
         };
-        xhr.send(); // Send the AJAX request
+        xhr.send("content_id=" + encodeURIComponent(contentId));
     });
-
 </script>
+
 
 <script>
         function enableButton() {
@@ -268,10 +266,11 @@ likeButtons.forEach(function(likeButton) {
   <main class="main">
     <div class="border">
       <div class="items">
-        <p class="text">Sveicinati, <?php echo $_SESSION['epasts'] ?>!</p>
+        <p class="text">Sveicinati, <?php echo $_SESSION['lietotājvārds'] ?>!</p>
         <button class="button" onclick="redirectToProfile()">Profils</button>
         <button class="button" onclick="redirectToSettings()">Iestatījumi</button>
         <!-- Add this in your main navigation HTML -->
+        <a href="messenger.php">Messenger</a>
         <a href="notification.php">Notifications</a>
         <button class="button" onclick="redirectToGames()">Spēles</button>
         <a href="Pieslegsanas/logout.php" class="logout">Atslēgties</a>
@@ -320,8 +319,7 @@ likeButtons.forEach(function(likeButton) {
   }
 
   $profileInfo = [
-    'vards' => $_SESSION['vards'],
-    'uzvards' => $_SESSION['uzvards'],
+    'lietotājvārds' => $_SESSION['lietotājvārds'],
     'epasts' => $_SESSION['epasts']
   ];
 ?>

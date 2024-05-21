@@ -25,11 +25,11 @@ if (isset($_GET['username'])) {
     $nameParts = explode(' ', $username);
 
     if (count($nameParts) === 2) {
-        list($vards, $uzvards) = $nameParts;
+        list($lietotājvārds) = $nameParts;
 
         // Query to fetch profile information based on username
-        $sql = $conn->prepare("SELECT id, vards, uzvards, epasts FROM lietotaji WHERE vards = ? AND uzvards = ?");
-        $sql->bind_param('ss', $vards, $uzvards);
+        $sql = $conn->prepare("SELECT id, lietotājvārds, epasts FROM lietotaji WHERE lietotājvārds = ?");
+        $sql->bind_param('s', $lietotājvārds);
         $sql->execute();
         $result = $sql->get_result();
 
@@ -47,8 +47,7 @@ if (isset($_GET['username'])) {
             ?>
             <div class="border">
                 <div class="items">
-                    <p>Vārds: <?php echo htmlspecialchars($profileInfo['vards']); ?></p>
-                    <p>Uzvārds: <?php echo htmlspecialchars($profileInfo['uzvards']); ?></p>
+                    <p>Lietotājvārds: <?php echo htmlspecialchars($profileInfo['lietotājvārds']); ?></p>
                     <p>Epasts: <?php echo htmlspecialchars($profileInfo['epasts']); ?></p>
                     <button class="button" onclick="atpakalIndex()">Atpakaļ</button>
                     <button class="button" onclick="piezimes()">Piezīmju grāmatiņa</button>
@@ -57,10 +56,9 @@ if (isset($_GET['username'])) {
                         <button class="button" id="followButton" data-followed-id="<?php echo $profileId; ?>"><?php echo $isFollowing ? 'Nesekot' : 'Sekot'; ?></button>
                     <?php } ?>
                     <?php if ($isFollowing || $profileId === $_SESSION['id']) { ?>
-                        <div class="comment">
-                            <p>This is a comment from <?php echo htmlspecialchars($profileInfo['vards'] . " " . $profileInfo['uzvards']); ?></p>
+                        <div class="comment">   
                             <?php if ($profileId !== $_SESSION['id']) { ?>
-                                <button class="block-btn" data-user-id="<?php echo $profileInfo['id']; ?>">Block <?php echo htmlspecialchars($profileInfo['vards'] . " " . $profileInfo['uzvards']); ?></button>
+                                <button class="block-btn" data-user-id="<?php echo $profileInfo['id']; ?>">Block <?php echo htmlspecialchars($profileInfo['lietotājvārds'] . " "); ?></button>
                             <?php } ?>
                         </div>
                     <?php } ?>

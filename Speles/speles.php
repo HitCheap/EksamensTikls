@@ -45,10 +45,16 @@ if (!isset($_SESSION['id'])) {
             </button>
         </a>
 
+        <a href="t-rex.php">
+        <button class="game">
+            <img src="../bildes/t-rex.png" id="attelsid">
+        </button>
+        </a>
+
         <p class="Mtext">Mērķa Treneris</p>
         <p class="Ctext">Čūska</p>
         <p class="Ttext">Tetris</p>
-
+        <p class="TRtext">T-Rex Game</p>
 
 
 </body>

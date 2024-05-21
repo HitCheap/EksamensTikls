@@ -2,7 +2,8 @@
 session_start();
 
 if (!isset($_SESSION['id'])) {
-  header('Location: ../Pieslegsanas/login.php');
+    header('Location: ../Pieslegsanas/login.php');
+    exit();
 }
 ?>
 
@@ -17,20 +18,18 @@ if (!isset($_SESSION['id'])) {
 </head>
 <body>
     <button id="block"></button>
-    
-    <button id="restart">Restartēt</buttton>
-    
+    <button id="restart">Restartēt</button>
     <button id="atpakal" onclick="atpakalIndex()">Atpakaļ</button>
-<script>
+
+    <script>
         function atpakalIndex() {
-      window.location.href = 'speles.php';
-    }
+            window.location.href = 'speles.php';
+        }
     </script>
 
     <div id="timer">Laiks: </div>
-    
     <div id="scoreCard">Rezultāts: 0</div>
-    
+
     <script src="merkaTreneris.js"></script>
 </body>
 </html>

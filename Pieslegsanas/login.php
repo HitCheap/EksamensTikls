@@ -1,45 +1,58 @@
 <?php
-  session_start();
+session_start();
 
-  $host = 'localhost';
-  $username = 'root';
-  $password = '';
-  $database = 'majaslapa';
+$host = 'localhost';
+$username = 'root';
+$password = '';
+$database = 'majaslapa';
 
-  
-  $conn = new mysqli($host, $username, $password, $database);
+$conn = new mysqli($host, $username, $password, $database);
 
-  
-  if($conn -> connect_error) {
+if ($conn->connect_error) {
     echo 'Datubāzes pieslēgums neveiksmīgs.';
-  }
+}
 
-  
-  if($_SERVER['REQUEST_METHOD'] == "POST") {
+// Encryption/Decryption constants
+define('ENCRYPTION_KEY', 'your_encryption_key'); // Replace with your actual key
+define('IV', '1234567890123456'); // 16-byte IV
 
-      $epasts = $_POST['epasts'];
-      $parole = $_POST['parole'];
-  
-      $sql = $conn -> prepare("SELECT * FROM lietotaji WHERE epasts = ?");
-      $sql -> bind_param("s", $epasts);
-      $sql -> execute();
-      $sql -> bind_result($id, $epasts, $vards, $uzvards, $hashed_parole, $status);
+function encrypt_email($plainEmail) {
+    return openssl_encrypt($plainEmail, 'aes-256-cbc', ENCRYPTION_KEY, 0, IV);
+}
 
-    
-      if($sql -> fetch() && password_verify($parole, $hashed_parole)) {
+function decrypt_email($encryptedEmail) {
+    return openssl_decrypt($encryptedEmail, 'aes-256-cbc', ENCRYPTION_KEY, 0, IV);
+}
 
-       
-        $_SESSION['id'] = $id;
-        $_SESSION['epasts'] = $epasts;
-        $_SESSION['vards'] = $vards;
-        $_SESSION['uzvards'] = $uzvards;
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
-        header('Location: ../index.php');
-      } else {
+    $epasts = $_POST['epasts'];
+    $encryptedEmail = encrypt_email($epasts); // Encrypt the email input before querying the database
+    $parole = $_POST['parole'];
+
+    $sql = $conn->prepare("SELECT id, epasts, lietotājvārds, parole, statuss FROM lietotaji WHERE epasts = ?");
+    $sql->bind_param("s", $encryptedEmail);
+    $sql->execute();
+    $sql->bind_result($id, $dbEpasts, $lietotājvārds, $hashed_parole, $statuss);
+
+    if ($sql->fetch() && password_verify($parole, $hashed_parole)) {
+        if ($statuss === 'Deaktivizēts') {
+            header("Location: ../deactivated.php");
+            exit();
+        } else {
+            $_SESSION['id'] = $id;
+            $_SESSION['epasts'] = $epasts; // Store the original email, not the hashed one
+            $_SESSION['lietotājvārds'] = $lietotājvārds;
+
+            header('Location: ../index.php');
+            exit();
+        }
+    } else {
         $_SESSION['error'] = "Nepareizi lietotāja dati. Lūdzu, mēģiniet vēlreiz.";
-      }
+        header('Location: login.php');
+        exit();
     }
-  
+}
 ?>
 
 <!DOCTYPE html>
@@ -48,17 +61,12 @@
   <link rel="stylesheet" href="pieslegsanas.css">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-
-
-
   <title>Mājaslapa</title>
 </head>
 <body class="mx-2">
   <main class="login-container">
     <hr>
 
-   
     <form class="login-form"
           action="login.php"
           method="POST">
@@ -110,6 +118,10 @@
           class="register-link">
           Neesi reģistrējies?
         </a>
+      </div>
+
+      <div class="button-group">
+        <a href="password_reset.php" class="forgot-password-link">Aizmirsi paroli?</a>
       </div>
       
     </form>

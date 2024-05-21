@@ -1,5 +1,6 @@
 <?php
-// Include database connection code here
+session_start();
+
 $host = 'localhost';
 $username = 'root';
 $password = '';
@@ -11,29 +12,26 @@ if ($conn->connect_error) {
     die('Database connection failed: ' . $conn->connect_error);
 }
 
-include 'functions.php';
-
-// Check if the user is logged in and get their ID
-session_start();
-if (!isset($_SESSION['user_id'])) {
-    header('Location: ../Pieslegsanas/login.php');
+// Check if the user is logged in
+if (!isset($_SESSION['id'])) {
+    header('Location: Pieslegsanas/login.php');
     exit();
 }
 
-$userId = $_SESSION['user_id'];
+// Fetch user information
+$userId = $_SESSION['id'];
+$sql = $conn->prepare("SELECT statuss FROM lietotaji WHERE id = ?");
+$sql->bind_param("i", $userId);
+$sql->execute();
+$result = $sql->get_result();
+$user = $result->fetch_assoc();
 
-// Fetch notifications for the logged-in user
-$stmt = $conn->prepare("SELECT * FROM notifications WHERE user_id = ? ORDER BY created_at DESC");
-$stmt->bind_param("i", $userId);
-$stmt->execute();
-$result = $stmt->get_result();
+// Check if the user is an administrator
+$isAdmin = $user['statuss'] === 'Administrators';
 
-$notifications = [];
-while ($row = $result->fetch_assoc()) {
-    $notifications[] = $row;
-}
-
-$stmt->close();
+// Fetch notifications
+$notificationsSql = $conn->query("SELECT * FROM notifications ORDER BY created_at DESC");
+$notifications = $notificationsSql->fetch_all(MYSQLI_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -42,20 +40,33 @@ $stmt->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Notifications</title>
+    <link rel="stylesheet" href="path_to_your_css_file.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.2/xlsx.full.min.js"></script>
 </head>
 <body>
-    <h2>Notifications</h2>
-    <?php if (count($notifications) > 0): ?>
-        <ul>
-            <?php foreach ($notifications as $notification): ?>
-                <li>
-                    <p><?php echo htmlspecialchars($notification['message']); ?></p>
-                    <small><?php echo date('g:i A l, F j, Y', strtotime($notification['created_at'])); ?></small>
-                </li>
-            <?php endforeach; ?>
-        </ul>
-    <?php else: ?>
-        <p>No notifications found.</p>
+    <h1>Notifications</h1>
+
+    <?php if ($isAdmin): ?>
+        <button onclick="exportToExcel()">Export to Excel</button>
     <?php endif; ?>
+
+    <ul>
+        <?php foreach ($notifications as $notification): ?>
+            <li><?php echo htmlspecialchars($notification['message']); ?> - <?php echo $notification['created_at']; ?></li>
+        <?php endforeach; ?>
+    </ul>
+
+    <script>
+        function exportToExcel() {
+            var notifications = <?php echo json_encode($notifications); ?>;
+            var ws = XLSX.utils.json_to_sheet(notifications.map(notification => ({
+                'Message': notification.message,
+                'Created At': notification.created_at
+            })));
+            var wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, 'Notifications');
+            XLSX.writeFile(wb, 'notifications.xlsx');
+        }
+    </script>
 </body>
 </html>

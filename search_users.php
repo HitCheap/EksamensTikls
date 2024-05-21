@@ -34,17 +34,17 @@ if ($conn->connect_error) {
         $searchQuery = htmlspecialchars($_GET['query']);
 
         // Perform database query to search for users
-        $sql = "SELECT * FROM lietotaji WHERE vards LIKE ? OR uzvards LIKE ?";
+        $sql = "SELECT * FROM lietotaji WHERE lietotājvārds LIKE ?";
         $stmt = $conn->prepare($sql);
         $searchParam = "%{$searchQuery}%";
-        $stmt->bind_param('ss', $searchParam, $searchParam);
+        $stmt->bind_param('s', $searchParam);
         $stmt->execute();
         $result = $stmt->get_result();
 
         // Display search results
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
-                echo '<p>' . $row['vards'] . ' ' . $row['uzvards'] . '</p>';
+                echo '<p>' . $row['lietotājvārds'] .'</p>';
                 // You can customize how you want to display the search results
             }
         } else {

@@ -22,7 +22,7 @@ foreach ($keywords as $key => $keyword) {
     if ($key > 0) {
         $sql .= " OR ";
     }
-    $sql .= "vards LIKE '%$keyword%' OR uzvards LIKE '%$keyword%'";
+    $sql .= "lietotājvārds LIKE '%$keyword%'";
 }
 $sql .= " LIMIT 5";
 
@@ -31,7 +31,7 @@ $result = $conn->query($sql);
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         // Make the suggestions clickable
-        echo "<div class='suggestion' onclick=\"openProfile('{$row['vards']} {$row['uzvards']}')\">" . $row['vards'] . ' ' . $row['uzvards'] . "</div>";
+        echo "<div class='suggestion' onclick=\"openProfile('{$row['lietotājvārds']}')\">" . $row['lietotājvārds'] . "</div>";
     }
 } else {
     echo "No suggestions found";
