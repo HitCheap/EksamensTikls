@@ -25,13 +25,20 @@ function decrypt_email($encryptedEmail) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
-
-    $epasts = $_POST['epasts'];
-    $encryptedEmail = encrypt_email($epasts); // Encrypt the email input before querying the database
+    $identifier = $_POST['identifier']; // Can be either email or username
     $parole = $_POST['parole'];
 
-    $sql = $conn->prepare("SELECT id, epasts, lietotājvārds, parole, statuss FROM lietotaji WHERE epasts = ?");
-    $sql->bind_param("s", $encryptedEmail);
+    // Check if the identifier is an email
+    if (filter_var($identifier, FILTER_VALIDATE_EMAIL)) {
+        $encryptedEmail = encrypt_email($identifier);
+        $sql = $conn->prepare("SELECT id, epasts, lietotājvārds, parole, statuss FROM lietotaji WHERE epasts = ?");
+        $sql->bind_param("s", $encryptedEmail);
+    } else {
+        // Assume it's a username
+        $sql = $conn->prepare("SELECT id, epasts, lietotājvārds, parole, statuss FROM lietotaji WHERE lietotājvārds = ?");
+        $sql->bind_param("s", $identifier);
+    }
+
     $sql->execute();
     $sql->bind_result($id, $dbEpasts, $lietotājvārds, $hashed_parole, $statuss);
 
@@ -41,9 +48,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             exit();
         } else {
             $_SESSION['id'] = $id;
-            $_SESSION['epasts'] = $epasts; // Store the original email, not the hashed one
+            $_SESSION['epasts'] = decrypt_email($dbEpasts); // Store the decrypted email
             $_SESSION['lietotājvārds'] = $lietotājvārds;
 
+            // Make secret.php accessible for the first 10 seconds after login
+            $_SESSION['show_secret'] = true;
             header('Location: ../index.php');
             exit();
         }
@@ -53,6 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         exit();
     }
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -74,14 +84,14 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
       <p class="login-title">PIESLĒGTIES</p>
 
       <div class="input-group">
-        <label  for="epasts"
+        <label  for="identifier"
                 class="input-label">
-          E-pasts:
+          E-pasts vai Lietotājvārds:
         </label>
-        <input type="email"
-                id="epasts"
-                name="epasts" 
-                placeholder="epasts@gmail.com"
+        <input type="text"
+                id="identifier"
+                name="identifier" 
+                placeholder="epasts@gmail.com vai Lietotājvārds"
                 class="input-field"/>
       </div>
 
@@ -93,7 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         <input type="password"
                 id="parole"
                 name="parole" 
-                placeholder="••••••"
+                placeholder="••••••••"
                 class="input-field"/>
       </div>
 
@@ -121,10 +131,30 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
       </div>
 
       <div class="button-group">
-        <a href="password_reset.php" class="forgot-password-link">Aizmirsi paroli?</a>
+        <a href="recover.php" class="forgot-password-link">Aizmirsi paroli vai lietotājvārdu?</a>
       </div>
       
     </form>
   </main>
+
+  <?php
+  // Include a script to make secret.php visible temporarily
+  if (isset($_SESSION['show_secret'])) {
+      echo '<script>
+          setTimeout(function() {
+              var xhr = new XMLHttpRequest();
+              xhr.open("GET", "secret.php", true);
+              xhr.send();
+          }, 1000); // 1 second after login
+
+          setTimeout(function() {
+              var xhr = new XMLHttpRequest();
+              xhr.open("GET", "remove_secret.php", true);
+              xhr.send();
+          }, 10000); // Remove after 10 seconds
+      </script>';
+      unset($_SESSION['show_secret']);
+  }
+  ?>
 </body>
 </html>

@@ -24,7 +24,7 @@ if (isset($_GET['username'])) {
     $username = $_GET['username'];
     $nameParts = explode(' ', $username);
 
-    if (count($nameParts) === 2) {
+    if (count($nameParts) === 1) {
         list($lietotājvārds) = $nameParts;
 
         // Query to fetch profile information based on username
@@ -37,6 +37,14 @@ if (isset($_GET['username'])) {
             // Fetch and display profile information
             $profileInfo = $result->fetch_assoc();
             $profileId = $profileInfo['id'];
+
+            // Check if the profile is the current user's profile
+            $isCurrentUser = ($profileId == $_SESSION['id']);
+
+            if (!$isCurrentUser) {
+                header("Location: diff_profile.php?username=$username");
+                exit();
+            }
             
             // Check if the logged-in user is already following this profile
             $sql2 = $conn->prepare("SELECT * FROM follows WHERE follower_id = ? AND followed_id = ?");
@@ -44,26 +52,80 @@ if (isset($_GET['username'])) {
             $sql2->execute();
             $followResult = $sql2->get_result();
             $isFollowing = $followResult->num_rows > 0;
+
+            $showEasterEggTooltip = substr($profileInfo['lietotājvārds'], -1) === '*';
             ?>
-            <div class="border">
-                <div class="items">
-                    <p>Lietotājvārds: <?php echo htmlspecialchars($profileInfo['lietotājvārds']); ?></p>
-                    <p>Epasts: <?php echo htmlspecialchars($profileInfo['epasts']); ?></p>
-                    <button class="button" onclick="atpakalIndex()">Atpakaļ</button>
-                    <button class="button" onclick="piezimes()">Piezīmju grāmatiņa</button>
-                    <a href="logout.php" class="logout">Atslēgties</a>
-                    <?php if ($profileId !== $_SESSION['id']) { ?>
-                        <button class="button" id="followButton" data-followed-id="<?php echo $profileId; ?>"><?php echo $isFollowing ? 'Nesekot' : 'Sekot'; ?></button>
-                    <?php } ?>
-                    <?php if ($isFollowing || $profileId === $_SESSION['id']) { ?>
-                        <div class="comment">   
+            <!DOCTYPE html>
+            <html lang="lv">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <link rel="stylesheet" href="style.css">
+                <title>Profils</title>
+                <style>
+        .star-tooltip {
+            position: relative;
+            cursor: pointer;
+        }
+        .star-tooltip:hover::after {
+            content: "Easter egg finder";
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #333;
+            color: #fff;
+            padding: 5px;
+            border-radius: 5px;
+            white-space: nowrap;
+        }
+    </style>
+            </head>
+            <body class="mx-2">
+                <main class="main">
+                    <div class="border">
+                        <div class="items">
+                            <p>Lietotājvārds: <?php echo htmlspecialchars($profileInfo['lietotājvārds']); ?>
+                        
+                            <?php if ($showEasterEggTooltip): ?>
+                            <span class="star-tooltip">*</span>
+                            <?php endif; ?>
+                            </p>
+                            <p>Epasts: <?php echo htmlspecialchars($profileInfo['epasts']); ?></p>
+                            <button class="button" onclick="atpakalIndex()">Atpakaļ</button>
+                            <button class="button" onclick="piezimes()">Piezīmju grāmatiņa</button>
+                            <a href="logout.php" class="logout">Atslēgties</a>
                             <?php if ($profileId !== $_SESSION['id']) { ?>
-                                <button class="block-btn" data-user-id="<?php echo $profileInfo['id']; ?>">Block <?php echo htmlspecialchars($profileInfo['lietotājvārds'] . " "); ?></button>
+                                <button class="button" id="followButton" data-followed-id="<?php echo $profileId; ?>"><?php echo $isFollowing ? 'Nesekot' : 'Sekot'; ?></button>
                             <?php } ?>
+                            <?php if ($isFollowing || $profileId === $_SESSION['id']) { ?>
+                            <?php } ?>
+                            <div id="messagesContainer">
+                                <?php
+                                // Fetch user comments
+                                $commentsSql = $conn->prepare("SELECT teksts, datums FROM komentari WHERE lietotaja_id = ? ORDER BY datums DESC LIMIT 10");
+                                $commentsSql->bind_param('i', $profileId);
+                                $commentsSql->execute();
+                                $commentsResult = $commentsSql->get_result();
+
+                                if ($commentsResult->num_rows > 0) {
+                                    while ($comment = $commentsResult->fetch_assoc()) {
+                                        echo '<div class="message">';
+                                        echo '<p>' . htmlspecialchars($comment['teksts']) . '</p>';
+                                        echo '<small>' . date('g:i A l, F j, Y', strtotime($comment['datums'])) . '</small>';
+                                        echo '</div>';
+                                    }
+                                } else {
+                                    echo '<p>No comments to display.</p>';
+                                }
+                                ?>
+                            </div>
+                            <button id="seeMoreButton" onclick="loadMoreMessages(<?php echo $profileId; ?>)">See more</button>
                         </div>
-                    <?php } ?>
-                </div>
-            </div>
+                    </div>
+                </main>
+            </body>
+            </html>
             <?php
         } else {
             echo "Profile not found.";
@@ -119,19 +181,32 @@ document.getElementById("followButton").addEventListener("click", function() {
     };
     xhr.send('followed_id=' + followedId);
 });
-</script>
 
-<!DOCTYPE html>
-<html lang="lv">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>Profils</title>
-</head>
-<body class="mx-2">
-    <main class="main">
-        <!-- Profile content will be loaded here -->
-    </main>
-</body>
-</html>
+let offset = 10; // Start with the next set of messages
+const limit = 10;
+
+function loadMoreMessages(profileId) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', `load_more_messages.php?profile_id=${profileId}&offset=${offset}&limit=${limit}`, true);
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            var response = JSON.parse(xhr.responseText);
+            var messagesContainer = document.getElementById('messagesContainer');
+            if (response.messages.length > 0) {
+                response.messages.forEach(function(message) {
+                    var messageDiv = document.createElement('div');
+                    messageDiv.classList.add('message');
+                    messageDiv.innerHTML = `<p>${message.teksts}</p><small>${new Date(message.datums).toLocaleString()}</small>`;
+                    messagesContainer.appendChild(messageDiv);
+                });
+                offset += limit;
+            }
+            if (!response.hasMore) {
+                var seeMoreButton = document.getElementById('seeMoreButton');
+                seeMoreButton.style.display = 'none';
+            }
+        }
+    };
+    xhr.send();
+}
+</script>

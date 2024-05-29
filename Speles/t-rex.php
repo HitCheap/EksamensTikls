@@ -36,6 +36,7 @@
         let obstacles = [];
         let frame = 0;
         let score = 0;
+        let name = "trex";
         let gameOver = false;
 
         canvas.width = window.innerWidth;
@@ -89,6 +90,7 @@
                     trex.y < obstacle.y + obstacle.height &&
                     trex.y + trex.height > obstacle.y) {
                     gameOver = true;
+                    saveScore(score, name);
                 }
             });
         }
@@ -132,6 +134,18 @@
         });
 
         update();
+
+        function saveScore(score, name) {
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', '../save_score.php', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            console.log(xhr.responseText);
+        }
+    };
+    xhr.send('score=' + encodeURIComponent(score) + '&game=' + encodeURIComponent(name));
+}
     </script>
 </body>
 </html>

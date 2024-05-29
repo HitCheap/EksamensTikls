@@ -41,9 +41,9 @@ function decrypt_email($encryptedEmail) {
     return $decryptedEmail;
 }
 
-// Fetch current email
+// Fetch current user details
 $userId = $_SESSION['id'];
-$sql = "SELECT epasts FROM lietotaji WHERE id = ?";
+$sql = "SELECT epasts, pg13_mode FROM lietotaji WHERE id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $userId);
 $stmt->execute();
@@ -51,10 +51,20 @@ $result = $stmt->get_result();
 $row = $result->fetch_assoc();
 
 $encryptedEmail = $row['epasts'];
+$pg13_mode = $row['pg13_mode'];
 if ($encryptedEmail) {
     $currentEmail = decrypt_email($encryptedEmail); // Decrypt the email
 } else {
     $currentEmail = "No email found.";
+}
+
+function filter_bad_words($text) {
+    $badWords = ['badword1', 'badword2', 'badword3']; // Add your bad words here
+    $replacement = '****';
+    foreach ($badWords as $word) {
+        $text = str_replace($word, $replacement, $text);
+    }
+    return $text;
 }
 
 // Change Password
@@ -125,21 +135,17 @@ if (isset($_POST['delete_account'])) {
     }
 }
 
-// Change Email
-if (isset($_POST['change_email'])) {
-    $newEmail = $_POST['new_email'];
-
-    // Encrypt the new email
-    $encryptedEmail = encrypt_email($newEmail);
-
-    // Update email
-    $updateEmailSql = "UPDATE lietotaji SET epasts = ? WHERE id = ?";
-    $updateEmailStmt = $conn->prepare($updateEmailSql);
-    $updateEmailStmt->bind_param("si", $encryptedEmail, $userId);
-    if ($updateEmailStmt->execute()) {
-        echo "Email updated successfully.";
+// Toggle PG-13 Mode
+if (isset($_POST['toggle_pg13'])) {
+    $newPg13Mode = $pg13_mode ? 0 : 1;
+    $updatePg13Sql = "UPDATE lietotaji SET pg13_mode = ? WHERE id = ?";
+    $updatePg13Stmt = $conn->prepare($updatePg13Sql);
+    $updatePg13Stmt->bind_param("ii", $newPg13Mode, $userId);
+    if ($updatePg13Stmt->execute()) {
+        $pg13_mode = $newPg13Mode;
+        echo "PG-13 mode updated successfully.";
     } else {
-        echo "Error updating email: " . $conn->error;
+        echo "Error updating PG-13 mode: " . $conn->error;
     }
 }
 ?>
@@ -177,13 +183,47 @@ if (isset($_POST['change_email'])) {
 </form>
 
 <h2>Mainīt E-pastu</h2>
-<form action="" method="POST">
+<form id="changeEmailForm" method="POST">
     <label for="current_email">Pašreizējais E-pasts:</label>
     <input type="email" id="current_email" name="current_email" value="<?php echo htmlspecialchars($currentEmail); ?>" readonly><br>
     <label for="new_email">Jaunais E-pasts:</label>
     <input type="email" id="new_email" name="new_email" required><br>
-    <button type="submit" name="change_email">Mainīt E-pastu</button>
+    <button type="submit">Mainīt E-pastu</button>
 </form>
 
+<h2>PG-13 Mode</h2>
+<form action="" method="POST">
+    <button type="submit" name="toggle_pg13"><?php echo $pg13_mode ? 'Disable PG-13 Mode' : 'Enable PG-13 Mode'; ?></button>
+</form>
+
+<script>
+document.getElementById('changeEmailForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'update_email.php', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            var response = JSON.parse(xhr.responseText);
+            if (response.success) {
+                document.getElementById('current_email').value = response.newEmail;
+                alert('Email updated successfully.');
+            } else {
+                alert('Error updating email: ' + response.error);
+            }
+        }
+    };
+
+    var formData = new FormData(document.getElementById('changeEmailForm'));
+    var params = new URLSearchParams();
+    formData.forEach(function(value, key) {
+        params.append(key, value);
+    });
+
+    xhr.send(params.toString());
+});
+</script>
 </body>
 </html>

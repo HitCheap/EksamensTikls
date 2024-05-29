@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 21, 2024 at 08:20 PM
+-- Generation Time: May 29, 2024 at 05:40 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -41,7 +41,8 @@ INSERT INTO `blocked_users` (`id`, `user_id`, `blocked_user_id`) VALUES
 (8, 36, 38),
 (9, 45, 44),
 (10, 45, 41),
-(11, 45, 33);
+(11, 45, 33),
+(12, 46, 41);
 
 -- --------------------------------------------------------
 
@@ -61,7 +62,10 @@ CREATE TABLE `conversations` (
 INSERT INTO `conversations` (`id`, `name`) VALUES
 (1, 'Conversation with 41'),
 (2, 'Conversation with 36, 38'),
-(3, 'Conversation with 27, 28');
+(3, 'Conversation with 27, 28'),
+(4, 'Conversation with 27, 28'),
+(5, 'Conversation with gan, sss'),
+(6, 'Conversation with gan');
 
 -- --------------------------------------------------------
 
@@ -87,7 +91,15 @@ INSERT INTO `conversation_members` (`id`, `conversation_id`, `user_id`) VALUES
 (5, 2, 38),
 (6, 3, 45),
 (7, 3, 27),
-(8, 3, 28);
+(8, 3, 28),
+(9, 4, 46),
+(10, 4, 27),
+(11, 4, 28),
+(12, 5, 46),
+(13, 5, 27),
+(14, 5, 28),
+(15, 6, 46),
+(16, 6, 27);
 
 -- --------------------------------------------------------
 
@@ -115,45 +127,52 @@ INSERT INTO `follows` (`follower_id`, `followed_id`) VALUES
 
 CREATE TABLE `komentari` (
   `lietotaja_id` int(11) NOT NULL,
-  `teksts` varchar(255) NOT NULL,
+  `teksts` text NOT NULL,
   `datums` datetime NOT NULL DEFAULT current_timestamp(),
   `comment_id` int(11) NOT NULL,
-  `photo` varchar(255) DEFAULT NULL
+  `media` varchar(255) DEFAULT NULL,
+  `parent_comment_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_latvian_ci;
 
 --
 -- Dumping data for table `komentari`
 --
 
-INSERT INTO `komentari` (`lietotaja_id`, `teksts`, `datums`, `comment_id`, `photo`) VALUES
-(27, 'mana parole ir 123', '2024-03-06 10:50:15', 1, NULL),
-(27, 'asd', '2024-03-06 11:05:10', 2, NULL),
-(27, 'asdas', '2024-03-06 11:05:25', 3, NULL),
-(27, 'asdasd', '2024-03-06 11:05:26', 4, NULL),
-(27, 'asdada', '2024-03-06 11:30:00', 5, NULL),
-(27, '5555', '2024-03-06 11:57:36', 6, NULL),
-(27, 'qweq', '2024-03-06 12:10:09', 8, NULL),
-(27, 'aaaa', '2024-03-06 12:14:30', 9, NULL),
-(27, 'fdgs', '2024-03-06 12:18:45', 10, NULL),
-(27, 'ggg', '2024-03-06 12:19:59', 11, NULL),
-(27, 'll', '2024-03-06 12:43:21', 12, NULL),
-(27, 'tjtj', '2024-03-06 12:44:22', 13, NULL),
-(28, 'uuu', '2024-03-06 12:50:22', 14, NULL),
-(28, 'eee', '2024-03-06 12:50:36', 15, NULL),
-(29, 'asdae', '2024-03-19 08:56:14', 18, NULL),
-(29, 'uoshdfowoef', '2024-03-19 09:16:49', 21, NULL),
-(29, 'ertog', '2024-03-19 09:18:29', 23, NULL),
-(36, 'asdasd', '2024-05-15 03:46:53', 55, NULL),
-(38, 'eioasd', '2024-05-17 00:32:47', 66, NULL),
-(38, 'sdfssdf', '2024-05-17 00:32:48', 67, NULL),
-(38, 'ka tevi sauc', '2024-05-17 00:32:51', 68, NULL),
-(36, 'asd', '2024-05-17 19:06:42', 69, NULL),
-(36, 'qweqwe', '2024-05-17 19:12:20', 70, NULL),
-(41, 'ertert', '2024-05-20 01:40:07', 71, NULL),
-(41, 'I am so cool', '2024-05-20 01:55:27', 72, NULL),
-(43, 'qere', '2024-05-21 18:14:59', 73, NULL),
-(44, 'rtetegdf', '2024-05-21 18:32:42', 74, NULL),
-(45, 'ryrty', '2024-05-21 19:28:33', 76, NULL);
+INSERT INTO `komentari` (`lietotaja_id`, `teksts`, `datums`, `comment_id`, `media`, `parent_comment_id`) VALUES
+(27, 'mana parole ir 123', '2024-03-06 10:50:15', 1, NULL, NULL),
+(27, 'asd', '2024-03-06 11:05:10', 2, NULL, NULL),
+(27, 'asdas', '2024-03-06 11:05:25', 3, NULL, NULL),
+(27, 'asdasd', '2024-03-06 11:05:26', 4, NULL, NULL),
+(27, 'asdada', '2024-03-06 11:30:00', 5, NULL, NULL),
+(27, '5555', '2024-03-06 11:57:36', 6, NULL, NULL),
+(27, 'qweq', '2024-03-06 12:10:09', 8, NULL, NULL),
+(27, 'aaaa', '2024-03-06 12:14:30', 9, NULL, NULL),
+(27, 'fdgs', '2024-03-06 12:18:45', 10, NULL, NULL),
+(27, 'ggg', '2024-03-06 12:19:59', 11, NULL, NULL),
+(27, 'll', '2024-03-06 12:43:21', 12, NULL, NULL),
+(27, 'tjtj', '2024-03-06 12:44:22', 13, NULL, NULL),
+(28, 'uuu', '2024-03-06 12:50:22', 14, NULL, NULL),
+(28, 'eee', '2024-03-06 12:50:36', 15, NULL, NULL),
+(29, 'asdae', '2024-03-19 08:56:14', 18, NULL, NULL),
+(29, 'uoshdfowoef', '2024-03-19 09:16:49', 21, NULL, NULL),
+(29, 'ertog', '2024-03-19 09:18:29', 23, NULL, NULL),
+(36, 'asdasd', '2024-05-15 03:46:53', 55, NULL, NULL),
+(38, 'eioasd', '2024-05-17 00:32:47', 66, NULL, NULL),
+(38, 'sdfssdf', '2024-05-17 00:32:48', 67, NULL, NULL),
+(38, 'ka tevi sauc', '2024-05-17 00:32:51', 68, NULL, NULL),
+(36, 'asd', '2024-05-17 19:06:42', 69, NULL, NULL),
+(36, 'qweqwe', '2024-05-17 19:12:20', 70, NULL, NULL),
+(41, 'ertert', '2024-05-20 01:40:07', 71, NULL, NULL),
+(41, 'I am so cool', '2024-05-20 01:55:27', 72, NULL, NULL),
+(43, 'qere', '2024-05-21 18:14:59', 73, NULL, NULL),
+(44, 'rtetegdf', '2024-05-21 18:32:42', 74, NULL, NULL),
+(45, 'ryrty', '2024-05-21 19:28:33', 76, NULL, NULL),
+(46, 'qwe', '2024-05-22 20:23:04', 78, NULL, NULL),
+(46, 'qweqe', '2024-05-22 20:23:10', 79, NULL, NULL),
+(46, 'asd', '2024-05-22 20:50:49', 83, NULL, NULL),
+(46, 'Amazin', '2024-05-22 20:56:41', 84, NULL, NULL),
+(46, 'wow epic game', '2024-05-22 21:06:51', 86, NULL, NULL),
+(46, 'yrt', '2024-05-28 19:52:40', 117, 'uploads/39b23ec7bf818d464f5db61e2e21180b.wmv', NULL);
 
 -- --------------------------------------------------------
 
@@ -166,30 +185,32 @@ CREATE TABLE `lietotaji` (
   `lietotājvārds` varchar(255) NOT NULL,
   `epasts` varchar(255) NOT NULL,
   `parole` varchar(255) NOT NULL,
-  `statuss` enum('Lietotājs','Administrators','Deaktivizēts','') NOT NULL DEFAULT 'Lietotājs'
+  `statuss` enum('Lietotājs','Administrators','Deaktivizēts','') NOT NULL DEFAULT 'Lietotājs',
+  `pg13_mode` tinyint(1) DEFAULT 0,
+  `easter_egg_found` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_latvian_ci;
 
 --
 -- Dumping data for table `lietotaji`
 --
 
-INSERT INTO `lietotaji` (`id`, `lietotājvārds`, `epasts`, `parole`, `statuss`) VALUES
-(27, 'gan', 'style@gmail.com', '$2y$10$GVr7RwobZWNjVhHf0JOpEOEQobAZ7HWFbFoKVvBV9tA/SRdjNBH0e', 'Lietotājs'),
-(28, 'sss', 'epasts@gmail.com', '$2y$10$wTbVBALqKgV0fjhpbUzm1OZzcCW3spYwzct9hRR8VTpzbVxDia/W.', 'Lietotājs'),
-(29, 'reee', 'ree@ree.com', '$2y$10$KtEM3tvEHnQmVxLkWDR8ROM2bElIVtClyNB/xbnYJfjwPPTzIE3ja', 'Lietotājs'),
-(31, 'dfikjg', 'you@gmail.com', '$2y$10$JJ2B1hkN8KHxM7UMThyqTOEjkXGhoQDFCVH1Vor6LBkVjkZIsmUA2', 'Lietotājs'),
-(33, 'asd', 'asd@asd.com', '$2y$10$M4Dei9eEJqZup4DM4kPVD.TyJDr4Ceh7SUQUe.UxlwaUmc2niDoqq', 'Lietotājs'),
-(34, 'onui', 'asums@as', '$2y$10$nEyRNsbacjB8NKX1qw9lv.8zzUj9hcVn2Gi.EAIcTg8yZY/VLFB66', 'Lietotājs'),
-(36, 'asd', 'joe@gmail.com', '$2y$10$JxvFxRgAjStiQEQ9Nloc4u0VrfoIGrmds2EmUZIhGUpIigZsmYE02', 'Lietotājs'),
-(38, 'asd', 'piemers1@gmail.com', '$2y$10$Grvfw8BUPw/Ow/FawbrPteAWpH4un7VZ1.sbhU5LlSJPyJcIyWAuG', 'Lietotājs'),
-(39, 'ghert', 'joe1@gmail.com', '$2y$10$9ihbsspn3.bse3hNgEYlzuDcnC0StrOUfc9rMqaQ/sDxPgiOnV7wO', 'Lietotājs'),
-(40, 'qwrter', 'mamot86742@fincainc.com', '$2y$10$hvl5aHfmGt4DuBvzegfK0uSZBdgaWzdoJ7JByRxsGr8CgSaJx2uiG', 'Lietotājs'),
-(41, 'who', 'theone@gmail.com', '$2y$10$qHQ6g0X4YARGQewQT.zj9ufhSlrNv2gFLhg4lUvedn1Jr6u9uFPgi', 'Administrators'),
-(42, 'es', 'esmu@gmail.com', '$2y$10$xL2RMkkmwqIia7Hi8RoqaugBT.vj2sxre26WQnLVECS.m/SWOSnrG', 'Lietotājs'),
-(43, 'me', '81d1a7135b9722577fb4f094a2004296d6230512d37b68e64b73f050b919f7c4', '$2y$10$CEU5KEYxuJK9FspwJTHYruSLYWI.8uUK3cz.0nVJlZaIcxXqZJ/Sm', 'Deaktivizēts'),
-(44, 'mo', 'df4f6562309d02e597715fa067a40e33e5f84787e53730c867c0c77b1826ccd5', '$2y$10$ifnDf9Fq6B7etdez68Umq.WSqmE5FC3jfp8FUDHYuEtOxb7Vms66u', 'Lietotājs'),
-(45, 'hello', '1d945e4947da1a05bf393b67b2e0a1fe2be36965cd4f44da5069a1df505e0092', '$2y$10$ycgKX/2yoZVAMr/rdb5dYezapL1G5WzVtGJCHMn7QauIGydVRhcL.', 'Lietotājs'),
-(46, 'rikardo', 'peWxznSyYSVQDVJ3hVd7Tkh7H8V++EO6I4g8iUiWtv8=', '$2y$10$jJfoPqoSQzfdPaZqhSVkZuRxWq3d566AI0iI0BNaAJ8sglka9f52W', 'Lietotājs');
+INSERT INTO `lietotaji` (`id`, `lietotājvārds`, `epasts`, `parole`, `statuss`, `pg13_mode`, `easter_egg_found`) VALUES
+(27, 'gan', 'style@gmail.com', '$2y$10$GVr7RwobZWNjVhHf0JOpEOEQobAZ7HWFbFoKVvBV9tA/SRdjNBH0e', 'Lietotājs', 0, 0),
+(28, 'sss', 'epasts@gmail.com', '$2y$10$wTbVBALqKgV0fjhpbUzm1OZzcCW3spYwzct9hRR8VTpzbVxDia/W.', 'Lietotājs', 0, 0),
+(29, 'reee', 'ree@ree.com', '$2y$10$KtEM3tvEHnQmVxLkWDR8ROM2bElIVtClyNB/xbnYJfjwPPTzIE3ja', 'Lietotājs', 0, 0),
+(31, 'dfikjg', 'you@gmail.com', '$2y$10$JJ2B1hkN8KHxM7UMThyqTOEjkXGhoQDFCVH1Vor6LBkVjkZIsmUA2', 'Lietotājs', 0, 0),
+(33, 'asd', 'asd@asd.com', '$2y$10$M4Dei9eEJqZup4DM4kPVD.TyJDr4Ceh7SUQUe.UxlwaUmc2niDoqq', 'Lietotājs', 0, 0),
+(34, 'onui', 'asums@as', '$2y$10$nEyRNsbacjB8NKX1qw9lv.8zzUj9hcVn2Gi.EAIcTg8yZY/VLFB66', 'Lietotājs', 0, 0),
+(36, 'asd', 'joe@gmail.com', '$2y$10$JxvFxRgAjStiQEQ9Nloc4u0VrfoIGrmds2EmUZIhGUpIigZsmYE02', 'Lietotājs', 0, 0),
+(38, 'asd', 'piemers1@gmail.com', '$2y$10$Grvfw8BUPw/Ow/FawbrPteAWpH4un7VZ1.sbhU5LlSJPyJcIyWAuG', 'Lietotājs', 0, 0),
+(39, 'ghert', 'joe1@gmail.com', '$2y$10$9ihbsspn3.bse3hNgEYlzuDcnC0StrOUfc9rMqaQ/sDxPgiOnV7wO', 'Lietotājs', 0, 0),
+(40, 'qwrter', 'mamot86742@fincainc.com', '$2y$10$hvl5aHfmGt4DuBvzegfK0uSZBdgaWzdoJ7JByRxsGr8CgSaJx2uiG', 'Lietotājs', 0, 0),
+(41, 'who', 'theone@gmail.com', '$2y$10$qHQ6g0X4YARGQewQT.zj9ufhSlrNv2gFLhg4lUvedn1Jr6u9uFPgi', 'Administrators', 0, 0),
+(42, 'es', 'esmu@gmail.com', '$2y$10$xL2RMkkmwqIia7Hi8RoqaugBT.vj2sxre26WQnLVECS.m/SWOSnrG', 'Lietotājs', 0, 0),
+(43, 'me', '81d1a7135b9722577fb4f094a2004296d6230512d37b68e64b73f050b919f7c4', '$2y$10$CEU5KEYxuJK9FspwJTHYruSLYWI.8uUK3cz.0nVJlZaIcxXqZJ/Sm', 'Deaktivizēts', 0, 0),
+(44, 'mo', 'df4f6562309d02e597715fa067a40e33e5f84787e53730c867c0c77b1826ccd5', '$2y$10$ifnDf9Fq6B7etdez68Umq.WSqmE5FC3jfp8FUDHYuEtOxb7Vms66u', 'Lietotājs', 0, 0),
+(45, 'hello', '1d945e4947da1a05bf393b67b2e0a1fe2be36965cd4f44da5069a1df505e0092', '$2y$10$ycgKX/2yoZVAMr/rdb5dYezapL1G5WzVtGJCHMn7QauIGydVRhcL.', 'Lietotājs', 0, 0),
+(46, 'rikardo', 'peWxznSyYSVQDVJ3hVd7Tkh7H8V++EO6I4g8iUiWtv8=', '$2y$10$yjcKRnr.f06RFZNYLgeWAOljU8ZA4ujLh1sWbSGG0N8py4.3.EZ3G', 'Lietotājs', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -247,7 +268,8 @@ INSERT INTO `messages` (`id`, `conversation_id`, `sender_id`, `content`, `create
 (7, 2, 38, 'I am the best', '2024-05-21 01:10:15'),
 (8, 3, 45, 'erhuoghoerg', '2024-05-21 16:39:05'),
 (9, 3, 45, 'fsdfsjkf\r\n', '2024-05-21 16:39:08'),
-(10, 3, 45, 'rizz', '2024-05-21 16:39:36');
+(10, 3, 45, 'rizz', '2024-05-21 16:39:36'),
+(11, 6, 46, 'qweqw', '2024-05-29 01:55:25');
 
 -- --------------------------------------------------------
 
@@ -316,10 +338,10 @@ CREATE TABLE `reposts` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `scores`
+-- Table structure for table `rezcuska`
 --
 
-CREATE TABLE `scores` (
+CREATE TABLE `rezcuska` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `score` int(11) NOT NULL,
@@ -327,14 +349,53 @@ CREATE TABLE `scores` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_latvian_ci;
 
 --
--- Dumping data for table `scores`
+-- Dumping data for table `rezcuska`
 --
 
-INSERT INTO `scores` (`id`, `user_id`, `score`, `timestamp`) VALUES
-(7, 42, 6, '2024-05-21 01:53:34'),
-(8, 42, 7, '2024-05-21 01:53:47'),
-(9, 45, 7, '2024-05-21 16:37:21'),
-(10, 45, 7, '2024-05-21 17:35:51');
+INSERT INTO `rezcuska` (`id`, `user_id`, `score`, `timestamp`) VALUES
+(1, 46, 2, '2024-05-22 19:59:55'),
+(2, 46, 1, '2024-05-22 20:17:06');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `rezmerkatreneris`
+--
+
+CREATE TABLE `rezmerkatreneris` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `score` int(11) NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_latvian_ci;
+
+--
+-- Dumping data for table `rezmerkatreneris`
+--
+
+INSERT INTO `rezmerkatreneris` (`id`, `user_id`, `score`, `timestamp`) VALUES
+(1, 46, 2, '2024-05-22 20:34:27');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `reztrex`
+--
+
+CREATE TABLE `reztrex` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `score` int(11) NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_latvian_ci;
+
+--
+-- Dumping data for table `reztrex`
+--
+
+INSERT INTO `reztrex` (`id`, `user_id`, `score`, `timestamp`) VALUES
+(1, 46, 361, '2024-05-22 20:05:30'),
+(2, 46, 368, '2024-05-22 20:18:07');
 
 -- --------------------------------------------------------
 
@@ -442,11 +503,22 @@ ALTER TABLE `reposts`
   ADD KEY `content_id` (`content_id`);
 
 --
--- Indexes for table `scores`
+-- Indexes for table `rezcuska`
 --
-ALTER TABLE `scores`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`);
+ALTER TABLE `rezcuska`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `rezmerkatreneris`
+--
+ALTER TABLE `rezmerkatreneris`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `reztrex`
+--
+ALTER TABLE `reztrex`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `user_notes`
@@ -463,25 +535,25 @@ ALTER TABLE `user_notes`
 -- AUTO_INCREMENT for table `blocked_users`
 --
 ALTER TABLE `blocked_users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
 -- AUTO_INCREMENT for table `conversations`
 --
 ALTER TABLE `conversations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `conversation_members`
 --
 ALTER TABLE `conversation_members`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `komentari`
 --
 ALTER TABLE `komentari`
-  MODIFY `comment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
+  MODIFY `comment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=123;
 
 --
 -- AUTO_INCREMENT for table `lietotaji`
@@ -493,7 +565,7 @@ ALTER TABLE `lietotaji`
 -- AUTO_INCREMENT for table `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `notifications`
@@ -517,19 +589,31 @@ ALTER TABLE `replies`
 -- AUTO_INCREMENT for table `reposts`
 --
 ALTER TABLE `reposts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
--- AUTO_INCREMENT for table `scores`
+-- AUTO_INCREMENT for table `rezcuska`
 --
-ALTER TABLE `scores`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+ALTER TABLE `rezcuska`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `rezmerkatreneris`
+--
+ALTER TABLE `rezmerkatreneris`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `reztrex`
+--
+ALTER TABLE `reztrex`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `user_notes`
 --
 ALTER TABLE `user_notes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
 
 --
 -- Constraints for dumped tables
@@ -582,12 +666,6 @@ ALTER TABLE `replies`
 ALTER TABLE `reposts`
   ADD CONSTRAINT `reposts_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `lietotaji` (`id`),
   ADD CONSTRAINT `reposts_ibfk_2` FOREIGN KEY (`content_id`) REFERENCES `komentari` (`comment_id`);
-
---
--- Constraints for table `scores`
---
-ALTER TABLE `scores`
-  ADD CONSTRAINT `scores_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `lietotaji` (`id`);
 
 --
 -- Constraints for table `user_notes`

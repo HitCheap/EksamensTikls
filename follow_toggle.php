@@ -15,6 +15,22 @@ if ($mysqli->connect_error) {
     die("Connection failed: " . $mysqli->connect_error);
 }
 
+// Check if the user has blocked the person they are trying to follow
+$checkBlockSql = $mysqli->prepare("SELECT * FROM blocked_users WHERE user_id = ? AND blocked_user_id = ?");
+$checkBlockSql->bind_param('ii', $userId, $followedId);
+$checkBlockSql->execute();
+$blockResult = $checkBlockSql->get_result();
+
+if ($blockResult->num_rows > 0) {
+    echo json_encode(['error' => 'You cannot follow a blocked user']);
+    $checkBlockSql->close();
+    $mysqli->close();
+    exit();
+}
+
+$checkBlockSql->close();
+
+// Check if the user is already following the other user
 $query = $mysqli->prepare("SELECT * FROM follows WHERE follower_id = ? AND followed_id = ?");
 $query->bind_param("ii", $userId, $followedId);
 $query->execute();
@@ -32,6 +48,7 @@ if ($result->num_rows > 0) {
     $isFollowing = true;
 }
 
+$query->close();
 $mysqli->close();
 
 echo json_encode(['success' => true, 'isFollowing' => $isFollowing]);

@@ -26,6 +26,12 @@ if (!isset($_SESSION['id'])) {
 
     <h1>Spēles</h1>
 
+    <style>
+    .hidden-link {
+        display: none;
+    }
+</style>
+
         <a href="merkaTreneris.php">
             <button class="game">
                 <img src="../bildes/merkis.png" id="attelsid">

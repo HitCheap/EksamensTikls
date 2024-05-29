@@ -19,14 +19,14 @@ $_SESSION['user_id'] = $user_id; // Store user ID in session variable
 
   $conn = new mysqli($host, $username, $password, $database);
 
-  function attelotKomentarus() {
+  function attelotKomentarus($parent_id = null, $level = 0) {
     global $conn;
     $currentUserId = isset($_SESSION['id']) ? $_SESSION['id'] : null;
     $sql = "SELECT k.*, l.lietotājvārds
             FROM komentari k
             INNER JOIN lietotaji l ON k.lietotaja_id = l.id
             LEFT JOIN blocked_users b ON k.lietotaja_id = b.blocked_user_id AND b.user_id = ?
-            WHERE b.id IS NULL AND l.statuss != 'Deaktivizēts'
+            WHERE k.parent_comment_id " . ($parent_id ? "= $parent_id" : "IS NULL") . " AND b.id IS NULL AND l.statuss != 'Deaktivizēts'
             ORDER BY k.datums DESC
             LIMIT 10";
     $stmt = $conn->prepare($sql);
@@ -35,44 +35,63 @@ $_SESSION['user_id'] = $user_id; // Store user ID in session variable
     $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            $commentId = $row['comment_id'];
-            $commentText = $row['teksts'];
-            $photo = $row['photo'];
-
-            echo '<div class="comment-container" id="comment_' . $commentId . '">';
-            echo '<p class="profile-link" onclick="redirectToProfile(\'' . $row['lietotājvārds'] . ' \')">' . $row['lietotājvārds'] . '</p>';
-            echo '<small class="date">' . date_format(date_create($row['datums']), "g:i A l, F j, Y") . '</small>';
-            echo '<p class="fonts">' . $commentText . '</p>';
-
-            if ($photo) {
-                echo '<img src="' . $photo . '" alt="Uploaded photo" class="comment-photo">';
-            }
-
-            echo '<div class="like-container" data-post-id="' . $commentId . '"> 
-                    <button id="likeButton_' . $commentId . '" onclick="handleLike(' . $commentId . ')" class="like-btn">
-                        Patīk
-                        <span class="like-count">0</span>
-                    </button>
+      while ($row = $result->fetch_assoc()) {
+        $commentId = $row['comment_id'];
+        $commentText = $row['teksts'];
+        $media = $row['media'];
+    
+        echo '<div class="comment-container" id="comment_' . $commentId . '">';
+        echo '<p class="profile-link" onclick="redirectToProfile(\'' . $row['lietotājvārds'] . '\')">' . $row['lietotājvārds'] . '</p>';
+        echo '<small class="date">' . date_format(date_create($row['datums']), "g:i A l, F j, Y") . '</small>';
+        echo '<p class="fonts">' . $commentText . '</p>';
+    
+        if ($media) {
+          $fileExtension = pathinfo($media, PATHINFO_EXTENSION);
+          $imageExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+          $videoExtensions = ['mp4', 'avi', 'mov', 'wmv'];
+          $audioExtensions = ['mp3'];
+          
+          if (in_array($fileExtension, $imageExtensions)) {
+              echo '<img src="' . $media . '" alt="Uploaded media" class="comment-media">';
+          } elseif (in_array($fileExtension, $videoExtensions)) {
+              echo '<video controls class="comment-media">
+                      <source src="' . $media . '" type="video/' . $fileExtension . '">
+                      Your browser does not support the video tag.
+                    </video>';
+          } elseif (in_array($fileExtension, $audioExtensions)) {
+              echo '<audio controls class="comment-media">
+                      <source src="' . $media . '" type="audio/' . $fileExtension . '">
+                      Your browser does not support the audio tag.
+                    </audio>';
+          }
+      }
+    
+        echo '<div class="like-container" data-post-id="' . $commentId . '">
+                <button id="likeButton_' . $commentId . '" onclick="handleLike(' . $commentId . ')" class="like-btn">
+                    Patīk
+                    <span class="like-count">0</span>
+                </button>
+              </div>';
+    
+        echo '<button class="comment-btn" onclick="openModal(' . $commentId . ')">Atbildēt</button>';
+        echo '<button class="reply-btn repost-btn" data-content-id="' . $commentId . '">Pārpublicēt</button>';
+    
+        if (isset($_SESSION['id']) && $_SESSION['id'] == $row['lietotaja_id']) {
+            echo '<button class="delete-btn" onclick="confirmDelete(' . $commentId . ')">
+                    Dzēst
+                  </button>';
+            echo '<div class="comment-container" data-comment-id="' . $commentId . '">
+                    <div class="comment-text">' . $commentText . '</div>
+                    <button class="edit-btn" onclick="openEditModal(' . $commentId . ')">Rediģēt</button>
+                    <span class="edited-label" style="display:none;">(Rediģēts)</span>
                   </div>';
-
-                  echo '<button class="comment-btn" onclick="openModal(' . $commentId . ')">Atbildēt</button>';
-            echo '<button class="reply-btn" id="repostButton" data-content-id="CONTENT_ID">Pārpublicēt</button>
-            ';
-
-            if (isset($_SESSION['id']) && $_SESSION['id'] == $row['lietotaja_id']) {
-                echo '<button class="delete-btn" onclick="confirmDelete(' . $commentId . ')">
-                        Dzēst
-                      </button>';
-                echo '<div class="comment-container" data-comment-id="' . $commentId . '">
-                        <div class="comment-text">' . $commentText . '</div>
-                        <button class="edit-btn" onclick="openEditModal(' . $commentId . ')">Rediģēt</button>
-                        <span class="edited-label" style="display:none;">(Rediģēts)</span>
-                      </div>';
-            }
-
-            echo '</div>'; // Close the comment-container
         }
+    
+        echo '</div>'; // Close the comment-container
+
+        // Display replies
+        attelotKomentarus($commentId, $level + 1);
+    }
     } else {
         echo '<p class="nav">Nav pieejamu komentāru.</p>';
     }
@@ -121,26 +140,30 @@ $_SESSION['user_id'] = $user_id; // Store user ID in session variable
 ?>
 
 <script>
-    document.getElementById("repostButton").addEventListener("click", function() {
-        var button = this;
-        var contentId = button.getAttribute("data-content-id");
-
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "repost.php", true);
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                var response = JSON.parse(xhr.responseText);
-                if (response.success) {
-                    button.textContent = response.isReposted ? "Atcelt pārpublicēšanu" : "Pārpublicēt";
-                } else {
-                    console.error(response.error);
+document.addEventListener("DOMContentLoaded", function() {
+    var repostButtons = document.querySelectorAll('.repost-btn');
+    repostButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            var contentId = button.getAttribute('data-content-id');
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "repost.php", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    if (response.success) {
+                        button.textContent = response.isReposted ? "Atcelt pārpublicēšanu" : "Pārpublicēt";
+                    } else {
+                        console.error(response.error);
+                    }
                 }
-            }
-        };
-        xhr.send("content_id=" + encodeURIComponent(contentId));
+            };
+            xhr.send("content_id=" + encodeURIComponent(contentId));
+        });
     });
+});
 </script>
+
 
 
 <script>
@@ -266,8 +289,8 @@ likeButtons.forEach(function(likeButton) {
   <main class="main">
     <div class="border">
       <div class="items">
-        <p class="text">Sveicinati, <?php echo $_SESSION['lietotājvārds'] ?>!</p>
-        <button class="button" onclick="redirectToProfile()">Profils</button>
+        <p class="text">Sveicināti, <?php echo $_SESSION['lietotājvārds'] ?>!</p>
+        <button class="button" onclick="redirectToProfile('<?php echo $_SESSION['lietotājvārds']; ?>')">Profils</button>
         <button class="button" onclick="redirectToSettings()">Iestatījumi</button>
         <!-- Add this in your main navigation HTML -->
         <a href="messenger.php">Messenger</a>
@@ -275,15 +298,35 @@ likeButtons.forEach(function(likeButton) {
         <button class="button" onclick="redirectToGames()">Spēles</button>
         <a href="Pieslegsanas/logout.php" class="logout">Atslēgties</a>
       </div>
-      <form action="komentars.php" method="POST" class="comment" enctype="multipart/form-data">
-        <input type="text" name="teksts" placeholder="Raksti komentāru" id="commentText" class="publicet-text" oninput="enableButton()"/>
-        <input type="file" name="photo" id="photo" accept="image/*">
-        <div class="text-end">
-<button id="submitButton" class="publicet" onclick="validateAndSubmit()" disabled>
-    Publicēt
-</button>
+      <form action="komentars.php" method="POST" enctype="multipart/form-data">
+  <input type="text" name="teksts" placeholder="Raksti komentāru" id="commentText" class="publicet-text" oninput="enableButton()" />
+  <input type="file" name="media" id="media" accept="image/*,video/*">
+  <div class="text-end">
+    <button id="submitButton" class="publicet" onclick="validateAndSubmit()" disabled>Publicēt</button>
+  </div>
 
-<script>
+  <!-- Reply Modal -->
+<div id="replyModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <form id="replyForm" method="POST" action="reply.php">
+      <input type="hidden" name="parent_comment_id" id="replyParentId">
+      <textarea name="reply_text" id="replyText" placeholder="Write your reply here..." required></textarea>
+      <button type="submit">Submit Reply</button>
+    </form>
+  </div>
+</div>
+
+<!-- Overlay for the modal -->
+<div id="overlay" class="overlay"></div>
+
+</form>
+
+    </div>
+    <?php
+      attelotKomentarus();
+    ?>
+    <script>
     function enableButton() {
         var commentText = document.getElementById('commentText').value.trim();
         var submitButton = document.getElementById('submitButton');
@@ -304,14 +347,8 @@ likeButtons.forEach(function(likeButton) {
         }
     }
 </script>
+    <?php
 
-        </div>
-      </form>
-    </div>
-    <?php
-      attelotKomentarus();
-    ?>
-    <?php
 
 
   if (!isset($_SESSION['id'])) {
@@ -388,6 +425,13 @@ function openEditModal(commentId) {
 </script>
 
 <script>
+  function openReplyForm(commentId) {
+    document.getElementById('parent_comment_id').value = commentId;
+    document.getElementById('teksts').focus();
+}
+</script>
+
+<script>
   // Define a function to show a modal for editing the comment text
 function showModal(commentText) {
     // Here, you can implement your modal logic to show a modal with an input field for editing
@@ -404,6 +448,7 @@ function redirectToProfile(username) {
     // Redirect the user to the profile page based on the username
     window.location.href = 'profile.php?username=' + encodeURIComponent(username);
 }
+
 function redirectToSettings(username) {
     // Redirect the user to the profile page based on the username
     window.location.href = 'Iestatijumi/settings.php';
@@ -499,16 +544,16 @@ document.addEventListener('DOMContentLoaded', function() {
   var closeModalBtn = document.getElementById('closeModalBtn');
 
   // Function to open the modal
-  function openModal() {
-    modal.style.display = 'block';
-    overlay.style.display = 'block';
-  }
+ // function openModal() {
+ //   modal.style.display = 'block';
+ //   overlay.style.display = 'block';
+ // }
 
   // Function to close the modal
-  function closeModal() {
-    modal.style.display = 'none';
-    overlay.style.display = 'none';
-  }
+ // function closeModal() {
+ //   modal.style.display = 'none';
+ //   overlay.style.display = 'none';
+ // }
 
   // Attach click event listeners to open and close modal buttons
   openModalBtn.addEventListener('click', openModal);
@@ -605,3 +650,26 @@ document.addEventListener('DOMContentLoaded', function() {
 
 </body>
 </html>
+
+<script>
+  function openModal(commentId) {
+  // Set the parent comment ID in the hidden input
+  document.getElementById('replyParentId').value = commentId;
+
+  // Display the modal
+  document.getElementById('replyModal').style.display = 'block';
+  document.getElementById('overlay').style.display = 'block';
+}
+
+function closeModal() {
+  document.getElementById('replyModal').style.display = 'none';
+  document.getElementById('overlay').style.display = 'none';
+}
+
+function submitReply() {
+    var replyText = document.getElementById('replyText').value;
+    // Implement the logic to submit the reply
+    console.log("Reply submitted: " + replyText);
+    closeModal();
+}
+</script>

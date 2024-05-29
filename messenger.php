@@ -30,9 +30,22 @@ $usersResult = $stmt->get_result();
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['start_conversation'])) {
     $selectedUserIds = $_POST['user_ids'];
     if (!empty($selectedUserIds)) {
+        // Fetch usernames of selected users
+        $placeholders = implode(',', array_fill(0, count($selectedUserIds), '?'));
+        $types = str_repeat('i', count($selectedUserIds));
+        $stmt = $conn->prepare("SELECT lietotājvārds FROM lietotaji WHERE id IN ($placeholders)");
+        $stmt->bind_param($types, ...$selectedUserIds);
+        $stmt->execute();
+        $usernamesResult = $stmt->get_result();
+        
+        $usernames = [];
+        while ($row = $usernamesResult->fetch_assoc()) {
+            $usernames[] = $row['lietotājvārds'];
+        }
+        
         // Create a new conversation
         $stmt = $conn->prepare("INSERT INTO conversations (name) VALUES (?)");
-        $conversationName = "Conversation with " . implode(", ", $selectedUserIds);
+        $conversationName = "Conversation with " . implode(", ", $usernames);
         $stmt->bind_param("s", $conversationName);
         $stmt->execute();
         $conversationId = $stmt->insert_id;
@@ -129,5 +142,11 @@ if (isset($_GET['conversation_id'])) {
         <?php endwhile; ?>
         <button type="submit" name="start_conversation">Start Conversation</button>
     </form>
+    <button class="button" onclick="atpakalIndex()">Atpakaļ</button>
+    <script>
+        function atpakalIndex() {
+    window.location.href = 'index.php';
+}
+    </script>
 </body>
 </html>

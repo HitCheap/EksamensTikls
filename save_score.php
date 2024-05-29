@@ -20,8 +20,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $userId = $_SESSION['id'];
     $score = intval($_POST['score']);
+    $game = $_POST['game']; // Assuming 'game' is passed in the POST data
 
-    $stmt = $conn->prepare("INSERT INTO scores (user_id, score) VALUES (?, ?)");
+    // Prepare the statement based on the game
+    switch ($game) {
+        case 'cuska':
+            $table = 'rezcuska';
+            break;
+        case 'merkaTreneris':
+            $table = 'rezmerkatreneris';
+            break;
+        case 'trex':
+            $table = 'reztrex';
+            break;
+        default:
+            echo json_encode(['success' => false, 'message' => 'Invalid game']);
+            exit();
+    }
+
+    $stmt = $conn->prepare("INSERT INTO $table (user_id, score) VALUES (?, ?)");
     $stmt->bind_param('ii', $userId, $score);
 
     if ($stmt->execute()) {

@@ -1,4 +1,5 @@
 var score = 0;
+var name = "merkaTreneris";
 var restart_button = document.getElementById('restart');
 var atpakal_button = document.getElementById('atpakal');
 var userScore = document.getElementById('scoreCard');
@@ -78,7 +79,9 @@ function startTimer() {
             timer.textContent = formatTime(secondsRemaining);
         } else {
             clearInterval(timerInterval);
+            saveScore(score, name);
             endGame();
+            
         }
     }, 1000); 
 }
@@ -90,13 +93,12 @@ function formatTime(seconds) {
 }
 
 function endGame() {
-    saveScore(score);
     restart_button.style.display = 'block';
     atpakal_button.style.display = 'block';
     block.style.display = 'none';
 }
 
-function saveScore(score) {
+function saveScore(score, name) {
     const xhr = new XMLHttpRequest();
     xhr.open('POST', '../save_score.php', true);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -105,7 +107,7 @@ function saveScore(score) {
             console.log(xhr.responseText);
         }
     };
-    xhr.send('score=' + encodeURIComponent(score));
+    xhr.send('score=' + encodeURIComponent(score) + '&game=' + encodeURIComponent(name));
 }
 
 startTimer();

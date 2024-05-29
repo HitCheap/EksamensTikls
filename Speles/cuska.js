@@ -17,6 +17,7 @@ var foodX;
 var foodY;
 
 var score = 0;
+var name = "cuska";
 
 var gameOver = false;
 
@@ -86,6 +87,7 @@ function update() {
          
         // Out of bound condition
         gameOver = true;
+        saveScore(score, name);
         
     }
  
@@ -94,6 +96,7 @@ function update() {
              
             // Snake eats own body
             gameOver = true;
+            saveScore(score, name);
         }
     }
 }
@@ -136,6 +139,19 @@ function placeFood() {
 function showScore(){
     document.getElementById("score").innerHTML = score;
 }
+
+function saveScore(score, name) {
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', '../save_score.php', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            console.log(xhr.responseText);
+        }
+    };
+    xhr.send('score=' + encodeURIComponent(score) + '&game=' + encodeURIComponent(name));
+}
+
 
 
 

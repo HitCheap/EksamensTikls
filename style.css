@@ -1,6 +1,4 @@
-        /*index.php*/
-
-
+/*index.php*/
 
 .profile-link {
     cursor: pointer; /* Change cursor to pointer when hovered */
@@ -53,71 +51,70 @@
 }
 
 .modal {
-  display: none;
-  position: fixed;
-  z-index: 1;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgb(0,0,0);
-  background-color: rgba(0,0,0,0.4);
-  padding-top: 60px;
+    display: none;
+    position: fixed;
+    z-index: 1000; /* Ensure modal has a high z-index */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+    padding-top: 60px;
 }
 
 .modal-content {
-  background-color: #fefefe;
-  margin: 5% auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    z-index: 1001; /* Ensure modal content is above the overlay */
 }
 
 .close {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
 }
 
 .close:hover,
 .close:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
 }
 
-    /* Styles for the overlay */
-    .overlay {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.5);
-      z-index: 900;
-    }
-
+/* Styles for the overlay */
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999; /* Ensure overlay has a lower z-index than modal */
+}
 
 .date {
     color: #718096;
 }
 
-.fonts{
+.fonts {
     font-weight: 600;
 }
-    
-.nav{
-font-style: italic;
-color: #718096; /* This color code corresponds to a shade of gray */ 
-font-size: 0.875rem; /* This font size corresponds to small text */
-text-align: center;
-margin-top: 20px; /* Adjust the value as needed based on your design */     
+
+.nav {
+    font-style: italic;
+    color: #718096; /* This color code corresponds to a shade of gray */ 
+    font-size: 0.875rem; /* This font size corresponds to small text */
+    text-align: center;
+    margin-top: 20px; /* Adjust the value as needed based on your design */     
 }
 
-.main{
+.main {
     border: 1px solid #e2e8f0; /* Border color */
     border-radius: 0.375rem; /* Border radius */
     box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.1); /* Box shadow */
@@ -131,33 +128,30 @@ margin-top: 20px; /* Adjust the value as needed based on your design */
     flex-direction: column; /* Flex direction */
 }
 
-.border{
-        border: 1px solid #e2e8f0; /* Border color */
-        margin-top: 1.25rem; /* Margin top */
-        margin-bottom: 1.25rem; /* Margin bottom */
-        padding: 1.25rem; /* Padding */
-        border-radius: 0.375rem; /* Border radius */
+.border {
+    border: 1px solid #e2e8f0; /* Border color */
+    margin-top: 1.25rem; /* Margin top */
+    margin-bottom: 1.25rem; /* Margin bottom */
+    padding: 1.25rem; /* Padding */
+    border-radius: 0.375rem; /* Border radius */
 }
 
-.items{
-        display: flex; /* Display as flex container */
-        justify-content: space-between; /* Distribute items evenly with space between */
-        align-items: center; /* Align items vertically at the center */
+.items {
+    display: flex; /* Display as flex container */
+    justify-content: space-between; /* Distribute items evenly with space between */
+    align-items: center; /* Align items vertically at the center */
 }
 
-.text{
-        font-size: 1.125rem; /* Equivalent to text-lg in Tailwind CSS */
-        text-align: left; /* Align text to the left */
-        font-weight: bold; /* Apply bold font weight */
+.text {
+    font-size: 1.125rem; /* Equivalent to text-lg in Tailwind CSS */
+    text-align: left; /* Align text to the left */
+    font-weight: bold; /* Apply bold font weight */
 }
 
 /* CSS styling for the logout link */
 .logout {
-    /* Smaller font size */
     font-size: 0.875rem; /* Equivalent to text-sm in Tailwind CSS */
-    /* Apply semi-bold font weight */
     font-weight: 600; /* Equivalent to font-semibold in Tailwind CSS */
-    /* Cursor style pointer */
     cursor: pointer;
     display: inline-block; /* Make it a block element */
     padding: 0.5rem 1rem; /* Add padding for better spacing */
@@ -166,20 +160,17 @@ margin-top: 20px; /* Adjust the value as needed based on your design */
     text-decoration: none; /* Remove default underline */
     border-radius: 0.25rem; /* Apply border radius */
     transition: background-color 0.3s; /* Smooth transition for background color change */
-  }
-  
-  /* Hover effect */
-  .logout:hover {
-    background-color: #893a3a; /* Darken the background color on hover */
-  }
+}
 
-/* CSS styling for the logout link */
+/* Hover effect */
+.logout:hover {
+    background-color: #893a3a; /* Darken the background color on hover */
+}
+
+/* CSS styling for the button */
 .button {
-    /* Smaller font size */
     font-size: 0.875rem; /* Equivalent to text-sm in Tailwind CSS */
-    /* Apply semi-bold font weight */
     font-weight: 600; /* Equivalent to font-semibold in Tailwind CSS */
-    /* Cursor style pointer */
     cursor: pointer;
     display: inline-block; /* Make it a block element */
     padding: 0.5rem 1rem; /* Add padding for better spacing */
@@ -188,75 +179,84 @@ margin-top: 20px; /* Adjust the value as needed based on your design */
     text-decoration: none; /* Remove default underline */
     border-radius: 0.25rem; /* Apply border radius */
     transition: background-color 0.3s; /* Smooth transition for background color change */
-  }
-  
-  /* Hover effect */
-  .button:hover {
-    background-color: #768238; /* Darken the background color on hover */
-  }
+}
 
-  /* CSS styling for the "View Comments" link */
+/* Hover effect */
+.button:hover {
+    background-color: #768238; /* Darken the background color on hover */
+}
+
+/* CSS styling for the "View Comments" link */
 .view-comments-link {
-    color:  #a06ea0; /* Set the text color */
+    color: #a06ea0; /* Set the text color */
     text-decoration: none; /* Remove default underline */
     font-weight: bold;
-  }
-  
-  /* Hover effect */
-  .view-comments-link:hover {
-    text-decoration: underline; /* Underline on hover */
-  }
-  
-  
+}
 
-.comment{
-    /* Hover effect to underline text */
+/* Hover effect */
+.view-comments-link:hover {
+    text-decoration: underline; /* Underline on hover */
+}
+
+.comment {
     text-decoration: underline;
-  /* Smaller font size */
     font-size: 0.875rem; /* Equivalent to text-sm in Tailwind CSS */
-  /* Apply semi-bold font weight */
     font-weight: 600; /* Equivalent to font-semibold in Tailwind CSS */
-  /* Cursor style pointer */
     cursor: pointer;
 }
 
-.publicet-text{
-    /* Apply padding */
+.publicet-text {
     padding: 0.75rem; /* Equivalent to p-3 in Tailwind CSS */
-  /* Set placeholder text to italic */
     font-style: italic; /* Equivalent to placeholder-italic in Tailwind CSS */
-  /* Remove outline */
     outline: none; /* Equivalent to outline-none in Tailwind CSS */
-  /* Apply border and rounding */
     border: 1px solid #e5e7eb; /* Equivalent to border in Tailwind CSS */
     border-radius: 0.375rem; /* Equivalent to rounded in Tailwind CSS */
 }
 
-.publicet{
-    /* Apply background color */
+.publicet {
     background-color: #1f2937; /* Equivalent to bg-gray-950 in Tailwind CSS */
-  /* Set text color */
     color: #ffffff; /* Equivalent to text-white in Tailwind CSS */
-  /* Apply padding */
     padding-left: 1.25rem; /* Equivalent to px-5 in Tailwind CSS */
     padding-right: 1.25rem; /* Equivalent to px-5 in Tailwind CSS */
     padding-top: 0.25rem; /* Equivalent to py-1 in Tailwind CSS */
     padding-bottom: 0.25rem; /* Equivalent to py-1 in Tailwind CSS */
-  /* Apply border rounding */
     border-radius: 0.375rem; /* Equivalent to rounded in Tailwind CSS */
-  /* Set width to fit content */
     width: fit-content; /* Equivalent to w-fit in Tailwind CSS */
-  /* Apply font weight */
     font-weight: 600; /* Equivalent to font-semibold in Tailwind CSS */
-  /* Set text tracking */
     letter-spacing: 0.05em; /* Equivalent to tracking-wide in Tailwind CSS */
-  /* Set text size */
     font-size: 0.875rem; /* Equivalent to text-sm in Tailwind CSS */
 }
 
 .publicet:hover {
-      /* Hover effect - background color change */
-      background-color: #374151; /* Equivalent to hover:bg-gray-800 in Tailwind CSS */
-       /* Hover effect - translate */
+    background-color: #374151; /* Equivalent to hover:bg-gray-800 in Tailwind CSS */
     transform: translateY(-0.125rem); /* Equivalent to hover:translate-y-0.5 in Tailwind CSS */
-  }
+}
+
+.comment-photo {
+    max-width: 50%;
+    height: auto;
+    display: block;
+    margin: 10px 0;
+}
+
+.comment-video {
+    max-width: 100%;
+    height: auto;
+    margin-top: 10px;
+}
+
+.comment-container {
+    margin-bottom: 20px;
+    border-left: 2px solid #ccc;
+    padding-left: 10px;
+}
+
+.comment-container.reply {
+    margin-left: 20px;
+}
+
+.comment-media {
+    max-width: 100%;
+    height: auto;
+    margin-top: 10px;
+}
