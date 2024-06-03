@@ -1,7 +1,8 @@
 <?php
 session_start();
 
-// Database connection code (similar to your other PHP files)
+require_once 'functions.php';
+
 $host = 'localhost';
 $username = 'root';
 $password = '';
@@ -13,19 +14,13 @@ if ($conn->connect_error) {
     die('Datubāzes pieslēgums neveiksmīgs: ' . $conn->connect_error);
 }
 
-// Check if the user is logged in
 if (!isset($_SESSION['id'])) {
     echo json_encode(['error' => 'Lietotājs nav pierakstījies']);
     exit();
 }
 
 $userID = $_SESSION['id'];
-
-// Check if the user already liked
-// You need to implement your logic here based on your database structure
-
-// Assuming you have a table 'likes_table' with columns 'user_id' and 'post_id'
-$postID = $_POST['post_id'];  // You need to pass post_id from your JavaScript
+$postID = $_POST['post_id'];
 
 // Check if the user already liked the post
 $sql = $conn->prepare("SELECT * FROM likes_table WHERE user_id = ? AND post_id = ?");
@@ -38,15 +33,28 @@ if ($result->num_rows > 0) {
     $deleteSQL = $conn->prepare("DELETE FROM likes_table WHERE user_id = ? AND post_id = ?");
     $deleteSQL->bind_param("ii", $userID, $postID);
     $deleteSQL->execute();
-    echo json_encode(['action' => 'atcelt patīk']); // Change 'unlike' to 'atcelt patīkamu'
+    echo json_encode(['action' => 'atcelt patīk']);
 } else {
     // User has not liked, add the like
     $insertSQL = $conn->prepare("INSERT INTO likes_table (user_id, post_id) VALUES (?, ?)");
     $insertSQL->bind_param("ii", $userID, $postID);
     $insertSQL->execute();
-    echo json_encode(['action' => 'patīk']); // Change 'like' to 'patīkama'
+
+    // Create notification
+$commentSQL = $conn->prepare("SELECT lietotaja_id FROM komentari WHERE comment_id = ?");
+$commentSQL->bind_param("i", $postID);
+$commentSQL->execute();
+$commentResult = $commentSQL->get_result();
+$commentData = $commentResult->fetch_assoc();
+
+$notificationUserID = $commentData['lietotaja_id'];
+if ($notificationUserID != $userID) {
+    $message = "Your comment was liked by user ID: $userID";
+    addNotification($conn, $notificationUserID, 'like', $message); // Use the addNotification function
 }
 
-// Close the database connection
+    echo json_encode(['action' => 'patīk']);
+}
+
 $conn->close();
 ?>

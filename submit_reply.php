@@ -1,5 +1,10 @@
 <?php
 session_start();
+
+if (!isset($_SESSION['id'])) {
+    header('Location: Pieslegsanas/login.php');
+  }
+  
 $host = 'localhost';
 $username = 'root';
 $password = '';

@@ -3,6 +3,13 @@ const canvas = document.getElementById("tetris");
 const context = canvas.getContext("2d");  
 context.scale(20, 20);  
 
+const holdCanvas = document.getElementById("hold");
+const holdContext = holdCanvas.getContext("2d");
+holdContext.scale(20, 20);
+
+let score = 0;
+let game = 'tetris';
+
 function arenaSweep() {  
   let rowCount = 1;  
   outer: for (let y = arena.length - 1; y > 0; --y) {  
@@ -86,7 +93,7 @@ function createPiece(type) {
   }  
 }  
 
-function drawMatrix(matrix, offset, color = null) {  
+function drawMatrix(matrix, offset, context, color = null) {  
   matrix.forEach((row, y) => {  
     row.forEach((value, x) => {  
       if (value !== 0) {  
@@ -103,25 +110,36 @@ function draw() {
 
   // Draw the silhouette
   const silhouettePos = calculateSilhouette();
-  drawMatrix(player.matrix, silhouettePos, [255, 255, 255]);
+  drawMatrix(player.matrix, silhouettePos, context, [255, 255, 255]);
 
   // Draw the arena
-  drawMatrix(arena, { x: 0, y: 0 });
+  drawMatrix(arena, { x: 0, y: 0 }, context);
 
   // Draw the actual piece
-  drawMatrix(player.matrix, player.pos);
+  drawMatrix(player.matrix, player.pos, context);
+
+  // Draw the held piece
+  holdContext.clearRect(0, 0, holdCanvas.width, holdCanvas.height);
+  if (holdPiece) {
+    const offset = { x: 1, y: 1 }; // Adjust the offset for a better visual position
+    drawMatrix(holdPiece, offset, holdContext);
+  }
 }
 
-function update(time = 0) {
-  const deltaTime = time - lastTime;
-  dropCounter += deltaTime;
-  if (dropCounter > dropInterval) {
-    playerDrop();
-  }
-  lastTime = time;
+let gameOverFlag = false;
 
-  draw();
-  requestAnimationFrame(update);
+function update(time = 0) {
+  if (!gameOverFlag) {
+    const deltaTime = time - lastTime;
+    dropCounter += deltaTime;
+    if (dropCounter > dropInterval) {
+      playerDrop();
+    }
+    lastTime = time;
+
+    draw();
+    requestAnimationFrame(update);
+  }
 }
 
 function merge(arena, player) {  
@@ -155,8 +173,34 @@ function playerDrop() {
     playerReset();
     arenaSweep();
     updateScore();
+    if (isGameOver()) {
+      gameOver();
+    }
   }
   dropCounter = 0;
+}
+
+function isGameOver() {
+  for (let x = 0; x < arena[0].length; x++) {
+    if (arena[0][x] !== 0) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function gameOver() {
+  gameOverFlag = true;
+  // Display game over screen
+  context.fillStyle = "#000";
+  context.fillRect(0, 0, canvas.width, canvas.height);
+  context.font = "24px Arial";
+  context.fillStyle = "#fff";
+  context.textAlign = "center";
+  context.textBaseline = "middle";
+  context.fillText("Game Over!", canvas.width / 2, canvas.height / 2);
+  context.fillText("Score: " + player.score, canvas.width / 2, canvas.height / 2 + 24);
+  saveScore(player.score, game); // Save the score to the server
 }
 
 function playerMove(offset) {  
@@ -173,9 +217,7 @@ function playerReset() {
   player.pos.x =  
     ((arena[0].length / 2) | 0) - ((player.matrix[0].length / 2) | 0);  
   if (collide(arena, player)) {  
-    arena.forEach((row) => row.fill(0));  
-    player.score = 0;  
-    updateScore();  
+    gameOver();
   }  
 }  
 
@@ -204,52 +246,36 @@ let hasPlacedPiece = true; // Variable to track if a piece has been placed after
 
 // Function to hold the current piece
 function holdCurrentPiece() {
-  // If a piece has been held previously, return the hold piece and generate a new piece
-  if (hasHeldPiece && hasPlacedPiece) {
-    const temp = holdPiece;
-    holdPiece = player.matrix;
-    player.matrix = temp;
-    player.pos.y = 0;
-    player.pos.x = ((arena[0].length / 2) | 0) - ((player.matrix[0].length / 2) | 0);
-    hasPlacedPiece = false; // Reset the flag after retrieving the held piece
-  } else if (!hasHeldPiece) {
-    // Store the current piece and generate a new one
-    holdPiece = player.matrix;
-    playerReset();
+  if (hasPlacedPiece) {
+    if (holdPiece) {
+      const temp = holdPiece;
+      holdPiece = player.matrix;
+      player.matrix = temp;
+      player.pos.y = 0;
+      player.pos.x = ((arena[0].length / 2) | 0) - ((player.matrix[0].length / 2) | 0);
+    } else {
+      holdPiece = player.matrix;
+      playerReset();
+    }
     hasHeldPiece = true;
+    hasPlacedPiece = false;
   }
-}
-
-// Function to place the current piece
-function placeCurrentPiece() {
-  merge(arena, player);
-  playerReset();
-  arenaSweep();
-  updateScore();
-  hasPlacedPiece = true; // Set the flag after placing the piece
-  hasHeldPiece = false; // Reset the hasHeldPiece flag after placing the piece
 }
 
 // Add this function to calculate the silhouette position
 function calculateSilhouette() {
-  // Store the current player position
   const originalPos = { x: player.pos.x, y: player.pos.y };
 
-  // Move the player down until a collision is detected
   while (!collide(arena, player)) {
     player.pos.y++;
   }
 
-  // Adjust the position to move the silhouette to the bottom
   player.pos.y--;
 
-  // Store the silhouette position
   const silhouettePos = { x: player.pos.x, y: player.pos.y };
 
-  // Restore the original position
   player.pos = originalPos;
 
-  // Return the silhouette position
   return silhouettePos;
 }
 
@@ -302,7 +328,7 @@ playerReset();
 updateScore();  
 update();
 
-function saveScore(score) {
+function saveScore(score, name) {
   const xhr = new XMLHttpRequest();
   xhr.open('POST', '../save_score.php', true);
   xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -311,5 +337,5 @@ function saveScore(score) {
           console.log(xhr.responseText);
       }
   };
-  xhr.send('score=' + encodeURIComponent(score));
+  xhr.send('score=' + encodeURIComponent(score) + '&game=' + encodeURIComponent(name));
 }

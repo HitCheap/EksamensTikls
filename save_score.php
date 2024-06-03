@@ -27,6 +27,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         case 'cuska':
             $table = 'rezcuska';
             break;
+        case 'tetris':
+            $table = 'reztet';
+            break;
         case 'merkaTreneris':
             $table = 'rezmerkatreneris';
             break;

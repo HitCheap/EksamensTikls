@@ -8,6 +8,7 @@ session_start();
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Konts deaktivizēts</title>
+    <link rel="stylesheet" href="deactivated.css">
 </head>
 <body>
     <h1>Šis konts ir ticis deaktivizēts</h1>

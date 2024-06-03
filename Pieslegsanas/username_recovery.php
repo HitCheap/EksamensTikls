@@ -58,7 +58,7 @@ $conn->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recover Username</title>
-    <link rel="stylesheet" href="recover.css">
+    <link rel="stylesheet" href="atgut.css">
 </head>
 <body>
     <h1>Recover Username</h1>

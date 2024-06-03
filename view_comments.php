@@ -1,5 +1,6 @@
 <?php
 session_start();
+include 'database.php';
 
 if (!isset($_SESSION['id'])) {
   header('Location: Pieslegsanas/login.php');

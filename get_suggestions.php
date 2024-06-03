@@ -39,10 +39,3 @@ if ($result->num_rows > 0) {
 
 $conn->close();
 ?>
-
-<script>
-    // Function to open profile page when suggestion is clicked
-    function openProfile(username) {
-        window.location.href = 'profile.php?username=' + encodeURIComponent(username);
-    }
-</script>

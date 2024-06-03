@@ -28,7 +28,7 @@ if (isset($_GET['username'])) {
         list($lietotājvārds) = $nameParts;
 
         // Query to fetch profile information based on username
-        $sql = $conn->prepare("SELECT id, lietotājvārds, epasts FROM lietotaji WHERE lietotājvārds = ?");
+        $sql = $conn->prepare("SELECT id, lietotājvārds, statuss FROM lietotaji WHERE lietotājvārds = ?");
         $sql->bind_param('s', $lietotājvārds);
         $sql->execute();
         $result = $sql->get_result();
@@ -56,6 +56,27 @@ if (isset($_GET['username'])) {
                 <div class="items">
                     <p>Lietotājvārds: <?php echo htmlspecialchars($profileInfo['lietotājvārds']); ?></p>
                     <button class="button" onclick="atpakalIndex()">Atpakaļ</button>
+
+                    <?php
+                    if (isset($_SESSION['statuss']) && $_SESSION['statuss'] === 'Administrators') {
+                        echo "User is an administrator.";
+                        echo '<button class="delete-btn" onclick="confirmDeleteUser()">Delete User</button>';
+                    }
+
+                    function confirmDeleteUser() {
+                        if (confirm("Are you sure you want to delete this user?")) {
+                            // Delete user logic here
+                            $userId = $_GET['user_id']; // Get the user ID from the URL or session
+                            $sql = $conn->prepare("DELETE FROM lietotaji WHERE id =?");
+                            $sql->bind_param("i", $userId);
+                            $sql->execute();
+                            echo "User deleted successfully!";
+                        } else {
+                            echo "Deletion cancelled.";
+                        }
+                        }
+                    ?>
+
                     <a href="logout.php" class="logout">Atslēgties</a>
                     <?php if (!$isBlocked) { ?>
                         <button class="button" id="followButton" data-followed-id="<?php echo $profileId; ?>"><?php echo $isFollowing ? 'Nesekot' : 'Sekot'; ?></button>
@@ -106,6 +127,15 @@ function atpakalIndex() {
 document.querySelectorAll('.block-btn').forEach(function(button) {
     button.addEventListener('click', function() {
         var userId = this.dataset.userId;
+        var isBlocking = this.textContent.startsWith('Bloķēt');
+        
+        if (isBlocking) {
+            var confirmation = confirm(`Vai tiešām vēlaties bloķēt šo lietotāju?`);
+            if (!confirmation) {
+                return; // Exit the function if the user cancels
+            }
+        }
+
         var xhr = new XMLHttpRequest();
         xhr.open('POST', 'block_user.php', true);
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -124,6 +154,8 @@ document.querySelectorAll('.block-btn').forEach(function(button) {
         xhr.send('blocked_user_id=' + userId);
     });
 });
+
+
 
 
 

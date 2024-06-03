@@ -43,9 +43,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $epasts = $_POST['epasts'];
         $encryptedEmail = encrypt_email($epasts); // Encrypt the email
         $parole = password_hash($_POST['parole'], PASSWORD_DEFAULT);
+        $pfp = 'default.png';
 
-        $sql = $conn->prepare("INSERT INTO lietotaji (lietotājvārds, epasts, parole) VALUES (?, ?, ?)");
-        $sql->bind_param("sss", $lietotājvārds, $encryptedEmail, $parole);
+        $sql = $conn->prepare("INSERT INTO lietotaji (lietotājvārds, epasts, parole, profile_picture) VALUES (?, ?, ?, ?)");
+        $sql->bind_param("ssss", $lietotājvārds, $encryptedEmail, $parole, $pfp);
 
         try {
             if ($sql->execute()) {

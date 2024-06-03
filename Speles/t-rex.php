@@ -122,6 +122,8 @@
                 ctx.font = '30px Arial';
                 ctx.fillText('Game Over', canvas.width / 2 - 70, canvas.height / 2);
                 ctx.fillText('Score: ' + score, canvas.width / 2 - 70, canvas.height / 2 + 40);
+                
+                
             }
 
             requestAnimationFrame(update);

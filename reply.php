@@ -1,6 +1,11 @@
 <?php
 session_start();
 
+if (!isset($_SESSION['id'])) {
+    header('Location: Pieslegsanas/login.php');
+    exit();
+}
+
 $host = 'localhost';
 $username = 'root';
 $password = '';
@@ -13,12 +18,6 @@ if ($conn->connect_error) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Check if user is logged in
-    if (!isset($_SESSION['id'])) {
-        echo "You need to log in to reply.";
-        exit();
-    }
-
     $parent_comment_id = isset($_POST['parent_comment_id']) ? (int)$_POST['parent_comment_id'] : null;
     $reply_text = isset($_POST['reply_text']) ? trim($_POST['reply_text']) : '';
     $user_id = $_SESSION['id'];

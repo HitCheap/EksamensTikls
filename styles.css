@@ -1,0 +1,143 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    padding: 10px;
+    color: white;
+    position: fixed;  /* Make the navbar fixed */
+    top: 0;
+    width: 100%;
+    z-index: 1000; /* Ensure the navbar is above other content */
+}
+
+.navbar-left, .navbar-center, .navbar-right {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-center {
+    flex-grow: 1;
+    justify-content: center;
+}
+
+.navbar-text {
+    margin: 0;
+    padding: 0 10px;
+}
+
+.navbar-button {
+    background-color: #444;
+    color: white;
+    border: none;
+    padding: 10px;
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+.navbar-button:hover {
+    background-color: #555;
+}
+
+.navbar-link {
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+    margin: 0 5px;
+}
+
+.navbar-link:hover {
+    background-color: #555;
+}
+
+.logout {
+    background-color: #f00;
+    padding: 10px;
+}
+
+.comment-form-container {
+    display: flex;
+    justify-content: center;
+    position: fixed;  /* Make the comment form fixed */
+    top: 60px;  /* Position it just below the navbar */
+    width: 100%;
+    background-color: #fff;  /* Optional: background color for the comment section */
+    padding: 10px;
+    z-index: 999;  /* Ensure the comment form is above other content */
+    border-bottom: 1px solid #ddd;  /* Optional: add a border for better separation */
+}
+
+.comment-form {
+    display: flex;
+    width: 100%;
+    max-width: 800px;  /* Optional: limit the width of the comment form */
+}
+
+.publicet-text {
+    flex-grow: 1;
+    padding: 10px;
+    margin: 0 5px;
+}
+
+.publicet {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.publicet:disabled {
+    background-color: #777;
+    cursor: not-allowed;
+}
+
+.text-end {
+    display: flex;
+    justify-content: flex-end;
+    margin-left: 10px;
+}
+
+.content {
+    margin-top: 120px;  /* Add margin to avoid overlap with fixed navbar and comment form */
+    padding: 20px;
+}
+
+.inline-image {
+    vertical-align: middle;
+    margin-right: 5px;
+  }
+
+
+   /* Add custom CSS for the search form in the navbar */
+   .search-container {
+    position: relative;
+    display: inline-block;
+}
+
+#suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    border: 1px solid #ccc;
+    max-height: 200px;
+    overflow-y: auto;
+    background-color: #fff;
+    z-index: 1000;
+}
+
+#suggestions .suggestion {
+    padding: 5px;
+    cursor: pointer;
+}
+
+#suggestions .suggestion:hover {
+    background-color: #f0f0f0;
+}

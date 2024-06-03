@@ -134,19 +134,38 @@ if (isset($_GET['conversation_id'])) {
     <?php endif; ?>
 
     <h2>Start a New Conversation</h2>
-    <form method="POST" action="messenger.php">
-        <label>Select users to start a conversation with:</label><br>
-        <?php while ($user = $usersResult->fetch_assoc()): ?>
-            <input type="checkbox" name="user_ids[]" value="<?php echo $user['id']; ?>">
-            <?php echo htmlspecialchars($user['lietotājvārds'] . " "); ?><br>
-        <?php endwhile; ?>
-        <button type="submit" name="start_conversation">Start Conversation</button>
-    </form>
+    <form method="POST" action="messenger.php" onsubmit="return validateForm()">
+    <label>Select users to start a conversation with:</label><br>
+    <?php while ($user = $usersResult->fetch_assoc()): ?>
+        <input type="checkbox" name="user_ids[]" value="<?php echo $user['id']; ?>">
+        <?php echo htmlspecialchars($user['lietotājvārds'] . " "); ?><br>
+    <?php endwhile; ?>
+    <button type="submit" id="startConversationBtn" name="start_conversation" disabled>Start Conversation</button>
+</form>
     <button class="button" onclick="atpakalIndex()">Atpakaļ</button>
     <script>
         function atpakalIndex() {
     window.location.href = 'index.php';
 }
     </script>
+
+<script>
+    function validateForm() {
+        // Check if at least one checkbox is checked
+        var checkboxes = document.querySelectorAll('input[name="user_ids[]"]:checked');
+        if (checkboxes.length === 0) {
+            alert("Please select at least one user to start a conversation with.");
+            return false; // Prevent form submission
+        }
+        return true; // Allow form submission
+    }
+
+    // Enable the button when at least one checkbox is checked
+    document.addEventListener('change', function() {
+        var checkboxes = document.querySelectorAll('input[name="user_ids[]"]:checked');
+        var startConversationBtn = document.getElementById('startConversationBtn');
+        startConversationBtn.disabled = checkboxes.length === 0;
+    });
+</script>
 </body>
 </html>

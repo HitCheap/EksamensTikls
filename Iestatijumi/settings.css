@@ -19,3 +19,69 @@
   .button:hover {
     background-color: #768238; /* Darken the background color on hover */
   }
+
+  /* settings.css */
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+  text-align: center; /* added to center the text */
+}
+
+.back-button {
+  background-color: #4CAF50;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.back-button:hover {
+  background-color: #3e8e41;
+}
+
+h2 {
+  margin-top: 20px;
+}
+
+form {
+  max-width: 300px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: left; /* added to left-align the form text */
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+input[type="password"], input[type="email"] {
+  width: 100%;
+  height: 40px;
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  box-sizing: border-box; /* Add this to make the input fields fit within the container */
+  text-align: center; /* Add this to center the input field text */
+}
+
+button[type="submit"] {
+  background-color: #4CAF50;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button[type="submit"] {
+  /* ... existing styles ... */
+  display: flex; /* Make the button a flex container */
+  justify-content: center; /* Center the button horizontally */
+  align-items: center; /* Center the button vertically (optional) */
+}

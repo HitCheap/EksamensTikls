@@ -28,7 +28,7 @@ if (isset($_GET['username'])) {
         list($lietotājvārds) = $nameParts;
 
         // Query to fetch profile information based on username
-        $sql = $conn->prepare("SELECT id, lietotājvārds, epasts FROM lietotaji WHERE lietotājvārds = ?");
+        $sql = $conn->prepare("SELECT id, lietotājvārds, profile_picture FROM lietotaji WHERE lietotājvārds = ?");
         $sql->bind_param('s', $lietotājvārds);
         $sql->execute();
         $result = $sql->get_result();
@@ -37,6 +37,15 @@ if (isset($_GET['username'])) {
             // Fetch and display profile information
             $profileInfo = $result->fetch_assoc();
             $profileId = $profileInfo['id'];
+            $profilePicture = $profileInfo['profile_picture'];
+             // Display user profile
+//    echo '<img src="profile_pictures/' . htmlspecialchars($profilePicture) . '" alt="Profile Picture">';
+//    echo '<h1>' . htmlspecialchars($profileInfo['lietotājvārds']) . '</h1>';
+    // Include form to change profile picture
+//    echo '<form action="upload_profile_picture.php" method="POST" enctype="multipart/form-data">
+//            <input type="file" name="profile_picture" accept="image/*" required>
+//            <button type="submit">Change Profile Picture</button>
+//          </form>';
 
             // Check if the profile is the current user's profile
             $isCurrentUser = ($profileId == $_SESSION['id']);
@@ -91,7 +100,6 @@ if (isset($_GET['username'])) {
                             <span class="star-tooltip">*</span>
                             <?php endif; ?>
                             </p>
-                            <p>Epasts: <?php echo htmlspecialchars($profileInfo['epasts']); ?></p>
                             <button class="button" onclick="atpakalIndex()">Atpakaļ</button>
                             <button class="button" onclick="piezimes()">Piezīmju grāmatiņa</button>
                             <a href="logout.php" class="logout">Atslēgties</a>
