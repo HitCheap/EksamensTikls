@@ -1,16 +1,5 @@
 <?php
-
-// Database connection
-$host = 'localhost';
-$username = 'root';
-$password = '';
-$database = 'majaslapa';
-
-$conn = new mysqli($host, $username, $password, $database);
-
-if ($conn->connect_error) {
-    die('Datubāzes pieslēgums neveiksmīgs: ' . $conn->connect_error);
-}
+include 'database.php';
 
 // Check if the user is logged in
 if (!isset($_SESSION['id'])) {
@@ -47,13 +36,16 @@ $isAdmin = $user['statuss'] === 'Administrators';
         <p class="navbar-text">
         Sveicināti, 
         <img src="<?php echo $user['profile_picture']; ?>" alt="Profile Picture" class="profile-picture inline-image">
-        <?php echo $_SESSION['lietotājvārds']; ?> (<?php echo $user['statuss']; ?>)!
+        <?php echo $_SESSION['lietotājvārds']; ?> 
+        <?php if ($user['statuss'] == 'Administrators') { ?>
+        (<?php echo $user['statuss']; ?>)!
+        <?php } ?>
         </p>
         </div>
         <div class="navbar-right">
             <button class="navbar-button" onclick="redirectToProfile('<?php echo $_SESSION['lietotājvārds']; ?>')">Profils</button>
             <button class="navbar-button" onclick="redirectToSettings()">Iestatījumi</button>
-            <a href="notification.php" class="navbar-link">Notifications</a>
+            <button class="navbar-button" onclick="redirectToNoti()">Notifications</button>
             <button class="navbar-button" onclick="redirectToGames()">Spēles</button>
         </div>
         <div class="navbar-right">
@@ -71,6 +63,6 @@ $isAdmin = $user['statuss'] === 'Administrators';
         </form>
     </div>
 
-    <script src="scripts.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>

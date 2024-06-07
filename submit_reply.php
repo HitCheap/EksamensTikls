@@ -5,12 +5,7 @@ if (!isset($_SESSION['id'])) {
     header('Location: Pieslegsanas/login.php');
   }
   
-$host = 'localhost';
-$username = 'root';
-$password = '';
-$database = 'majaslapa';
-
-$conn = new mysqli($host, $username, $password, $database);
+  include 'database.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $commentId = $_POST['comment_id'];

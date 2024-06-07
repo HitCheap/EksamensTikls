@@ -48,10 +48,21 @@ $_SESSION['user_id'] = $user_id; // Store user ID in session variable
             $profilePicture = $row['profile_picture'];
             $statuss = $row['statuss'];
 
-            echo '<div class="comment-container" id="comment_'. $commentId. '" onclick="toggleReplies('. $commentId. ', event)">';
+            // Fetch like count from the database
+            $likeCountSQL = $conn->prepare("SELECT COUNT(*) AS like_count FROM likes_table WHERE post_id = ?");
+            $likeCountSQL->bind_param("i", $commentId);
+            $likeCountSQL->execute();
+            $likeCountResult = $likeCountSQL->get_result();
+            $initialLikeCount = 0;
+            if ($likeCountResult) {
+                $likeCountData = $likeCountResult->fetch_assoc();
+                $initialLikeCount = $likeCountData['like_count'];
+            }
+
+            echo '<div class="comment-container" id="comment_' . $commentId . '" onclick="toggleReplies(' . $commentId . ', event)">';
             echo '<div class="profile-info">';
             echo '<img src="' . $profilePicture . '" alt="Profile Picture" class="profile-picture">';
-            echo '<p><span class="profile-link" onclick="redirectToProfile(\''. $row['lietotājvārds']. '\')">'. $row['lietotājvārds']. '</span></p>';
+            echo '<p><span class="profile-link" onclick="redirectToProfile(\'' . $row['lietotājvārds'] . '\')">' . $row['lietotājvārds'] . '</span></p>';
             echo '</div>';
             echo '<small class="date">' . date_format(date_create($row['display_date']), "g:i A l, F j, Y") . '</small>';
             echo '<p class="fonts" id="commentText_' . $commentId . '">' . $commentText . '</p>';
@@ -83,32 +94,33 @@ $_SESSION['user_id'] = $user_id; // Store user ID in session variable
                 }
             }
 
-            echo '<div class="like-container" data-post-id="' . $commentId . '">
-        <button id="likeButton_' . $commentId . '" onclick="handleLike(' . $commentId . ')" class="like-btn">
-            Patīk
-            <span class="like-count">0</span>
-        </button>
-      </div>';
+            // Like button HTML
+echo '<div class="like-container" data-post-id="' . $commentId . '">
+    <button id="likeButton_' . $commentId . '" class="like-btn">
+        Patīk <span id="likeCount_' . $commentId . '">' . $initialLikeCount . '</span>
+    </button>
+</div>';
 
-echo '<button class="comment-btn" onclick="openModal(' . $commentId . ')">Atbildēt</button>';
-echo '<button class="repost-btn" data-content-id="' . $commentId . '">Pārpublicēt</button>';
 
-if (isset($_SESSION['id']) && $_SESSION['id'] == $row['lietotaja_id'] ) {// || $statuss == 'Administrators' ) {
-    echo '<button class="edit-btn" onclick="openEditModal(' . $commentId . ')">Rediģēt</button>';
-    echo '<button class="delete-btn" onclick="confirmDelete(' . $commentId . ')">
-          Dzēst
-        </button>';
-    if ($row['is_edited']) {
-          echo '<span class="edited-label">(Rediģēts)</span>';
-    }
-}
+            echo '<button class="comment-btn" onclick="openModal(' . $commentId . ')">Atbildēt</button>';
+            echo '<button class="repost-btn" data-content-id="' . $commentId . '">Pārpublicēt</button>';
 
-echo '<div class="replies-container" id="replies_' . $commentId . '" style="display: none;">';
-// Display replies
-attelotKomentarus($commentId, $level + 1);
-echo '</div>'; // Close the replies-container
+            if (isset($_SESSION['id']) && $_SESSION['id'] == $row['lietotaja_id'] ) {// || $statuss == 'Administrators' ) {
+              echo '<button class="edit-btn" onclick="openEditModal(' . $commentId . ')">Rediģēt</button>';
+              echo '<button class="delete-btn" onclick="confirmDelete(' . $commentId . ')">
+                    Dzēst
+                  </button>';
+              if ($row['is_edited']) {
+                  echo '<span class="edited-label" title="' . date("Y-m-d H:i:s", strtotime($row['edited_at'])) . '">(Rediģēts)</span>';
+              }
+            }
 
-echo '</div>'; // Close the comment-container
+            echo '<div class="replies-container" id="replies_' . $commentId . '" style="display: none;">';
+            // Display replies
+            attelotKomentarus($commentId, $level + 1);
+            echo '</div>'; // Close the replies-container
+
+            echo '</div>'; // Close the comment-container
         }
     } else {
         echo '<p class="nav">Nav pieejamu komentāru.</p>';

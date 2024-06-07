@@ -1,12 +1,7 @@
 <?php
 session_start();
 
-$host = 'localhost';
-$username = 'root';
-$password = '';
-$database = 'majaslapa';
-
-$conn = new mysqli($host, $username, $password, $database);
+include 'database.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $user_id = $_SESSION['id'];

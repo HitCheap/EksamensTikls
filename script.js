@@ -57,64 +57,6 @@ function saveEdit() {
 
 
 
-
-  $(document).ready(function() {
-    // Event listener for like buttons
-    $('.like-btn').click(function() {
-      // Get the post ID from the data attribute of the parent post element
-      var postId = $(this).closest('.post').data('post-id');
-
-      // Simulate sending a request to the server to update the like count
-      $.ajax({
-        url: 'like.php',
-        method: 'POST',
-        data: { postId: postId },
-        success: function(response) {
-          // Update the like count displayed on the page
-          var likeCount = parseInt($('.post[data-post-id="' + postId + '"] .like-count').text());
-          $('.post[data-post-id="' + postId + '"] .like-count').text(likeCount + 1);
-        },
-        error: function(xhr, status, error) {
-          console.error('Error:', error);
-        }
-      });
-    });
-  });
-
-document.addEventListener('DOMContentLoaded', function() {
-    // Attach click event listener to all like buttons
-    var likeButtons = document.querySelectorAll('.like-btn');
-    likeButtons.forEach(function(button) {
-        button.addEventListener('click', function() {
-            // Extract the comment_id from the data attribute
-            var commentId = button.getAttribute('data-comment-id');
-                
-            // Send the comment_id to the server to handle the like action
-            // You can use AJAX here to send a request to your server-side script
-            // and update the like count for the corresponding comment
-            // Example using fetch API:
-            fetch('like.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ comment_id: commentId })
-            })
-            .then(response => response.json())
-            .then(data => {
-                // Update the like count displayed on the page
-                var likeCountElement = button.nextElementSibling; // Assuming like count is the next sibling element
-                likeCountElement.textContent = data.like_count;
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-        });
-    });
-});
-
-
-
     
 function openModal(commentId) {
     document.getElementById('replyParentId').value = commentId;
@@ -179,6 +121,7 @@ function handleRepost(contentId, button) {
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4 && xhr.status === 200) {
+            console.log("Response received: ", xhr.responseText);
             try {
                 var response = JSON.parse(xhr.responseText);
                 if (response.success) {
@@ -187,12 +130,13 @@ function handleRepost(contentId, button) {
                     console.error(response.message);
                 }
             } catch (e) {
-                console.error("Invalid JSON response from server");
+                console.error("Invalid JSON response from server: ", xhr.responseText);
             }
         }
     };
     xhr.send("content_id=" + encodeURIComponent(contentId));
 }
+
 
 
 
@@ -235,48 +179,95 @@ function deleteComment(commentId) {
 // JavaScript code to handle like/unlike functionality and update the UI
 
 // Function to handle like/unlike action
-function handleLike(postID) {
+document.addEventListener('DOMContentLoaded', function() {
+    var likeContainers = document.querySelectorAll('.like-container');
+    likeContainers.forEach(function(container) {
+        container.removeEventListener('click', handleLikeClick);
+        container.addEventListener('click', handleLikeClick);
+    });
+});
+
+function handleLikeClick(event) {
+    if (event.target.classList.contains('like-btn')) {
+        var button = event.target;
+        var postID = button.closest('.like-container').getAttribute('data-post-id');
+        console.log('Like button clicked, post ID:', postID);
+        handleLike(postID, button);
+    }
+}
+
+function handleLike(postID, button) {
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', 'like.php'); // Assuming this file is like.php
+    xhr.open('POST', 'like.php');
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.onload = function() {
         if (xhr.status === 200) {
-            var response = JSON.parse(xhr.responseText);
-            if (response.error) {
-                // Handle error
-                console.error(response.error);
-            } else {
-                // Update like/unlike button text
-                var likeButton = document.getElementById('likeButton_' + postID);
-                var likeCount = document.getElementById('likeCount_' + postID);
-                if (response.action === 'patīk') {
-                    likeButton.textContent = 'Atcelt patīk';
-                } else if (response.action === 'atcelt patīk') {
-                    likeButton.textContent = 'Patīk';
+            try {
+                var response = JSON.parse(xhr.responseText);
+                if (response.error) {
+                    console.error(response.error);
+                } else {
+                    var likeCount = document.getElementById('likeCount_' + postID);
+
+                    if (response.action === 'patīk') {
+                        button.classList.add('liked'); // Add a class to change the color
+                    } else if (response.action === 'atcelt patīk') {
+                        button.classList.remove('liked'); // Remove the class to revert the color
+                    }
+
+                    likeCount.textContent = response.like_count;
                 }
-                // Update like count
-                likeCount.textContent = response.like_count;
+            } catch (e) {
+                console.error("Invalid JSON response from server: " + xhr.responseText);
             }
         } else {
-            // Handle error
             console.error(xhr.statusText);
         }
     };
     xhr.onerror = function() {
-        // Handle error
         console.error('Request failed');
     };
     xhr.send('post_id=' + encodeURIComponent(postID));
 }
 
-// Attach click event handler to like buttons
-var likeButtons = document.querySelectorAll('.like-btn');
-likeButtons.forEach(function(likeButton) {
-    likeButton.addEventListener('click', function() {
-        var postID = this.parentNode.getAttribute('data-post-id');
-        handleLike(postID);
-    });
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    loadNotifications();
 });
+
+function loadNotifications() {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'fetch_notifications.php');
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            try {
+                var notifications = JSON.parse(xhr.responseText);
+                var notificationContainer = document.getElementById('notification-container');
+                notificationContainer.innerHTML = ''; // Clear existing notifications
+                notifications.forEach(function(notification) {
+                    var notificationElement = document.createElement('div');
+                    notificationElement.classList.add('notification');
+                    notificationElement.textContent = notification.message;
+                    notificationContainer.appendChild(notificationElement);
+                });
+            } catch (e) {
+                console.error("Invalid JSON response from server: " + xhr.responseText);
+            }
+        } else {
+            console.error(xhr.statusText);
+        }
+    };
+    xhr.onerror = function() {
+        console.error('Request failed');
+    };
+    xhr.send();
+}
+
+
+
+
+
 
 
     // JavaScript to open a new tab when a comment link is clicked
@@ -329,6 +320,11 @@ function redirectToGames(username) {
     window.location.href = 'Speles/speles.php';
 }
 
+function redirectToNoti(username) {
+    // Redirect the user to the profile page based on the username
+    window.location.href = 'notification.php';
+}
+
 
 
 function validateForm() {
@@ -341,38 +337,6 @@ function validateForm() {
 }
 
 
-document.addEventListener('DOMContentLoaded', function() {
-    // Attach click event listener to all like buttons
-    var likeButtons = document.querySelectorAll('.like-btn');
-    likeButtons.forEach(function(button) {
-        button.addEventListener('click', function() {
-            // Extract the post_id from the data attribute
-            var postId = button.getAttribute('data-post-id');
-            
-            // Send the post_id to the server to handle the like action
-            // You can use AJAX here to send a request to your server-side script (like.php)
-            // and update the like count for the corresponding post
-            fetch('like.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ post_id: postId })
-            })
-            .then(response => response.json())
-            .then(data => {
-                // Update the like count displayed on the page
-                var likeCountElement = document.getElementById('likeCount_' + postId);
-                if (likeCountElement) {
-                    likeCountElement.textContent = parseInt(likeCountElement.textContent) + (data.action === 'like' ? 1 : -1);
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-        });
-    });
-});
           
 
 

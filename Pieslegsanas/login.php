@@ -1,16 +1,7 @@
 <?php
 session_start();
 
-$host = 'localhost';
-$username = 'root';
-$password = '';
-$database = 'majaslapa';
-
-$conn = new mysqli($host, $username, $password, $database);
-
-if ($conn->connect_error) {
-    echo 'Datubāzes pieslēgums neveiksmīgs.';
-}
+include '../database.php';
 
 // Encryption/Decryption constants
 define('ENCRYPTION_KEY', 'your_encryption_key'); // Replace with your actual key

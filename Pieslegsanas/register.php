@@ -1,16 +1,7 @@
 <?php
 session_start();
 
-$host = 'localhost';
-$username = 'root';
-$password = '';
-$database = 'majaslapa';
-
-$conn = new mysqli($host, $username, $password, $database);
-
-if ($conn->connect_error) {
-    echo 'Datubāzes pieslēgums neveiksmīgs.';
-}
+include '../database.php';
 
 // Encryption/Decryption constants
 define('ENCRYPTION_KEY', 'your_encryption_key'); // Replace with your actual key
@@ -43,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $epasts = $_POST['epasts'];
         $encryptedEmail = encrypt_email($epasts); // Encrypt the email
         $parole = password_hash($_POST['parole'], PASSWORD_DEFAULT);
-        $pfp = 'default.png';
+        $pfp = 'bildes/default.png';
 
         $sql = $conn->prepare("INSERT INTO lietotaji (lietotājvārds, epasts, parole, profile_picture) VALUES (?, ?, ?, ?)");
         $sql->bind_param("ssss", $lietotājvārds, $encryptedEmail, $parole, $pfp);
@@ -57,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             }
         } catch (mysqli_sql_exception $e) {
             if ($e->getCode() == 1062) {
-                $_SESSION['error'] = "Epasts jau eksistē. Izvēlaties citu epastu.";
+                $_SESSION['error'] = "Lietotājvārds jau eksistē. Izvēlaties citu lietotājvārdu.";
             } else {
                 $_SESSION['error'] = "Reģistrācija neizdevās. Mēģiniet vēlreiz.";
             }

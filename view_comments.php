@@ -10,17 +10,7 @@ if (!isset($_SESSION['id'])) {
 <?php
 
 // Include your database connection code here
-$host = 'localhost';
-$username = 'root';
-$password = '';
-$database = 'majaslapa';
-
-$conn = new mysqli($host, $username, $password, $database);
-
-// Check the database connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+include 'database.php';
 
 // Check if the comment ID is provided in the URL parameter
 if (isset($_GET['comment_id'])) {

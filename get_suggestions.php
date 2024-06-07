@@ -1,14 +1,5 @@
 <?php
-// Database connection
-$host = 'localhost';
-$username = 'root';
-$password = '';
-$database = 'majaslapa';
-$conn = new mysqli($host, $username, $password, $database);
-
-if ($conn->connect_error) {
-    die('Database connection failed: ' . $conn->connect_error);
-}
+include 'database.php';
 
 // Get the search query
 $q = $_GET['q'];

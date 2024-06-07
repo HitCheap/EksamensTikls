@@ -5,16 +5,7 @@ if (!isset($_SESSION['id'])) {
     header('Location: Pieslegsanas/login.php');
   }
 
-$host = 'localhost';
-$username = 'root';
-$password = '';
-$database = 'majaslapa';
-
-$conn = new mysqli($host, $username, $password, $database);
-
-if ($conn->connect_error) {
-    die('Database connection failed: ' . $conn->connect_error);
-}
+  include 'database.php';
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     // Check if the user is logged in

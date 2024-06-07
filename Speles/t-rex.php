@@ -18,8 +18,6 @@
 <body>
     <canvas id="tRexGame"></canvas>
     <script>
-        // JavaScript code for the T-Rex game
-
         const canvas = document.getElementById('tRexGame');
         const ctx = canvas.getContext('2d');
 
@@ -27,10 +25,11 @@
             x: 50,
             y: 150,
             width: 20,
-            height: 20,
+            height: 40,  // Updated height
             speedY: 0,
             gravity: 0.6,
-            jump: 10
+            jump: 10,
+            ducking: false
         };
 
         let obstacles = [];
@@ -44,25 +43,36 @@
 
         function drawTrex() {
             ctx.fillStyle = 'black';
-            ctx.fillRect(trex.x, trex.y, trex.width, trex.height);
+            if (trex.ducking) {
+                ctx.fillRect(trex.x, trex.y + 20, trex.width, trex.height / 2);
+            } else {
+                ctx.fillRect(trex.x, trex.y, trex.width, trex.height);
+            }
         }
 
         function updateTrex() {
-            trex.y += trex.speedY;
-            trex.speedY += trex.gravity;
+            if (!trex.ducking) {
+                trex.y += trex.speedY;
+                trex.speedY += trex.gravity;
 
-            if (trex.y + trex.height > canvas.height) {
-                trex.y = canvas.height - trex.height;
-                trex.speedY = 0;
+                if (trex.y + trex.height > canvas.height) {
+                    trex.y = canvas.height - trex.height;
+                    trex.speedY = 0;
+                }
             }
         }
 
         function createObstacle() {
+            let height = 20;
+            let y = canvas.height - height;
+            if (Math.random() > 0.5) {  // 50% chance to spawn flying obstacle
+                y -= trex.height + height;
+            }
             let obstacle = {
                 x: canvas.width,
-                y: canvas.height - 20,
+                y: y,
                 width: 20,
-                height: 20,
+                height: height,
                 speedX: 5
             };
             obstacles.push(obstacle);
@@ -91,6 +101,7 @@
                     trex.y + trex.height > obstacle.y) {
                     gameOver = true;
                     saveScore(score, name);
+                    showLeaderboard();
                 }
             });
         }
@@ -122,8 +133,6 @@
                 ctx.font = '30px Arial';
                 ctx.fillText('Game Over', canvas.width / 2 - 70, canvas.height / 2);
                 ctx.fillText('Score: ' + score, canvas.width / 2 - 70, canvas.height / 2 + 40);
-                
-                
             }
 
             requestAnimationFrame(update);
@@ -132,22 +141,47 @@
         window.addEventListener('keydown', function(event) {
             if (event.code === 'Space') {
                 jump();
+            } else if (event.code === 'ArrowDown') {
+                trex.ducking = true;
+            }
+        });
+
+        window.addEventListener('keyup', function(event) {
+            if (event.code === 'ArrowDown') {
+                trex.ducking = false;
             }
         });
 
         update();
 
         function saveScore(score, name) {
-    const xhr = new XMLHttpRequest();
-    xhr.open('POST', '../save_score.php', true);
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            console.log(xhr.responseText);
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '../save_score.php', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    console.log(xhr.responseText);
+                }
+            };
+            xhr.send('score=' + encodeURIComponent(score) + '&game=' + encodeURIComponent(name));
         }
-    };
-    xhr.send('score=' + encodeURIComponent(score) + '&game=' + encodeURIComponent(name));
-}
+
+        function showLeaderboard() {
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', '../leaderboard.php', true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    const leaderboard = JSON.parse(xhr.responseText);
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.font = '30px Arial';
+                    ctx.fillText('Leaderboard', canvas.width / 2 - 90, canvas.height / 2 - 60);
+                    leaderboard.forEach((entry, index) => {
+                        ctx.fillText(`${index + 1}. ${entry.name}: ${entry.score}`, canvas.width / 2 - 90, canvas.height / 2 - 30 + (index * 30));
+                    });
+                }
+            };
+            xhr.send();
+        }
     </script>
 </body>
 </html>

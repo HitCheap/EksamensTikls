@@ -6,16 +6,7 @@ if (!isset($_SESSION['id'])) {
     exit();
 }
 
-$host = 'localhost';
-$username = 'root';
-$password = '';
-$database = 'majaslapa';
-
-$conn = new mysqli($host, $username, $password, $database);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+include 'database.php';
 
 $comment_id = $_POST['comment_id'];
 $new_text = $_POST['new_text'];

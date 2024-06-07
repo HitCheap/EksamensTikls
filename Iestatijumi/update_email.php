@@ -7,18 +7,7 @@ if (!isset($_SESSION['id'])) {
 }
 
 // Include your database connection code here
-$host = 'localhost';
-$username = 'root';
-$password = '';
-$database = 'majaslapa';
-
-$conn = new mysqli($host, $username, $password, $database);
-
-// Check the database connection
-if ($conn->connect_error) {
-    echo json_encode(['success' => false, 'error' => "Connection failed: " . $conn->connect_error]);
-    exit();
-}
+include '../database.php';
 
 // Encryption/Decryption constants
 define('ENCRYPTION_KEY', 'your_encryption_key');

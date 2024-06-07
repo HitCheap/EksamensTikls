@@ -3,6 +3,9 @@
 .profile-link {
     cursor: pointer; /* Change cursor to pointer when hovered */
     transition: color 0.5s; /* Add transition effect for color change */
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
 }
 
 .profile-link:hover {
@@ -12,19 +15,6 @@
 .comment-link {
     text-decoration: none;
     color: inherit; /* Inherit the color from the parent element */
-}
-
-.comment-container {
-    border: 1px solid #a455a4;
-    padding: 10px;
-    border-radius: 5px;
-    margin-bottom: 10px;
-}
-
-.profile-link {
-    font-weight: bold;
-    color: #333;
-    cursor: pointer;
 }
 
 .like-btn,
@@ -40,7 +30,7 @@
     border-radius: 5px;
     margin-right: 5px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 .like-btn:hover,
@@ -51,6 +41,14 @@
 .edit-btn:hover {
     background-color: #555;
 }
+
+/* Additional styles for active state */
+.like-btn.active {
+    background-color: blue;
+    color: white;
+}
+
+
 
 .modal {
     display: none;
@@ -251,6 +249,16 @@
     margin-bottom: 20px;
     border-left: 2px solid #ccc;
     padding-left: 10px;
+    border: 1px solid #a455a4;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    transition: background 1s;
+    cursor: pointer;
+}
+
+.comment-container:hover {
+   background-color: rgb(249, 221, 255);
 }
 
 .comment-container.reply {

@@ -18,8 +18,8 @@ if (!isset($_SESSION['id'])) {
 <body>  
   <canvas id="tetris" width="240" height="400"></canvas>
   <canvas id="hold" width="80" height="80"></canvas>
-  <div id="score"></div>  
+  <div id="score"></div>
+  <div id="game-over-screen"></div>
   <script src="tetris.js"></script>  
 </body>  
 </html>
-

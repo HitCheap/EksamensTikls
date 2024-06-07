@@ -6,16 +6,7 @@ if (!isset($_SESSION['id'])) {
     exit();
 }
 
-$host = 'localhost';
-$username = 'root';
-$password = '';
-$database = 'majaslapa';
-
-$conn = new mysqli($host, $username, $password, $database);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+include 'database.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $parent_comment_id = isset($_POST['parent_comment_id']) ? (int)$_POST['parent_comment_id'] : null;

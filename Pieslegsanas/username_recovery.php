@@ -1,15 +1,6 @@
 <?php
 // Include your database connection and encryption/decryption code here
-$host = 'localhost';
-$username = 'root';
-$password = '';
-$database = 'majaslapa';
-
-$conn = new mysqli($host, $username, $password, $database);
-
-if ($conn->connect_error) {
-    die('Database connection failed: ' . $conn->connect_error);
-}
+include '../database.php';
 
 // Encryption/Decryption constants
 define('ENCRYPTION_KEY', 'your_encryption_key'); // Replace with your actual key

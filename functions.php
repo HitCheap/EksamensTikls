@@ -1,24 +1,17 @@
 <?php
 // functions.php
 
-// Database connection
-$host = 'localhost';
-$username = 'root';
-$password = '';
-$database = 'majaslapa';
+include 'database.php';
 
-$conn = new mysqli($host, $username, $password, $database);
+// functions.php
 
-if ($conn->connect_error) {
-    die('Database connection failed: ' . $conn->connect_error);
+function addNotification($conn, $userID, $type, $message) {
+    $sql = $conn->prepare("INSERT INTO notifications (user_id, type, message) VALUES (?, ?, ?)");
+    $sql->bind_param("iss", $userID, $type, $message);
+    $sql->execute();
+    $sql->close();
 }
 
-function addNotification($conn, $userId, $type, $message) {
-    $stmt = $conn->prepare("INSERT INTO notifications (user_id, type, message) VALUES (?, ?, ?)");
-    $stmt->bind_param("iss", $userId, $type, $message);
-    $stmt->execute();
-    $stmt->close();
-}
 
 // Other common functions can be added here as needed
 ?>
