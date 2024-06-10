@@ -1,0 +1,195 @@
+<mxfile host="app.diagrams.net" modified="2024-06-10T01:29:35.345Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36 OPR/109.0.0.0" etag="XJ27X-F4P_iNQi22cMhH" version="24.5.2" type="device">
+  <diagram name="Page-1" id="zZq7VaybYD1DG1loLCVF">
+    <mxGraphModel dx="1639" dy="901" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="ikjYLwRMNx4tmdUfGQpT-4" value="" style="ellipse;html=1;shape=startState;fillColor=#000000;strokeColor=#ff0000;" parent="1" vertex="1">
+          <mxGeometry x="410" y="100" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="ikjYLwRMNx4tmdUfGQpT-5" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;verticalAlign=bottom;endArrow=open;endSize=8;strokeColor=#ff0000;rounded=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="ikjYLwRMNx4tmdUfGQpT-4" target="ikjYLwRMNx4tmdUfGQpT-7" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="425" y="190" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ikjYLwRMNx4tmdUfGQpT-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="ikjYLwRMNx4tmdUfGQpT-7" target="ikjYLwRMNx4tmdUfGQpT-8" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="425" y="250" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="425" y="260" />
+              <mxPoint x="425" y="260" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ikjYLwRMNx4tmdUfGQpT-7" value="&quot;Reģistrācijas logs&quot;" style="html=1;whiteSpace=wrap;" parent="1" vertex="1">
+          <mxGeometry x="370" y="180" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="ikjYLwRMNx4tmdUfGQpT-8" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" parent="1" vertex="1">
+          <mxGeometry x="220" y="260" width="620" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="ikjYLwRMNx4tmdUfGQpT-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="ikjYLwRMNx4tmdUfGQpT-10" target="ikjYLwRMNx4tmdUfGQpT-14" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ikjYLwRMNx4tmdUfGQpT-10" value="Nospiesta poga &quot;Esi reģistrējies?&quot;" style="html=1;whiteSpace=wrap;" parent="1" vertex="1">
+          <mxGeometry x="260" y="300" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="ikjYLwRMNx4tmdUfGQpT-19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" parent="1" source="ikjYLwRMNx4tmdUfGQpT-11" target="ikjYLwRMNx4tmdUfGQpT-18" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ikjYLwRMNx4tmdUfGQpT-11" value="Nospiesta poga &quot;Reģistrēties&quot;" style="html=1;whiteSpace=wrap;" parent="1" vertex="1">
+          <mxGeometry x="480" y="300" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="ikjYLwRMNx4tmdUfGQpT-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" target="ikjYLwRMNx4tmdUfGQpT-10" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="435" y="270" as="targetPoint" />
+            <mxPoint x="315" y="264" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="314" y="262" />
+              <mxPoint x="315" y="262" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ikjYLwRMNx4tmdUfGQpT-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.511;exitY=0.65;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="ikjYLwRMNx4tmdUfGQpT-8" target="ikjYLwRMNx4tmdUfGQpT-11" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="445" y="280" as="targetPoint" />
+            <mxPoint x="445" y="250" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="535" y="265" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ikjYLwRMNx4tmdUfGQpT-17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="ikjYLwRMNx4tmdUfGQpT-14" target="ikjYLwRMNx4tmdUfGQpT-16" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="310" y="825" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ikjYLwRMNx4tmdUfGQpT-14" value="Lietotājs tiek aizvests uz &quot;Autorizācijas logu&quot;" style="html=1;whiteSpace=wrap;" parent="1" vertex="1">
+          <mxGeometry x="260" y="380" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="ikjYLwRMNx4tmdUfGQpT-16" value="" style="ellipse;html=1;shape=endState;fillColor=#000000;strokeColor=#ff0000;" parent="1" vertex="1">
+          <mxGeometry x="330" y="810" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="ikjYLwRMNx4tmdUfGQpT-20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="ikjYLwRMNx4tmdUfGQpT-18" target="ikjYLwRMNx4tmdUfGQpT-22" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="450" y="510" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ikjYLwRMNx4tmdUfGQpT-26" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="ikjYLwRMNx4tmdUfGQpT-18" target="6mkxioOwGyMka96JgoOP-1" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ikjYLwRMNx4tmdUfGQpT-18" value="Vai ir ievadīti dati?" style="rhombus;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="472.5" y="365" width="125" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="ikjYLwRMNx4tmdUfGQpT-28" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="ikjYLwRMNx4tmdUfGQpT-22" target="ikjYLwRMNx4tmdUfGQpT-16" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="385" y="825" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ikjYLwRMNx4tmdUfGQpT-22" value="&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;font-family: ui-sans-serif, system-ui, sans-serif, &amp;quot;Apple Color Emoji&amp;quot;, &amp;quot;Segoe UI Emoji&amp;quot;, &amp;quot;Segoe UI Symbol&amp;quot;, &amp;quot;Noto Color Emoji&amp;quot;; background-color: initial;&quot;&gt;&quot;Visi lauki ir jāizpilda.&quot;&lt;/span&gt;&lt;/div&gt;" style="html=1;whiteSpace=wrap;align=center;" parent="1" vertex="1">
+          <mxGeometry x="330" y="610" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="ikjYLwRMNx4tmdUfGQpT-23" value="Nē" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="440" y="400" width="40" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="ikjYLwRMNx4tmdUfGQpT-24" value="Jā" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="590" y="400" width="40" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="ikjYLwRMNx4tmdUfGQpT-27" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="ikjYLwRMNx4tmdUfGQpT-25" target="ikjYLwRMNx4tmdUfGQpT-16" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="775" y="825" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ikjYLwRMNx4tmdUfGQpT-25" value="&lt;div style=&quot;&quot;&gt;Lietotājs tiek aizvests uz &quot;Autorizācijas logu&quot;&lt;br&gt;&lt;/div&gt;" style="html=1;whiteSpace=wrap;align=center;" parent="1" vertex="1">
+          <mxGeometry x="720" y="750" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="6mkxioOwGyMka96JgoOP-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="6mkxioOwGyMka96JgoOP-1" target="6mkxioOwGyMka96JgoOP-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="6mkxioOwGyMka96JgoOP-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="6mkxioOwGyMka96JgoOP-1" target="6mkxioOwGyMka96JgoOP-12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="6mkxioOwGyMka96JgoOP-1" value="Vai parolēs garums&amp;nbsp;&lt;div&gt;ir vismaz 8?&lt;/div&gt;" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="540" y="440" width="125" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="6mkxioOwGyMka96JgoOP-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="6mkxioOwGyMka96JgoOP-2" target="6mkxioOwGyMka96JgoOP-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="6mkxioOwGyMka96JgoOP-17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="6mkxioOwGyMka96JgoOP-2" target="6mkxioOwGyMka96JgoOP-13">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="6mkxioOwGyMka96JgoOP-2" value="Vai paroles&amp;nbsp;&lt;div&gt;lauki sakrīt?&lt;/div&gt;" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="610" y="520" width="125" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="6mkxioOwGyMka96JgoOP-18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="6mkxioOwGyMka96JgoOP-3" target="6mkxioOwGyMka96JgoOP-16">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="6mkxioOwGyMka96JgoOP-28" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="6mkxioOwGyMka96JgoOP-3" target="ikjYLwRMNx4tmdUfGQpT-25">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="825" y="663" />
+              <mxPoint x="825" y="720" />
+              <mxPoint x="775" y="720" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="6mkxioOwGyMka96JgoOP-3" value="Vai lietotajvārds&lt;div&gt;ir unikāls?&lt;/div&gt;" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="680" y="600" width="125" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="6mkxioOwGyMka96JgoOP-9" value="Jā" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="790" y="640" width="40" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="6mkxioOwGyMka96JgoOP-10" value="Jā" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="720" y="558" width="40" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="6mkxioOwGyMka96JgoOP-11" value="Jā" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="650" y="478" width="40" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="6mkxioOwGyMka96JgoOP-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="6mkxioOwGyMka96JgoOP-12" target="ikjYLwRMNx4tmdUfGQpT-16">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="495" y="825" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="6mkxioOwGyMka96JgoOP-12" value="&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;font-family: ui-sans-serif, system-ui, sans-serif, &amp;quot;Apple Color Emoji&amp;quot;, &amp;quot;Segoe UI Emoji&amp;quot;, &amp;quot;Segoe UI Symbol&amp;quot;, &amp;quot;Noto Color Emoji&amp;quot;; background-color: initial;&quot;&gt;&quot;Paroles garums ir jābūt vismaz 8.&quot;&lt;/span&gt;&lt;/div&gt;" style="html=1;whiteSpace=wrap;align=center;" vertex="1" parent="1">
+          <mxGeometry x="440" y="525" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="6mkxioOwGyMka96JgoOP-20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="6mkxioOwGyMka96JgoOP-13" target="ikjYLwRMNx4tmdUfGQpT-16">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="560" y="825" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="6mkxioOwGyMka96JgoOP-13" value="&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;font-family: ui-sans-serif, system-ui, sans-serif, &amp;quot;Apple Color Emoji&amp;quot;, &amp;quot;Segoe UI Emoji&amp;quot;, &amp;quot;Segoe UI Symbol&amp;quot;, &amp;quot;Noto Color Emoji&amp;quot;; background-color: initial;&quot;&gt;&quot;Visi lauki ir jāizpilda.&quot;&lt;/span&gt;&lt;/div&gt;" style="html=1;whiteSpace=wrap;align=center;" vertex="1" parent="1">
+          <mxGeometry x="510" y="610" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="6mkxioOwGyMka96JgoOP-19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="6mkxioOwGyMka96JgoOP-16" target="ikjYLwRMNx4tmdUfGQpT-16">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="625" y="825" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="6mkxioOwGyMka96JgoOP-16" value="&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;font-family: ui-sans-serif, system-ui, sans-serif, &amp;quot;Apple Color Emoji&amp;quot;, &amp;quot;Segoe UI Emoji&amp;quot;, &amp;quot;Segoe UI Symbol&amp;quot;, &amp;quot;Noto Color Emoji&amp;quot;; background-color: initial;&quot;&gt;&quot;Visi lauki ir jāizpilda.&quot;&lt;/span&gt;&lt;/div&gt;" style="html=1;whiteSpace=wrap;align=center;" vertex="1" parent="1">
+          <mxGeometry x="570" y="690" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="6mkxioOwGyMka96JgoOP-21" value="Nē" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="510" y="488" width="40" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="6mkxioOwGyMka96JgoOP-26" value="Nē" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="579.5" y="564" width="40" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="6mkxioOwGyMka96JgoOP-27" value="Nē" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="649" y="644" width="40" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

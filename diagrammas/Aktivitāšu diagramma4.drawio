@@ -1,0 +1,363 @@
+<mxfile host="app.diagrams.net" modified="2024-06-10T02:07:50.450Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36 OPR/109.0.0.0" etag="orzRMRfFzaJq_h9GKJgG" version="24.5.2" type="device">
+  <diagram name="Page-1" id="zZq7VaybYD1DG1loLCVF">
+    <mxGraphModel dx="2243" dy="766" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="ikjYLwRMNx4tmdUfGQpT-4" value="" style="ellipse;html=1;shape=startState;fillColor=#000000;strokeColor=#ff0000;" parent="1" vertex="1">
+          <mxGeometry x="410" y="100" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="ikjYLwRMNx4tmdUfGQpT-5" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;verticalAlign=bottom;endArrow=open;endSize=8;strokeColor=#ff0000;rounded=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="ikjYLwRMNx4tmdUfGQpT-4" target="ikjYLwRMNx4tmdUfGQpT-7" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="425" y="190" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ikjYLwRMNx4tmdUfGQpT-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="ikjYLwRMNx4tmdUfGQpT-7" target="ikjYLwRMNx4tmdUfGQpT-8" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="425" y="250" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="425" y="260" />
+              <mxPoint x="425" y="260" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ikjYLwRMNx4tmdUfGQpT-7" value="&quot;Profils&quot;" style="html=1;whiteSpace=wrap;" parent="1" vertex="1">
+          <mxGeometry x="370" y="180" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-47" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="ikjYLwRMNx4tmdUfGQpT-8" target="0hP0nHPHOGhXQv9lwTYU-11">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-125" y="280" />
+              <mxPoint x="-125" y="280" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-48" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="ikjYLwRMNx4tmdUfGQpT-8" target="0hP0nHPHOGhXQv9lwTYU-9">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="5" y="270" />
+              <mxPoint x="5" y="270" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-49" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="ikjYLwRMNx4tmdUfGQpT-8" target="0hP0nHPHOGhXQv9lwTYU-7">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="135" y="280" />
+              <mxPoint x="135" y="280" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-50" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="ikjYLwRMNx4tmdUfGQpT-8" target="0hP0nHPHOGhXQv9lwTYU-4">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="265" y="280" />
+              <mxPoint x="265" y="280" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-51" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="ikjYLwRMNx4tmdUfGQpT-8" target="0hP0nHPHOGhXQv9lwTYU-1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="395" y="270" />
+              <mxPoint x="395" y="270" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-52" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="ikjYLwRMNx4tmdUfGQpT-8" target="0hP0nHPHOGhXQv9lwTYU-15">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="525" y="280" />
+              <mxPoint x="525" y="280" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-54" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="ikjYLwRMNx4tmdUfGQpT-8" target="0hP0nHPHOGhXQv9lwTYU-26">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="780" y="288" />
+              <mxPoint x="785" y="288" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-55" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="ikjYLwRMNx4tmdUfGQpT-8" target="0hP0nHPHOGhXQv9lwTYU-27">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1003" y="280" />
+              <mxPoint x="1003" y="280" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ikjYLwRMNx4tmdUfGQpT-8" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" parent="1" vertex="1">
+          <mxGeometry x="-320" y="260" width="1390" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="ikjYLwRMNx4tmdUfGQpT-16" value="" style="ellipse;html=1;shape=endState;fillColor=#000000;strokeColor=#ff0000;" parent="1" vertex="1">
+          <mxGeometry x="410" y="680" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="0hP0nHPHOGhXQv9lwTYU-1" target="0hP0nHPHOGhXQv9lwTYU-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-1" value="Nospiesta poga &quot;Atslēgties&quot;" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="340" y="291" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-61" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="0hP0nHPHOGhXQv9lwTYU-2" target="ikjYLwRMNx4tmdUfGQpT-16">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="390" y="695" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-2" value="Lietotājs tiek aizvests uz &quot;Autorizācijas logu&quot;" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="340" y="356" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="0hP0nHPHOGhXQv9lwTYU-4" target="0hP0nHPHOGhXQv9lwTYU-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-4" value="Nospiests konkrēts lietotājs" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="210" y="291" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-60" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="0hP0nHPHOGhXQv9lwTYU-5" target="ikjYLwRMNx4tmdUfGQpT-16">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="265" y="695" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-5" value="Tiek atvērts tā lietotāja profils" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="210" y="355" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="0hP0nHPHOGhXQv9lwTYU-7" target="0hP0nHPHOGhXQv9lwTYU-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-7" value="Nospiesta poga &quot;Iestatījumi&quot;" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="80" y="290" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-59" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="0hP0nHPHOGhXQv9lwTYU-8" target="ikjYLwRMNx4tmdUfGQpT-16">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="135" y="695" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-8" value="Tiek atvērts iestatījuma logs" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="80" y="355" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="0hP0nHPHOGhXQv9lwTYU-9" target="0hP0nHPHOGhXQv9lwTYU-10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-9" value="Nospiesta poga &quot;Paziņojumi&quot;" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="-50" y="291" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-58" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="0hP0nHPHOGhXQv9lwTYU-10" target="ikjYLwRMNx4tmdUfGQpT-16">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint y="695" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-10" value="Tiek atvērts paziņojumu logs" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="-50" y="356" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="0hP0nHPHOGhXQv9lwTYU-11" target="0hP0nHPHOGhXQv9lwTYU-12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-11" value="Nospiesta poga &quot;Čats&quot;" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="-180" y="291" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-57" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="0hP0nHPHOGhXQv9lwTYU-12" target="ikjYLwRMNx4tmdUfGQpT-16">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-125" y="695" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-12" value="Tiek atvērts čats" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="-180" y="356" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="0hP0nHPHOGhXQv9lwTYU-13" target="0hP0nHPHOGhXQv9lwTYU-14">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-13" value="Nospiesta poga &quot;Spēles&quot;" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="-310" y="291" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-56" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="0hP0nHPHOGhXQv9lwTYU-14" target="ikjYLwRMNx4tmdUfGQpT-16">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-260" y="695" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-14" value="Tiek atvērts spēles logs" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="-310" y="356" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="0hP0nHPHOGhXQv9lwTYU-15" target="0hP0nHPHOGhXQv9lwTYU-16">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-15" value="Nospiesta poga &quot;Piezīmju grāmatiņa&quot;" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="470" y="291" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-62" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="0hP0nHPHOGhXQv9lwTYU-16" target="ikjYLwRMNx4tmdUfGQpT-16">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="525" y="695" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-16" value="Tiek atvērts pierakstu bloks" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="470" y="355" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-68" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="0hP0nHPHOGhXQv9lwTYU-24" target="0hP0nHPHOGhXQv9lwTYU-67">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-24" value="Nospiesta poga Izvēlēties failu" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="600" y="291" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-30" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="0hP0nHPHOGhXQv9lwTYU-26" target="0hP0nHPHOGhXQv9lwTYU-28">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-26" value="Nospiesta poga Sekot" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="730" y="291" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-27" value="Nospiesta poga Bloķēt" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="948" y="291" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-33" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="0hP0nHPHOGhXQv9lwTYU-28" target="0hP0nHPHOGhXQv9lwTYU-32">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="710" y="443" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-28" value="Vai lietotajs jau&lt;span style=&quot;background-color: initial;&quot;&gt;&amp;nbsp;seko šim lietotājam?&lt;/span&gt;" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="722.5" y="380" width="125" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-36" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="0hP0nHPHOGhXQv9lwTYU-29" target="0hP0nHPHOGhXQv9lwTYU-35">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="940" y="469" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-38" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="0hP0nHPHOGhXQv9lwTYU-29" target="0hP0nHPHOGhXQv9lwTYU-37">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1070" y="469" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-29" value="Vai lietotājs jau ir bloķēts?" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="942.5" y="406" width="125" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-31" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.516;entryY=0.037;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="0hP0nHPHOGhXQv9lwTYU-27" target="0hP0nHPHOGhXQv9lwTYU-29">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1010" y="373" />
+              <mxPoint x="1007" y="373" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-63" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="0hP0nHPHOGhXQv9lwTYU-32" target="ikjYLwRMNx4tmdUfGQpT-16">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="715" y="695" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-32" value="Lietotājs atseko lietotājam" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="660" y="540" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-65" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="0hP0nHPHOGhXQv9lwTYU-35" target="ikjYLwRMNx4tmdUfGQpT-16">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="945" y="695" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-35" value="Lietotājs tiek atbloķēts" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="890" y="580" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-66" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="0hP0nHPHOGhXQv9lwTYU-37" target="ikjYLwRMNx4tmdUfGQpT-16">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1070" y="695" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-37" value="Lietotājs tiek nobloķēts" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="1020" y="580" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-64" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="0hP0nHPHOGhXQv9lwTYU-39" target="ikjYLwRMNx4tmdUfGQpT-16">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="850" y="695" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-39" value="Lietotājs sāk sekot lietotājam" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="800" y="520" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-41" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="0hP0nHPHOGhXQv9lwTYU-28" target="0hP0nHPHOGhXQv9lwTYU-39">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="855" y="443" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-42" value="Jā" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="700" y="418" width="40" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-43" value="Nē" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="830" y="408" width="40" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-44" value="Jā" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="920" y="438" width="40" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-45" value="Nē" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="1050" y="438" width="40" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-46" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.423;entryY=0.037;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="ikjYLwRMNx4tmdUfGQpT-8" target="0hP0nHPHOGhXQv9lwTYU-13">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-263" y="288" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-53" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.453;entryY=0.02;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="ikjYLwRMNx4tmdUfGQpT-8" target="0hP0nHPHOGhXQv9lwTYU-24">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="650" y="280" />
+              <mxPoint x="650" y="280" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-72" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="0hP0nHPHOGhXQv9lwTYU-67" target="0hP0nHPHOGhXQv9lwTYU-70">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="645" y="420" />
+              <mxPoint x="645" y="420" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-67" value="Dot lietotājam iespēju izvēlēties savu profila bildi" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="600" y="358" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-75" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="0hP0nHPHOGhXQv9lwTYU-70" target="0hP0nHPHOGhXQv9lwTYU-74">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-70" value="Nospiesta poga pārmainīt profila bildi" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="590" y="455" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-76" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="0hP0nHPHOGhXQv9lwTYU-74" target="ikjYLwRMNx4tmdUfGQpT-16">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="645" y="695" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0hP0nHPHOGhXQv9lwTYU-74" value="Nomainās profila bilde" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="590" y="600" width="110" height="50" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
