@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'database.php';
+include 'datubaze.php';
 
 if (!isset($_SESSION['id'])) {
     echo json_encode(['error' => 'Lietotājs nav pierakstījies']);

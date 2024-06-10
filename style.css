@@ -42,14 +42,6 @@
     background-color: #555;
 }
 
-/* Additional styles for active state */
-.like-btn.active {
-    background-color: blue;
-    color: white;
-}
-
-
-
 .modal {
     display: none;
     position: fixed;
@@ -174,7 +166,7 @@
     cursor: pointer;
     display: inline-block; /* Make it a block element */
     padding: 0.5rem 1rem; /* Add padding for better spacing */
-    background-color: #9daf4c; /* Add a background color */
+    background-color: #a455a4; /* Add a background color */
     color: #fff; /* Set text color to white */
     text-decoration: none; /* Remove default underline */
     border-radius: 0.25rem; /* Apply border radius */
@@ -183,7 +175,7 @@
 
 /* Hover effect */
 .button:hover {
-    background-color: #768238; /* Darken the background color on hover */
+    background-color: rgb(141, 22, 165); /* Darken the background color on hover */
 }
 
 /* CSS styling for the "View Comments" link */
@@ -280,8 +272,8 @@ body {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    padding: 10px 20px;
-    background-color: #0084ff;
+    padding: 10px 35px;
+    background-color: #a455a4;
     color: white;
     border: none;
     border-radius: 5px;
@@ -311,8 +303,8 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px;
-    background-color: #0084ff;
+    padding: 5px;
+    background-color: #a455a4;
     color: white;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
@@ -335,11 +327,63 @@ body {
 .profile-info {
     display: flex;
     align-items: center;
+    flex: 1;
 }
 
 .profile-picture {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    margin-right: 10px;
+    width: 30px; /* Set your desired width */
+    height: 30px; /* Set your desired height */
+    object-fit: cover; /* This will ensure the image covers the entire area */
+    border-radius: 50%; /* Optional: makes the picture round */
 }
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.profile-info p {
+    margin-bottom: 10px;
+}
+
+#messagesContainer {
+    margin-top: 20px;
+}
+
+.message {
+    margin-bottom: 10px;
+}
+
+       /* Add custom CSS to adjust the position */
+       .search-container {
+        position: fixed;
+        top: 150px; /* Adjust this value to set the distance from the bottom */
+        left: 10%;
+        transform: translateX(-50%);
+        padding: 10px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    #suggestions {
+        max-height: 200px;
+        overflow-y: auto;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-top: none;
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+        margin-top: 5px; /* Adjust this value to set the distance between input and results */
+    }
+
+    #suggestions p {
+        padding: 5px;
+        cursor: pointer;
+    }
+
+    #suggestions p:hover {
+        background-color: #f0f0f0;
+    }

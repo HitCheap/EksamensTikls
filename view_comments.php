@@ -1,16 +1,15 @@
 <?php
 session_start();
-include 'database.php';
+include 'datubaze.php';
 
 if (!isset($_SESSION['id'])) {
-  header('Location: Pieslegsanas/login.php');
+  header('Location: login.php');
 }
 ?>
 
 <?php
 
 // Include your database connection code here
-include 'database.php';
 
 // Check if the comment ID is provided in the URL parameter
 if (isset($_GET['comment_id'])) {

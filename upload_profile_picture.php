@@ -1,50 +1,54 @@
 <?php
-// upload_profile_picture.php
-
 session_start();
-$userId = $_SESSION['id'];
+include 'datubaze.php';
 
 if (!isset($_SESSION['id'])) {
-  header('Location: Pieslegsanas/login.php');
+    header('Location: login.php');
+    exit();
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['profile_picture'])) {
-    $uploadDir = 'bildes/';
-    $uploadFile = $uploadDir . basename($_FILES['profile_picture']['name']);
-    $imageFileType = strtolower(pathinfo($uploadFile, PATHINFO_EXTENSION));
-    $check = getimagesize($_FILES['profile_picture']['tmp_name']);
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $userID = $_SESSION['id'];
 
-    // Check if the file is an image
-    if ($check !== false) {
-        // Check file size (5MB max)
-        if ($_FILES['profile_picture']['size'] <= 5000000) {
-            // Allow only certain file formats
-            if (in_array($imageFileType, ['jpg', 'jpeg', 'png', 'gif'])) {
-                // Move the uploaded file to the designated directory
-                if (move_uploaded_file($_FILES['profile_picture']['tmp_name'], $uploadFile)) {
-                    // Update the user's profile picture in the database
-                    $sql = "UPDATE users SET profile_picture = ? WHERE id = ?";
-                    $stmt = $conn->prepare($sql);
-                    $stmt->bind_param('si', $uploadFile, $userId);
+    if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] === UPLOAD_ERR_OK) {
+        $fileTmpPath = $_FILES['profile_picture']['tmp_name'];
+        $fileName = $_FILES['profile_picture']['name'];
+        $fileSize = $_FILES['profile_picture']['size'];
+        $fileType = $_FILES['profile_picture']['type'];
+        $fileNameCmps = explode(".", $fileName);
+        $fileExtension = strtolower(end($fileNameCmps));
 
-                    if ($stmt->execute()) {
-                        echo json_encode(['success' => true, 'message' => 'Profile picture updated successfully.']);
-                    } else {
-                        echo json_encode(['success' => false, 'error' => 'Database update failed: ' . $stmt->error]);
-                    }
-                } else {
-                    echo json_encode(['success' => false, 'error' => 'File upload failed.']);
-                }
+        // Sanitize file name
+        $newFileName = md5(time() . $fileName) . '.' . $fileExtension;
+
+        // Directory in which to save the uploaded file
+        $uploadFileDir = './profile_pictures/';
+        
+        // Check if the directory exists, if not create it
+        if (!is_dir($uploadFileDir)) {
+            mkdir($uploadFileDir, 0755, true);
+        }
+        
+        $dest_path = $uploadFileDir . $newFileName;
+
+        if (move_uploaded_file($fileTmpPath, $dest_path)) {
+            // Update the profile picture in the database
+            $sql = $conn->prepare("UPDATE lietotaji SET profile_picture = ? WHERE id = ?");
+            $sql->bind_param('si', $newFileName, $userID);
+            if ($sql->execute()) {
+                $_SESSION['profile_picture'] = $newFileName;
+                header('Location: profile.php?username=' . urlencode($_SESSION['lietotājvārds']));
+                exit();
             } else {
-                echo json_encode(['success' => false, 'error' => 'Only JPG, JPEG, PNG & GIF files are allowed.']);
+                echo "Error updating profile picture in the database.";
             }
         } else {
-            echo json_encode(['success' => false, 'error' => 'File is too large.']);
+            echo "There was an error moving the uploaded file.";
         }
     } else {
-        echo json_encode(['success' => false, 'error' => 'File is not an image.']);
+        echo "There was an error uploading the file.";
     }
 } else {
-    echo json_encode(['success' => false, 'error' => 'Invalid request.']);
+    echo "Invalid request method.";
 }
 ?>

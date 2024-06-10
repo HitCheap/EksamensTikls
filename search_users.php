@@ -1,6 +1,6 @@
 <?php
 // Include database connection code here
-include 'database.php';
+include 'datubaze.php';
 ?>
 
 <!DOCTYPE html>
@@ -8,41 +8,7 @@ include 'database.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css"> <!-- Link to your CSS file -->
-    <style>
-       /* Add custom CSS to adjust the position */
-       .search-container {
-            position: fixed;
-            top: 150px; /* Adjust this value to set the distance from the bottom */
-            left: 10%;
-            transform: translateX(-50%);
-            padding: 10px;
-            background-color: #fff;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        #suggestions {
-            max-height: 200px;
-            overflow-y: auto;
-            background-color: #fff;
-            border: 1px solid #ccc;
-            border-top: none;
-            border-bottom-left-radius: 5px;
-            border-bottom-right-radius: 5px;
-            margin-top: 5px; /* Adjust this value to set the distance between input and results */
-        }
-
-        #suggestions p {
-            padding: 5px;
-            cursor: pointer;
-        }
-
-        #suggestions p:hover {
-            background-color: #f0f0f0;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -60,7 +26,7 @@ include 'database.php';
         $searchQuery = htmlspecialchars($_GET['query']);
 
         // Perform database query to search for users
-        $sql = "SELECT * FROM lietotaji WHERE lietotājvārds LIKE ? LIMIT 10";
+        $sql = "SELECT * FROM lietotaji WHERE lietotājvārds LIKE ? AND statuss != 'Deaktivizēts' LIMIT 10";
         $stmt = $conn->prepare($sql);
         $searchParam = "%{$searchQuery}%";
         $stmt->bind_param('s', $searchParam);

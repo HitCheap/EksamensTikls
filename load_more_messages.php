@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-include 'database.php';
+include 'datubaze.php';
 
 if (isset($_GET['profile_id']) && isset($_GET['offset']) && isset($_GET['limit'])) {
     $profileId = (int)$_GET['profile_id'];

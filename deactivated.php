@@ -13,6 +13,6 @@ session_start();
 <body>
     <h1>Šis konts ir ticis deaktivizēts</h1>
     <p>Lūdzu sazināties ar mums šeit ja ir kādas neskaidrības.</p>
-    <a href="Pieslegsanas/login.php">Atpakaļ uz pieteikšanās lapu</a>
+    <a href="login.php">Atpakaļ uz pieteikšanās lapu</a>
 </body>
 </html>

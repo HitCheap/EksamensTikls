@@ -4,11 +4,12 @@ global $conn;
 
 // Check if the user is logged in
 if (!isset($_SESSION['id'])) {
-    header('Location: Pieslegsanas/login.php');
+    header('Location: login.php');
     exit();
 }
 
-include 'database.php';
+include 'datubaze.php';
+include 'navbar.php';
 
 // Retrieve username from URL parameter
 if (isset($_GET['username'])) {
@@ -45,8 +46,7 @@ if (isset($_GET['username'])) {
             ?>
             <div class="border">
                 <div class="items">
-                    <p>Lietotājvārds: <?php echo htmlspecialchars($profileInfo['lietotājvārds']); ?></p>
-                    <button class="button" onclick="atpakalIndex()">Atpakaļ</button>
+                    <p><?php echo htmlspecialchars($profileInfo['lietotājvārds']); ?></p>
 
                     <?php
                     if (isset($_SESSION['statuss']) && $_SESSION['statuss'] === 'Administrators') {
@@ -68,7 +68,6 @@ if (isset($_GET['username'])) {
                         }
                     ?>
 
-                    <a href="logout.php" class="logout">Atslēgties</a>
                     <?php if (!$isBlocked) { ?>
                         <button class="button" id="followButton" data-followed-id="<?php echo $profileId; ?>"><?php echo $isFollowing ? 'Nesekot' : 'Sekot'; ?></button>
                     <?php } ?>
@@ -111,9 +110,6 @@ if (isset($_GET['username'])) {
 ?>
 
 <script>
-function atpakalIndex() {
-    window.location.href = 'index.php';
-}
 
 document.querySelectorAll('.block-btn').forEach(function(button) {
     button.addEventListener('click', function() {

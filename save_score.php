@@ -7,8 +7,7 @@ if (!isset($_SESSION['id'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    include 'database.php';
-    }
+    include 'datubaze.php';
 
     $userId = $_SESSION['id'];
     $score = intval($_POST['score']);
@@ -33,6 +32,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             exit();
     }
 
+    // Check if the score is valid
+    if ($score <= 0) {
+        echo json_encode(['success' => false, 'message' => 'Invalid score']);
+        exit();
+    }
+
+    // Insert the score into the database
     $stmt = $conn->prepare("INSERT INTO $table (user_id, score) VALUES (?, ?)");
     $stmt->bind_param('ii', $userId, $score);
 

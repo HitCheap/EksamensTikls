@@ -2,11 +2,11 @@
 session_start();
 
 if (!isset($_SESSION['id'])) {
-    header('Location: Pieslegsanas/login.php');
+    header('Location: login.php');
     exit();
 }
 
-include 'database.php';
+include 'datubaze.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $userId = $_SESSION['id'];

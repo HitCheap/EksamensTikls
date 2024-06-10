@@ -46,7 +46,31 @@ if ($result->num_rows > 0) {
     $stmt->bind_param('ii', $user_id, $content_id);
 
     if ($stmt->execute()) {
-        echo json_encode(['success' => true, 'isReposted' => true, 'message' => 'Reposted successfully']);
+        // Fetch the original content details
+        $contentSql = "SELECT k.teksts AS content, u.lietotājvārds AS original_user FROM komentari k JOIN lietotaji u ON k.lietotaja_id = u.id WHERE k.comment_id = ?";
+        $contentStmt = $conn->prepare($contentSql);
+        $contentStmt->bind_param('i', $content_id);
+        $contentStmt->execute();
+        $contentResult = $contentStmt->get_result();
+        $contentData = $contentResult->fetch_assoc();
+
+        // Fetch the current user's username
+        $userSql = "SELECT lietotājvārds FROM lietotaji WHERE id = ?";
+        $userStmt = $conn->prepare($userSql);
+        $userStmt->bind_param('i', $user_id);
+        $userStmt->execute();
+        $userResult = $userStmt->get_result();
+        $userData = $userResult->fetch_assoc();
+
+        echo json_encode([
+            'success' => true, 
+            'isReposted' => true, 
+            'message' => 'Reposted successfully', 
+            'content' => $contentData['content'],
+            'original_user' => $contentData['original_user'],
+            'current_user' => $userData['lietotājvārds'],
+            'repost_date' => date('Y-m-d H:i:s')
+        ]);
     } else {
         echo json_encode(['success' => false, 'message' => 'Failed to repost']);
     }

@@ -2,7 +2,7 @@
 session_start();
 // Check if the user is logged in
 if (!isset($_SESSION['id'])) {
-    header('Location: Pieslegsanas/login.php');
+    header('Location: login.php');
     exit();
 }
 
@@ -20,7 +20,7 @@ if ($_SESSION['id'] == $blockedUserId) {
     exit();
 }
 
-include 'database.php';
+include 'datubaze.php';
 
 $userId = $_SESSION['id'];
 

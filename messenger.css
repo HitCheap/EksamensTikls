@@ -1,42 +1,145 @@
 .messenger-container {
     display: flex;
+    flex-direction: row;
     width: 100%;
     height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
-.conversations {
-    width: 30%;
-    border-right: 1px solid #ccc;
-    padding: 30px;
-    overflow-y: auto;
+.conversations-sidebar {
+    width: 250px;
+    background-color: #f7f7f7;
+    padding: 20px;
+    border-right: 1px solid #ddd;
 }
 
-.messages {
-    width: 70%;
-    padding: 10px;
-    overflow-y: auto;
+.conversations-sidebar h2 {
+    margin-top: 0;
 }
 
-ul {
-    list-style-type: none;
+.conversations-sidebar ul {
+    list-style: none;
     padding: 0;
+    margin: 0;
 }
 
-li {
-    margin: 10px 0;
-}
-
-form {
-    display: flex;
-    margin-top: 10px;
-}
-
-form input {
-    flex: 1;
+.conversations-sidebar li {
     padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.conversations-sidebar a {
+    text-decoration: none;
+    color: #337ab7;
+}
+
+.conversations-sidebar a:hover {
+    color: #23527c;
+}
+
+.messages-container {
+    flex: 1;
+    padding: 20px;
+}
+
+.messages-header {
+    background-color: #f7f7f7;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.messages-header h2 {
+    margin-top: 0;
+}
+
+.messages-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.messages-list li {
+    display: flex;
+    align-items: flex-start;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.message-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #a455a4;
+    color: #fff;
+    text-align: center;
+    font-size: 18px;
+    line-height: 40px;
     margin-right: 10px;
 }
 
-form button {
-    padding: 10px;
+.message-content {
+    flex: 1;
+    overflow: hidden;
+    white-space: pre-wrap; /* Preserves spaces and line breaks */
+}
+
+.message-content em {
+    display: block;
+    font-size: 12px;
+    color: #999;
+}
+
+.message-actions {
+    margin-left: 10px;
+}
+
+.new-conversation-sidebar {
+    width: 250px;
+    background-color: #f7f7f7;
+    padding: 20px;
+    border-left: 1px solid #ddd;
+}
+
+.new-conversation-sidebar h2 {
+    margin-top: 0;
+}
+
+.new-conversation-sidebar form {
+    padding: 20px;
+}
+
+.new-conversation-sidebar label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.new-conversation-sidebar input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.new-conversation-sidebar button[type="submit"] {
+    background-color: #a455a4;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.new-conversation-sidebar button[type="submit"]:hover {
+    background-color: rgb(141, 22, 165);
+}
+
+.button {
+    background-color: #a455a4;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: rgb(141, 22, 165);
 }

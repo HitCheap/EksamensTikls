@@ -1,7 +1,7 @@
 <?php
 // functions.php
 
-include 'database.php';
+include 'datubaze.php';
 
 // functions.php
 

@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-include 'database.php';
+include 'datubaze.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $user_id = $_SESSION['id'];

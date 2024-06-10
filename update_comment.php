@@ -2,10 +2,10 @@
 session_start();
 
 if (!isset($_SESSION['id'])) {
-    header('Location: Pieslegsanas/login.php');
+    header('Location: login.php');
   }
 
-  include 'database.php';
+  include 'datubaze.php';
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     // Check if the user is logged in

@@ -126,6 +126,9 @@ function handleRepost(contentId, button) {
                 var response = JSON.parse(xhr.responseText);
                 if (response.success) {
                     button.textContent = response.isReposted ? "Atcelt pārpublicēšanu" : "Pārpublicēt";
+                    if (response.isReposted && response.content) {
+                        addRepostedContent(response.content, response.repost_date, response.current_user, response.original_user, contentId, button);
+                    }
                 } else {
                     console.error(response.message);
                 }
@@ -136,6 +139,27 @@ function handleRepost(contentId, button) {
     };
     xhr.send("content_id=" + encodeURIComponent(contentId));
 }
+
+function addRepostedContent(content, repostDate, currentUser, originalUser, contentId, button) {
+    var repostedContent = document.createElement('div');
+    repostedContent.classList.add('post');
+    repostedContent.setAttribute('data-post-id', contentId);
+
+    repostedContent.innerHTML = `
+        <p><strong>${currentUser}</strong> (Reposted from ${originalUser}):</p>
+        <p>${content}</p>
+        <p>Reposted on: ${repostDate}</p>
+    `;
+
+    // Check if the reposted content already exists to avoid duplication
+    var existingPost = document.querySelector('.reposted-content[data-post-id="' + contentId + '"]');
+    if (existingPost) {
+        existingPost.remove();
+    }
+
+    button.closest('.content-container').appendChild(repostedContent);
+}
+
 
 
 
@@ -172,6 +196,40 @@ function deleteComment(commentId) {
     }
   };
   xhr.send("comment_id=" + commentId);
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    document.querySelectorAll('.delete-reply-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const replyId = this.getAttribute('data-reply-id');
+            deleteReply(replyId, this);
+        });
+    });
+});
+
+function deleteReply(replyId, button) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "delete_reply.php", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            console.log("Response received: ", xhr.responseText);
+            try {
+                var response = JSON.parse(xhr.responseText);
+                if (response.success) {
+                    var replyElement = button.closest('.reply');
+                    if (replyElement) {
+                        replyElement.remove();
+                    }
+                } else {
+                    console.error(response.message);
+                }
+            } catch (e) {
+                console.error("Invalid JSON response from server: ", xhr.responseText);
+            }
+        }
+    };
+    xhr.send("reply_id=" + encodeURIComponent(replyId));
 }
 
 
@@ -313,11 +371,11 @@ function redirectToProfile(username) {
 
 function redirectToSettings(username) {
     // Redirect the user to the profile page based on the username
-    window.location.href = 'Iestatijumi/settings.php';
+    window.location.href = 'settings.php';
 }
 function redirectToGames(username) {
     // Redirect the user to the profile page based on the username
-    window.location.href = 'Speles/speles.php';
+    window.location.href = 'speles.php';
 }
 
 function redirectToNoti(username) {
@@ -325,6 +383,14 @@ function redirectToNoti(username) {
     window.location.href = 'notification.php';
 }
 
+function redirectToChat(username) {
+    // Redirect the user to the profile page based on the username
+    window.location.href = 'messenger.php';
+}
+function redirectToStart(username) {
+    // Redirect the user to the profile page based on the username
+    window.location.href = 'index.php';
+}
 
 
 function validateForm() {
@@ -376,6 +442,7 @@ window.onload = function() {
     localStorage.setItem('replies_' + commentId, 'false');
   }
 }
+
 
 
 

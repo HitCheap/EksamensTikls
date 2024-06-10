@@ -1,10 +1,10 @@
 <?php
 session_start();
-include 'database.php';
+include 'datubaze.php';
 
 // Check if the user is logged in
 if (!isset($_SESSION['user_id'])) {
-    header("Location: ../Pieslegsanas/login.php");
+    header("Location: login.php");
     exit();
 }
 
@@ -79,18 +79,18 @@ $stmt->close();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Notepad</title>
+    <title>Lietotāja bloks</title>
     <link rel="stylesheet" href="notepad.css">
 </head>
 <body>
-    <h2>Your Notepad</h2>
+    <h2>Tavs pierakstu bloks</h2>
     <form action="notepad.php" method="POST">
-        <textarea name="note_text" rows="4" cols="50" placeholder="Write your note here..."></textarea>
-        <button type="submit" name="add_note">Add Note</button>
+        <textarea name="note_text" rows="4" cols="50" placeholder="Raksti savas piezīmes šeit..."></textarea>
+        <button type="submit" name="add_note">Pievienot Piezīmi</button>
         <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
         <a href="profile.php?username=<?php echo htmlspecialchars($username); ?>">Atpakaļ</a>
     </form>
-    <h3>Your Notes</h3>
+    <h3>Tavas piezīmes</h3>
     <?php if (count($notes) > 0): ?>
         <ul>
             <?php foreach ($notes as $note): ?>
@@ -98,19 +98,19 @@ $stmt->close();
                     <form action="notepad.php" method="POST">
                         <input type="hidden" name="note_id" value="<?php echo $note['id']; ?>">
                         <textarea name="note_text" rows="4" cols="50"><?php echo htmlspecialchars($note['note_text']); ?></textarea>
-                        <button type="submit" name="update_note">Update</button>
-                        <button type="submit" name="delete_note">Delete</button>
+                        <button type="submit" name="update_note">Atjaunot</button>
+                        <button type="submit" name="delete_note">Dzēst</button>
                         <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
                     </form>
-                    <small>Created at: <?php echo $note['created_at']; ?></small>
+                    <small>Izveidots plkst: <?php echo $note['created_at']; ?></small>
                     <?php if ($note['created_at'] != $note['updated_at']): ?>
-                        <small>(Edited: <?php echo $note['updated_at']; ?>)</small>
+                        <small>(Rediģēts: <?php echo $note['updated_at']; ?>)</small>
                     <?php endif; ?>
                 </li>
             <?php endforeach; ?>
         </ul>
     <?php else: ?>
-        <p>You have no notes.</p>
+        <p>Tev nav nekādas piezīmes.</p>
     <?php endif; ?>
 </body>
 </html>

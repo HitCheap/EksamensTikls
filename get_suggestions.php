@@ -1,5 +1,5 @@
 <?php
-include 'database.php';
+include 'datubaze.php';
 
 // Get the search query
 $q = $_GET['q'];
@@ -8,14 +8,14 @@ $q = $_GET['q'];
 $keywords = explode(' ', $q);
 
 // Construct the SQL query dynamically to search for each keyword separately
-$sql = "SELECT * FROM lietotaji WHERE ";
+$sql = "SELECT * FROM lietotaji WHERE statuss != 'Deaktivizēts' AND (";
 foreach ($keywords as $key => $keyword) {
     if ($key > 0) {
         $sql .= " OR ";
     }
     $sql .= "lietotājvārds LIKE '%$keyword%'";
 }
-$sql .= " LIMIT 5";
+$sql .= ") LIMIT 5";
 
 $result = $conn->query($sql);
 

@@ -33,16 +33,18 @@ body {
 }
 
 .navbar-button {
-    background-color: #444;
+    background-color: #a455a4;
     color: white;
     border: none;
     padding: 10px;
     margin: 0 5px;
     cursor: pointer;
+    border-radius: 0.25rem;
 }
 
 .navbar-button:hover {
-    background-color: #555;
+    background-color: rgb(141, 22, 165); /* Change text color to blue when hovered */
+    transition: background-color 0.5s, color 0.3s;
 }
 
 .navbar-link {
@@ -57,8 +59,19 @@ body {
 }
 
 .logout {
-    background-color: #f00;
-    padding: 10px;
+    font-size: 0.875rem; /* Equivalent to text-sm in Tailwind CSS */
+    font-weight: 600; /* Equivalent to font-semibold in Tailwind CSS */
+    cursor: pointer;
+    display: inline-block; /* Make it a block element */
+    padding: 0.5rem 1rem; /* Add padding for better spacing */
+    background-color: #af4c4c; /* Add a background color */
+    color: #fff; /* Set text color to white */
+    text-decoration: none; /* Remove default underline */
+    border-radius: 0.25rem; /* Apply border radius */
+    transition: background-color 0.3s; /* Smooth transition for background color change */
+}
+.logout:hover {
+    background-color: #893a3a; /* Darken the background color on hover */
 }
 
 .comment-form-container {

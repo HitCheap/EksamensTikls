@@ -1,7 +1,7 @@
 <?php
 session_start();
 require_once 'functions.php';
-include 'database.php';
+include 'datubaze.php';
 
 if (!isset($_SESSION['id'])) {
     echo json_encode(['error' => 'Lietotājs nav pierakstījies']);
@@ -41,6 +41,25 @@ if ($result->num_rows > 0) {
     $deleteSQL->bind_param("ii", $userID, $postID);
     $deleteSQL->execute();
     $action = 'atcelt patīk';
+
+    if ($isAdministrator) {
+        // Create notification for unliking the comment
+        $commentSQL = $conn->prepare("SELECT lietotaja_id, teksts FROM komentari WHERE comment_id = ?");
+        $commentSQL->bind_param("i", $postID);
+        $commentSQL->execute();
+        $commentResult = $commentSQL->get_result();
+        $commentData = $commentResult->fetch_assoc();
+
+        $notificationUserID = $commentData['lietotaja_id'];
+        $commentText = $commentData['teksts'];
+        $unlikerNameSQL = $conn->prepare("SELECT lietotājvārds FROM lietotaji WHERE id = ?");
+        $unlikerNameSQL->bind_param("i", $userID);
+        $unlikerNameSQL->execute();
+        $unlikerName = $unlikerNameSQL->get_result()->fetch_assoc()['lietotājvārds'];
+
+        $message = "Comment '$commentText' was unliked by $unlikerName";
+        addNotification($conn, $userID, 'unlike', $message); // Notify the admin
+    }
 } else {
     // User has not liked, add the like
     $insertSQL = $conn->prepare("INSERT INTO likes_table (user_id, post_id) VALUES (?, ?)");
@@ -48,7 +67,7 @@ if ($result->num_rows > 0) {
     $insertSQL->execute();
     $action = 'patīk';
 
-    // Create notification
+    // Create notification for liking the comment
     $commentSQL = $conn->prepare("SELECT lietotaja_id, teksts FROM komentari WHERE comment_id = ?");
     $commentSQL->bind_param("i", $postID);
     $commentSQL->execute();

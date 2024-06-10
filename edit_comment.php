@@ -6,7 +6,7 @@ if (!isset($_SESSION['id'])) {
     exit();
 }
 
-include 'database.php';
+include 'datubaze.php';
 
 $comment_id = $_POST['comment_id'];
 $new_text = $_POST['new_text'];
