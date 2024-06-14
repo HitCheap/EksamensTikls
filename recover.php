@@ -23,11 +23,11 @@
             </label>
         </div>
         <button type="submit">Turpināt</button>
-        <button onclick="atpakal()">Atpakaļ</button>
+        <button type="button" onclick="atpakal()">Atpakaļ</button>
     </form>
 
     <script>
-         function atpakal() {
+        function atpakal() {
             window.location.href = 'login.php';
         }
 

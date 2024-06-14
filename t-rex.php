@@ -25,7 +25,7 @@
             x: 50,
             y: 150,
             width: 20,
-            height: 40,  // Updated height
+            height: 40,
             speedY: 0,
             gravity: 0.6,
             jump: 10,
@@ -42,18 +42,13 @@
         canvas.height = window.innerHeight;
 
         function drawTrex() {
-    ctx.fillStyle = 'black';
-    if (trex.ducking) {
-        // Draw the wider and shorter dinosaur at ground level when ducking
-        ctx.fillRect(trex.x, canvas.height - trex.height / 2, trex.width * 1.5, trex.height / 2);
-    } else {
-        // Draw the regular-sized dinosaur
-        ctx.fillRect(trex.x, trex.y, trex.width, trex.height);
-    }
-}
-
-
-
+            ctx.fillStyle = 'black';
+            if (trex.ducking) {
+                ctx.fillRect(trex.x, canvas.height - trex.height / 2, trex.width * 1.5, trex.height / 2);
+            } else {
+                ctx.fillRect(trex.x, trex.y, trex.width, trex.height);
+            }
+        }
 
         function updateTrex() {
             if (!trex.ducking) {
@@ -68,29 +63,26 @@
         }
 
         function createObstacle() {
-    let height = 20;
-    let y = canvas.height - height;
-    if (Math.random() > 0.8) {  // 20% chance to spawn flying obstacle
-        y -= trex.height + height;
-        height *= 3; // Make the flying blocks three blocks high
-    } else {
-        if (Math.random() > 0.5) { // 50% chance to make lower ground blocks 2 blocks tall
-            height *= 2;
+            let height = 20;
+            let y = canvas.height - height;
+            if (Math.random() > 0.8) {
+                y -= trex.height + height;
+                height *= 3;
+            } else {
+                if (Math.random() > 0.5) {
+                    height *= 2;
+                }
+            }
+            
+            let obstacle = {
+                x: canvas.width,
+                y: y,
+                width: 20,
+                height: height,
+                speedX: 5
+            };
+            obstacles.push(obstacle);
         }
-    }
-    
-    let obstacle = {
-        x: canvas.width,
-        y: y,
-        width: 20,
-        height: height,
-        speedX: 5
-    };
-    obstacles.push(obstacle);
-}
-
-
-
 
         function drawObstacles() {
             ctx.fillStyle = 'red';
@@ -108,20 +100,19 @@
         }
 
         function checkCollision() {
-    obstacles.forEach(obstacle => {
-        let trexHeight = trex.ducking ? trex.height / 2 : trex.height; // Adjusted height when ducking
-        let trexY = trex.ducking ? canvas.height - trex.height / 2 : trex.y; // Adjusted Y position when ducking
-        if (trex.x < obstacle.x + obstacle.width &&
-            trex.x + trex.width > obstacle.x &&
-            trexY < obstacle.y + obstacle.height &&
-            trexY + trexHeight > obstacle.y) {
-            gameOver = true;
-            saveScore(score, name);
-            showLeaderboard();
+            obstacles.forEach(obstacle => {
+                let trexHeight = trex.ducking ? trex.height / 2 : trex.height;
+                let trexY = trex.ducking ? canvas.height - trex.height / 2 : trex.y;
+                if (trex.x < obstacle.x + obstacle.width &&
+                    trex.x + trex.width > obstacle.x &&
+                    trexY < obstacle.y + obstacle.height &&
+                    trexY + trexHeight > obstacle.y) {
+                    gameOver = true;
+                    saveScore(score, name);
+                    showLeaderboard();
+                }
+            });
         }
-    });
-}
-
 
         function jump() {
             if (trex.y + trex.height >= canvas.height) {
@@ -185,16 +176,21 @@
 
         function showLeaderboard() {
             const xhr = new XMLHttpRequest();
-            xhr.open('GET', 'leaderboard.php', true);
+            xhr.open('GET', 'leaderboard.php?game=trex', true);
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === 4 && xhr.status === 200) {
-                    const leaderboard = JSON.parse(xhr.responseText);
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
-                    ctx.font = '30px Arial';
-                    ctx.fillText('Leaderboard', canvas.width / 2 - 90, canvas.height / 2 - 60);
-                    leaderboard.forEach((entry, index) => {
-                        ctx.fillText(`${index + 1}. ${entry.name}: ${entry.score}`, canvas.width / 2 - 90, canvas.height / 2 - 30 + (index * 30));
-                    });
+                    const response = JSON.parse(xhr.responseText);
+                    if (response.success) {
+                        const leaderboard = response.leaderboard;
+                        ctx.clearRect(0, 0, canvas.width, canvas.height);
+                        ctx.font = '30px Arial';
+                        ctx.fillText('Leaderboard', canvas.width / 2 - 90, canvas.height / 2 - 60);
+                        leaderboard.forEach((entry, index) => {
+                            ctx.fillText(`${index + 1}. ${entry.lietotājvārds}: ${entry.score}`, canvas.width / 2 - 90, canvas.height / 2 - 30 + (index * 30));
+                        });
+                    } else {
+                        console.error('Failed to load leaderboard');
+                    }
                 }
             };
             xhr.send();

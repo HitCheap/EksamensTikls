@@ -1,10 +1,8 @@
 <?php
-// Include your database connection and encryption/decryption code here
 include 'datubaze.php';
 
-// Encryption/Decryption constants
-define('ENCRYPTION_KEY', 'your_encryption_key'); // Replace with your actual key
-define('IV', '1234567890123456'); // 16-byte IV
+define('ENCRYPTION_KEY', 'your_encryption_key');
+define('IV', '1234567890123456');
 
 function encrypt_email($plainEmail) {
     $encryptedEmail = openssl_encrypt($plainEmail, 'aes-256-cbc', ENCRYPTION_KEY, 0, IV);
@@ -16,7 +14,7 @@ function encrypt_email($plainEmail) {
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'];
-    $encryptedEmail = encrypt_email($email); // Encrypt the email before querying the database
+    $encryptedEmail = encrypt_email($email);
 
     $sql = $conn->prepare("SELECT lietotājvārds FROM lietotaji WHERE epasts = ?");
     $sql->bind_param("s", $encryptedEmail);
@@ -24,19 +22,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $sql->bind_result($lietotājvārds);
 
     if ($sql->fetch()) {
-        // Send the username to the user's email
-        $to = $email;
-        $subject = "Your Username Recovery";
-        $message = "Hello,\n\nYour username is: " . htmlspecialchars($lietotājvārds) . "\n\nBest regards,\nYour Website Team";
-        $headers = "From: no-reply@yourwebsite.com";
-
-        if (mail($to, $subject, $message, $headers)) {
-            echo "An email with your username has been sent to your email address.";
-        } else {
-            echo "Failed to send email.";
-        }
+        $message = "Your username is: " . htmlspecialchars($lietotājvārds);
     } else {
-        echo "Email not found.";
+        $message = "Email not found.";
     }
     $sql->close();
 }
@@ -58,5 +46,9 @@ $conn->close();
         <input type="email" id="email" name="email" required><br>
         <button type="submit">Atjauno Lietotājvārdu</button>
     </form>
+
+    <?php if (isset($message)): ?>
+        <p><?php echo $message; ?></p>
+    <?php endif; ?>
 </body>
 </html>

@@ -96,6 +96,7 @@ function endGame() {
     restart_button.style.display = 'block';
     atpakal_button.style.display = 'block';
     block.style.display = 'none';
+    showLeaderboard();
 }
 
 function saveScore(score, name) {
@@ -108,6 +109,28 @@ function saveScore(score, name) {
         }
     };
     xhr.send('score=' + encodeURIComponent(score) + '&game=' + encodeURIComponent(name));
+}
+
+function showLeaderboard() {
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', 'leaderboard.php?game=merkaTreneris', true);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            const response = JSON.parse(xhr.responseText);
+            if (response.success) {
+                const leaderboard = response.leaderboard;
+                xhr.clearRect(0, 0, canvas.width, canvas.height);
+                xhr.font = '30px Arial';
+                xhr.fillText('Leaderboard', canvas.width / 2 - 90, canvas.height / 2 - 60);
+                leaderboard.forEach((entry, index) => {
+                    ctx.fillText(`${index + 1}. User ${entry.lietotājvārds}: ${entry.score}`, canvas.width / 2 - 90, canvas.height / 2 - 30 + (index * 30));
+                });
+            } else {
+                console.error('Failed to load leaderboard');
+            }
+        }
+    };
+    xhr.send();
 }
 
 startTimer();

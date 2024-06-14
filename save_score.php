@@ -38,9 +38,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         exit();
     }
 
-    // Insert the score into the database
-    $stmt = $conn->prepare("INSERT INTO $table (user_id, score) VALUES (?, ?)");
-    $stmt->bind_param('ii', $userId, $score);
+    // Check the current best score for the user in the game
+    $stmt = $conn->prepare("SELECT id, score FROM $table WHERE user_id = ?");
+    $stmt->bind_param('i', $userId);
+    $stmt->execute();
+    $stmt->bind_result($id, $currentBestScore);
+    $stmt->fetch();
+    $stmt->close();
+
+    if ($currentBestScore !== null) {
+        // If the new score is better than the current best score, update it
+        if ($score > $currentBestScore) {
+            $stmt = $conn->prepare("UPDATE $table SET score = ? WHERE id = ?");
+            $stmt->bind_param('ii', $score, $id);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'New score is not better than the current best score']);
+            $conn->close();
+            exit();
+        }
+    } else {
+        // If there is no current score, insert the new score
+        $stmt = $conn->prepare("INSERT INTO $table (user_id, score) VALUES (?, ?)");
+        $stmt->bind_param('ii', $userId, $score);
+    }
 
     if ($stmt->execute()) {
         echo json_encode(['success' => true, 'message' => 'Score saved successfully']);

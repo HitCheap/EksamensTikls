@@ -30,6 +30,8 @@ if (!isset($_SESSION['id'])) {
     <div id="timer">Laiks: </div>
     <div id="scoreCard">Rezultāts: 0</div>
 
+    <canvas id="merkaTrenerisGame" width="800" height="600"></canvas> <!-- Added canvas for leaderboard -->
+
     <script src="merkaTreneris.js"></script>
 </body>
 </html>

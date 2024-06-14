@@ -49,15 +49,6 @@ if ($encryptedEmail) {
     $currentEmail = "No email found.";
 }
 
-//function filter_bad_words($text) {
-//    $badWords = ['badword1', 'badword2', 'badword3']; // Add your bad words here
-//    $replacement = '****';
-//    foreach ($badWords as $word) {
-//        $text = str_replace($word, $replacement, $text);
-//    }
-//    return $text;
-//}
-
 // Change Password
 if (isset($_POST['change_password'])) {
   $currentPassword = $_POST['current_password'];
@@ -142,19 +133,6 @@ if (isset($_POST['new_email'])) {
     }
 }
 
-// Toggle PG-13 Mode
-//if (isset($_POST['toggle_pg13'])) {
-//    $newPg13Mode = $pg13_mode ? 0 : 1;
-//    $updatePg13Sql = "UPDATE lietotaji SET pg13_mode = ? WHERE id = ?";
-//    $updatePg13Stmt = $conn->prepare($updatePg13Sql);
-//    $updatePg13Stmt->bind_param("ii", $newPg13Mode, $userId);
-//    if ($updatePg13Stmt->execute()) {
-//        $pg13_mode = $newPg13Mode;
-//        echo "PG-13 mode updated successfully.";
-//    } else {
-//        echo "Error updating PG-13 mode: " . $conn->error;
-//    }
-//}
 ?>
 
 <!DOCTYPE html>
@@ -193,12 +171,48 @@ if (isset($_POST['new_email'])) {
   </div>
   <div class="form-wrapper">
     <h2>Deaktivizēt Kontu</h2>
-    <form action="" method="POST">
+    <form id="deleteAccountForm" action="" method="POST">
       <button type="submit" name="delete_account">Deaktivizēt Kontu</button>
     </form>
   </div>
 </div>
 
+<script>
+document.getElementById('deleteAccountForm').addEventListener('submit', function(event) {
+    var confirmation = confirm('Vai tiešām vēlaties deaktivizēt savu kontu?');
+    if (!confirmation) {
+        event.preventDefault();
+    }
+});
+
+document.getElementById('changeEmailForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'update_email.php', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            var response = JSON.parse(xhr.responseText);
+            if (response.success) {
+                document.getElementById('current_email').value = response.newEmail;
+                alert('Email updated successfully.');
+            } else {
+                alert('Error updating email: ' + response.error);
+            }
+        }
+    };
+
+    var formData = new FormData(document.getElementById('changeEmailForm'));
+    var params = new URLSearchParams();
+    formData.forEach(function(value, key) {
+        params.append(key, value);
+    });
+
+    xhr.send(params.toString());
+});
+</script>
 <!-- <h2>PG-13 Mode</h2>
 <form action="" method="POST">
     <button type="submit" name="toggle_pg13"><//?php echo $pg13_mode ? 'Disable PG-13 Mode' : 'Enable PG-13 Mode'; ?></button>
