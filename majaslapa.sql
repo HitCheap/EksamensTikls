@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 03, 2024 at 04:23 AM
+-- Generation Time: Jun 20, 2024 at 07:09 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -33,16 +33,6 @@ CREATE TABLE `blocked_users` (
   `blocked_user_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_latvian_ci;
 
---
--- Dumping data for table `blocked_users`
---
-
-INSERT INTO `blocked_users` (`id`, `user_id`, `blocked_user_id`) VALUES
-(8, 36, 38),
-(9, 45, 44),
-(10, 45, 41),
-(11, 45, 33);
-
 -- --------------------------------------------------------
 
 --
@@ -65,7 +55,11 @@ INSERT INTO `conversations` (`id`, `name`) VALUES
 (4, 'Conversation with 27, 28'),
 (5, 'Conversation with gan, sss'),
 (6, 'Conversation with gan'),
-(7, 'Conversation with gan');
+(7, 'Conversation with gan'),
+(8, 'Conversation with rikardo'),
+(9, 'Conversation with rikardo'),
+(10, 'Conversation with rikardo'),
+(11, 'Saruna ar gangsteris');
 
 -- --------------------------------------------------------
 
@@ -84,24 +78,8 @@ CREATE TABLE `conversation_members` (
 --
 
 INSERT INTO `conversation_members` (`id`, `conversation_id`, `user_id`) VALUES
-(1, 1, 36),
-(2, 1, 41),
-(3, 2, 41),
-(4, 2, 36),
-(5, 2, 38),
-(6, 3, 45),
-(7, 3, 27),
-(8, 3, 28),
-(9, 4, 46),
-(10, 4, 27),
-(11, 4, 28),
-(12, 5, 46),
-(13, 5, 27),
-(14, 5, 28),
-(15, 6, 46),
-(16, 6, 27),
-(17, 7, 44),
-(18, 7, 27);
+(25, 11, 65),
+(26, 11, 57);
 
 -- --------------------------------------------------------
 
@@ -119,9 +97,8 @@ CREATE TABLE `follows` (
 --
 
 INSERT INTO `follows` (`follower_id`, `followed_id`) VALUES
-(44, 46),
-(45, 33),
-(46, 44);
+(65, 57),
+(65, 66);
 
 -- --------------------------------------------------------
 
@@ -136,61 +113,30 @@ CREATE TABLE `komentari` (
   `comment_id` int(11) NOT NULL,
   `media` varchar(255) DEFAULT NULL,
   `parent_comment_id` int(11) DEFAULT NULL,
-  `is_edited` tinyint(1) DEFAULT 0
+  `is_edited` tinyint(1) DEFAULT 0,
+  `edited_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_latvian_ci;
 
 --
 -- Dumping data for table `komentari`
 --
 
-INSERT INTO `komentari` (`lietotaja_id`, `teksts`, `datums`, `comment_id`, `media`, `parent_comment_id`, `is_edited`) VALUES
-(27, 'mana parole ir 123', '2024-03-06 10:50:15', 1, NULL, NULL, 0),
-(27, 'asd', '2024-03-06 11:05:10', 2, NULL, NULL, 0),
-(27, 'asdas', '2024-03-06 11:05:25', 3, NULL, NULL, 0),
-(27, 'asdasd', '2024-03-06 11:05:26', 4, NULL, NULL, 0),
-(27, 'asdada', '2024-03-06 11:30:00', 5, NULL, NULL, 0),
-(27, '5555', '2024-03-06 11:57:36', 6, NULL, NULL, 0),
-(27, 'qweq', '2024-03-06 12:10:09', 8, NULL, NULL, 0),
-(27, 'aaaa', '2024-03-06 12:14:30', 9, NULL, NULL, 0),
-(27, 'fdgs', '2024-03-06 12:18:45', 10, NULL, NULL, 0),
-(27, 'ggg', '2024-03-06 12:19:59', 11, NULL, NULL, 0),
-(27, 'll', '2024-03-06 12:43:21', 12, NULL, NULL, 0),
-(27, 'tjtj', '2024-03-06 12:44:22', 13, NULL, NULL, 0),
-(28, 'uuu', '2024-03-06 12:50:22', 14, NULL, NULL, 0),
-(28, 'eee', '2024-03-06 12:50:36', 15, NULL, NULL, 0),
-(29, 'asdae', '2024-03-19 08:56:14', 18, NULL, NULL, 0),
-(29, 'uoshdfowoef', '2024-03-19 09:16:49', 21, NULL, NULL, 0),
-(29, 'ertog', '2024-03-19 09:18:29', 23, NULL, NULL, 0),
-(36, 'asdasd', '2024-05-15 03:46:53', 55, NULL, NULL, 0),
-(38, 'eioasd', '2024-05-17 00:32:47', 66, NULL, NULL, 0),
-(38, 'sdfssdf', '2024-05-17 00:32:48', 67, NULL, NULL, 0),
-(38, 'ka tevi sauc', '2024-05-17 00:32:51', 68, NULL, NULL, 0),
-(36, 'asd', '2024-05-17 19:06:42', 69, NULL, NULL, 0),
-(36, 'qweqwe', '2024-05-17 19:12:20', 70, NULL, NULL, 0),
-(41, 'ertert', '2024-05-20 01:40:07', 71, NULL, NULL, 0),
-(41, 'I am so cool', '2024-05-20 01:55:27', 72, NULL, NULL, 0),
-(43, 'qere', '2024-05-21 18:14:59', 73, NULL, NULL, 0),
-(44, 'rtetegdf', '2024-05-21 18:32:42', 74, NULL, NULL, 0),
-(45, 'ryrty', '2024-05-21 19:28:33', 76, NULL, NULL, 0),
-(46, 'qwe', '2024-05-22 20:23:04', 78, NULL, NULL, 0),
-(46, 'eee', '2024-05-22 20:23:10', 79, NULL, NULL, 0),
-(46, 'asd', '2024-05-22 20:50:49', 83, NULL, NULL, 0),
-(46, 'Amazinee', '2024-05-22 20:56:41', 84, NULL, NULL, 0),
-(46, 'eeer', '2024-05-22 21:06:51', 86, NULL, NULL, 1),
-(46, 'qweqw', '2024-05-31 23:32:48', 144, NULL, 135, 0),
-(46, 'eee', '2024-05-31 23:33:06', 145, NULL, 117, 0),
-(46, 'wer', '2024-05-31 23:56:57', 147, NULL, 117, 0),
-(46, 'qwe', '2024-06-02 01:53:30', 148, NULL, 117, 0),
-(44, 'I am so epic', '2024-06-02 21:03:34', 153, NULL, NULL, 0),
-(44, 'tttt', '2024-06-03 00:06:55', 156, NULL, 155, 0),
-(44, 'rer', '2024-06-03 00:07:20', 157, NULL, NULL, 0),
-(44, 'rer 2', '2024-06-03 00:07:26', 158, NULL, 157, 0),
-(46, 'qweqw', '2024-06-03 00:50:00', 160, NULL, 157, 0),
-(46, 'yee', '2024-06-03 00:50:07', 161, NULL, 157, 0),
-(46, '', '2024-06-03 03:21:20', 177, 'uploads/630283c191a2efc017ccdc7464f36d21.mp3', NULL, 0),
-(46, 'qweqer', '2024-06-03 03:21:31', 178, NULL, NULL, 1),
-(44, 'erer', '2024-06-03 03:58:09', 179, NULL, NULL, 0),
-(46, 'etrt', '2024-06-03 04:17:16', 180, NULL, NULL, 0);
+INSERT INTO `komentari` (`lietotaja_id`, `teksts`, `datums`, `comment_id`, `media`, `parent_comment_id`, `is_edited`, `edited_at`) VALUES
+(57, 'Mani sauc eduards', '2024-06-20 03:57:51', 212, NULL, NULL, 0, '2024-06-20 00:57:51'),
+(57, 'cik tev daudz naudas?', '2024-06-20 04:05:32', 221, NULL, NULL, 0, '2024-06-20 01:05:32'),
+(57, 'Kā iet?', '2024-06-20 04:05:35', 222, NULL, NULL, 0, '2024-06-20 01:05:35'),
+(57, 'wow tik forša bilde', '2024-06-20 04:36:30', 226, NULL, 224, 0, '2024-06-20 01:36:30'),
+(66, 'Es esmu klāt', '2024-06-20 05:11:33', 227, NULL, NULL, 0, '2024-06-20 02:11:33'),
+(66, 'Man suns beidzot atnāca mājās!', '2024-06-20 05:12:00', 228, NULL, NULL, 0, '2024-06-20 02:12:00'),
+(65, 'Šī majaslapa ir tik forša', '2024-06-20 05:33:18', 231, NULL, NULL, 0, '2024-06-20 02:33:18'),
+(57, 'Šis ir vislabakais', '2024-06-20 06:00:04', 232, 'uploads/2498751a821bb7ea04ba4927d3088bc3.gif', NULL, 0, '2024-06-20 03:00:04'),
+(57, 'Es nevaru beigt skatīties grieztos!', '2024-06-20 06:00:16', 233, NULL, NULL, 1, '2024-06-20 03:03:28'),
+(57, 'Tas ir tik relaksejoši', '2024-06-20 06:00:33', 234, NULL, NULL, 0, '2024-06-20 03:00:33'),
+(57, 'Kur visi palika?', '2024-06-20 06:04:01', 235, NULL, NULL, 0, '2024-06-20 03:04:01'),
+(65, 'Tiko redzēju lielu zvaigzni', '2024-06-20 06:04:25', 236, NULL, NULL, 0, '2024-06-20 03:04:25'),
+(57, 'NEVAR BŪT!', '2024-06-20 06:13:51', 237, NULL, 236, 0, '2024-06-20 03:13:51'),
+(57, 'ES ARĪ REDZĒJU TO PAŠU', '2024-06-20 06:14:07', 238, NULL, 236, 0, '2024-06-20 03:14:07'),
+(65, 'Manuprāt būs vēlviena pēc 5 gadiem', '2024-06-20 06:15:42', 240, NULL, 238, 0, '2024-06-20 03:15:42');
 
 -- --------------------------------------------------------
 
@@ -200,8 +146,8 @@ INSERT INTO `komentari` (`lietotaja_id`, `teksts`, `datums`, `comment_id`, `medi
 
 CREATE TABLE `lietotaji` (
   `id` int(11) NOT NULL,
-  `lietotājvārds` varchar(255) NOT NULL,
-  `epasts` varchar(255) NOT NULL,
+  `lietotājvārds` varchar(100) NOT NULL,
+  `epasts` varchar(120) NOT NULL,
   `parole` varchar(255) NOT NULL,
   `statuss` enum('Lietotājs','Administrators','Deaktivizēts','') NOT NULL DEFAULT 'Lietotājs',
   `pg13_mode` tinyint(1) DEFAULT 0,
@@ -214,22 +160,21 @@ CREATE TABLE `lietotaji` (
 --
 
 INSERT INTO `lietotaji` (`id`, `lietotājvārds`, `epasts`, `parole`, `statuss`, `pg13_mode`, `easter_egg_found`, `profile_picture`) VALUES
-(27, 'gan', 'style@gmail.com', '$2y$10$GVr7RwobZWNjVhHf0JOpEOEQobAZ7HWFbFoKVvBV9tA/SRdjNBH0e', 'Lietotājs', 0, 0, 'bildes/default.png'),
-(28, 'sss', 'epasts@gmail.com', '$2y$10$wTbVBALqKgV0fjhpbUzm1OZzcCW3spYwzct9hRR8VTpzbVxDia/W.', 'Lietotājs', 0, 0, 'bildes/default.png'),
-(29, 'reee', 'ree@ree.com', '$2y$10$KtEM3tvEHnQmVxLkWDR8ROM2bElIVtClyNB/xbnYJfjwPPTzIE3ja', 'Lietotājs', 0, 0, 'bildes/default.png'),
-(31, 'dfikjg', 'you@gmail.com', '$2y$10$JJ2B1hkN8KHxM7UMThyqTOEjkXGhoQDFCVH1Vor6LBkVjkZIsmUA2', 'Lietotājs', 0, 0, 'bildes/default.png'),
-(33, 'asd', 'asd@asd.com', '$2y$10$M4Dei9eEJqZup4DM4kPVD.TyJDr4Ceh7SUQUe.UxlwaUmc2niDoqq', 'Lietotājs', 0, 0, 'bildes/default.png'),
-(34, 'onui', 'asums@as', '$2y$10$nEyRNsbacjB8NKX1qw9lv.8zzUj9hcVn2Gi.EAIcTg8yZY/VLFB66', 'Lietotājs', 0, 0, 'bildes/default.png'),
-(36, 'asd', 'joe@gmail.com', '$2y$10$JxvFxRgAjStiQEQ9Nloc4u0VrfoIGrmds2EmUZIhGUpIigZsmYE02', 'Lietotājs', 0, 0, 'bildes/default.png'),
-(38, 'asd', 'piemers1@gmail.com', '$2y$10$Grvfw8BUPw/Ow/FawbrPteAWpH4un7VZ1.sbhU5LlSJPyJcIyWAuG', 'Lietotājs', 0, 0, 'bildes/default.png'),
-(39, 'ghert', 'joe1@gmail.com', '$2y$10$9ihbsspn3.bse3hNgEYlzuDcnC0StrOUfc9rMqaQ/sDxPgiOnV7wO', 'Lietotājs', 0, 0, 'bildes/default.png'),
-(40, 'qwrter', 'mamot86742@fincainc.com', '$2y$10$hvl5aHfmGt4DuBvzegfK0uSZBdgaWzdoJ7JByRxsGr8CgSaJx2uiG', 'Lietotājs', 0, 0, 'bildes/default.png'),
-(41, 'who', 'theone@gmail.com', '$2y$10$qHQ6g0X4YARGQewQT.zj9ufhSlrNv2gFLhg4lUvedn1Jr6u9uFPgi', 'Administrators', 0, 0, 'bildes/default.png'),
-(42, 'es', 'esmu@gmail.com', '$2y$10$xL2RMkkmwqIia7Hi8RoqaugBT.vj2sxre26WQnLVECS.m/SWOSnrG', 'Lietotājs', 0, 0, 'bildes/default.png'),
-(43, 'me', '81d1a7135b9722577fb4f094a2004296d6230512d37b68e64b73f050b919f7c4', '$2y$10$CEU5KEYxuJK9FspwJTHYruSLYWI.8uUK3cz.0nVJlZaIcxXqZJ/Sm', 'Deaktivizēts', 0, 0, 'bildes/default.png'),
-(44, 'mo', 'df4f6562309d02e597715fa067a40e33e5f84787e53730c867c0c77b1826ccd5', '$2y$10$ifnDf9Fq6B7etdez68Umq.WSqmE5FC3jfp8FUDHYuEtOxb7Vms66u', 'Administrators', 0, 0, 'bildes/default.png'),
-(45, 'hello', '1d945e4947da1a05bf393b67b2e0a1fe2be36965cd4f44da5069a1df505e0092', '$2y$10$ycgKX/2yoZVAMr/rdb5dYezapL1G5WzVtGJCHMn7QauIGydVRhcL.', 'Lietotājs', 0, 0, 'bildes/default.png'),
-(46, 'rikardo', 'peWxznSyYSVQDVJ3hVd7Tkh7H8V++EO6I4g8iUiWtv8=', '$2y$10$yjcKRnr.f06RFZNYLgeWAOljU8ZA4ujLh1sWbSGG0N8py4.3.EZ3G', 'Lietotājs', 0, 0, 'bildes/default.png');
+(57, 'gangsteris', 'I3tc1UeW+jyL6YtOyOu6aehkxT3qUBE64g/fK8esZ1E=', '$2y$10$MQ2NyhS6nwkN6lUrdQ5VSO7H9TTOWe2mu1.KKlGoE7yrVMVcw1Xne', 'Administrators', 0, 0, 'e6504e51268a7d1a41ab635e29fdaac7.jpg'),
+(58, 'Tomelis', 'yjS2GYL8v7wV8OdaPWnd1HXmHH8lcZxen4DAW8cNL4Q=', '$2y$10$c.MNZAzovEZubuf044ixr./wkZNy54DDUEKebQTmu20vecOeO86Mq', 'Lietotājs', 0, 0, 'bildes/default.png'),
+(59, 'Bobs', '4iFYhcWXmmFWi6Fhjx7eig==', '$2y$10$e94SIvFz8D6x379ol3qrye5bTzHwnkffTN/PJJ701P0P96q0nYI9a', 'Deaktivizēts', 0, 0, 'bildes/default.png'),
+(60, 'Alfreds', 'a6Pgjc+hckyQlV9OX+lkCL6/qOFHv9dn6MNwPrLWhW8=', '$2y$10$6k8UPBYqPWXDPLqU9Zq6Wu5x4HR91NkIzCPMhPgqgyUFPm3kBYhRK', 'Lietotājs', 0, 0, 'bildes/default.png'),
+(61, 'Īstais Pēteris', 'YiaCzNZYe7b7gR3xtVvVxX8dgVCPO2DVXZaHoluVAGI=', '$2y$10$MeKZB7WwnuNAvDfCp8FfC.y48DO43seYUer.ZgrS100jCtSHZvtei', 'Lietotājs', 0, 0, 'bildes/default.png'),
+(62, 'Parasts Lietotajs', 'q0k4Gp34i/Q6jDKlE+53FhdfSOZ4L1pBWmGH9eEhXkw=', '$2y$10$g1xaXRS4TruNn6cjabLMWepfveyEt9FtgS9JXg5uZXti4xf4.qgH2', 'Deaktivizēts', 0, 0, 'bildes/default.png'),
+(63, 'Svētā Marija', 'xK+EUfT9SisI34hApfImRQDnob4HR3XWchCrakDyLM4=', '$2y$10$e/WfQw4qCve5DP0Ojt5RvOMrwLA.NeilQnQkpAOq.LDfH6y6OjYYi', 'Deaktivizēts', 0, 0, 'bildes/default.png'),
+(64, 'Lielais Janka', 'OeAJ6za3PfK3RUd2JLdy43eLDUAtQ6AHDHXOCfpj6gw=', '$2y$10$Gd2hc6jfaRbTBAx3P2S3pe72N8hsJ7WO.bOkNBDretyeQu/wMCOMu', 'Lietotājs', 0, 0, 'bildes/default.png'),
+(65, 'Evelīna', 'EE9KD7H56wShOviKzKQMdvoMPlXnqP9jZAyz3YGMG38=', '$2y$10$9she.LId5ISDwzSJHwJuY.pAAgHYSCW1LCP16tzykRAWqB4FJ563y', 'Lietotājs', 0, 0, 'bildes/default.png'),
+(66, 'Roberto', 'wps5v4CuhovFddmH+q7gNemn1KfGeCdumEVwN/PMJpg=', '$2y$10$eaA.GCWXoUXF93Ogtgkzh.MT16e76vaVQ7P1IgG3xDZ95wynNlmwK', 'Lietotājs', 0, 0, 'bildes/default.png'),
+(68, 'Mazais Mārcis', 'unJhxWVDS4fOy8RQtHAXAl1piEdsgtbSM3UYbUn8u+s=', '$2y$10$7F8kQCEFd4zLUUlXXkp00uDeUnl4it/FQbD9MN9sDDiJorQkVltBK', 'Deaktivizēts', 0, 0, 'bildes/default.png'),
+(69, 'Pēteris', 'ZlolMrIj+GOBckRvFAyumg==', '$2y$10$wjgcT2Ek6FKm5wyPgaNVwOgrBpTp2rEvqjbGj97lx7zosZ650AxAC', 'Deaktivizēts', 0, 0, 'bildes/default.png'),
+(70, 'Tas Janka ', 'qrZEUj9keB4Nv0Uh6V3yVsaac0rGoR5OThWeEUN1InY=', '$2y$10$/HDYa6v7qmGRtaXlkrJR6OHFDxJcIg5Yn3rzeRCKXTfMesZ8Wx.9u', 'Lietotājs', 0, 0, 'bildes/default.png'),
+(71, 'Marija', '72OCSGv+A5rcYJ9d2Xv9cgOs1vev4DWPkWVjHDjEGRg=', '$2y$10$fY2hdWFc3DZT.lt2A9fJ.eBztlmOXXmM3MOVGyuBXXAulenNuHE9e', 'Lietotājs', 0, 0, 'bildes/default.png'),
+(72, 'Harijs', 'PTWUfb8o/WFSfyBAfSoCEiQzJSpATcdPbgSOmBUliJE=', '$2y$10$aegdSPFjs..AxvzzjimhPu2JW.vRGYRzyXG3NSPut4VqzwA6Y8aD.', 'Lietotājs', 0, 0, 'bildes/default.png');
 
 -- --------------------------------------------------------
 
@@ -259,8 +204,21 @@ INSERT INTO `likes_table` (`user_id`, `post_id`) VALUES
 (36, 15),
 (36, 59),
 (46, 72),
+(46, 74),
+(46, 0),
 (46, 153),
-(46, 74);
+(44, 186),
+(46, 186),
+(44, 157),
+(46, 157),
+(57, 212),
+(57, 221),
+(57, 222),
+(57, 228),
+(57, 231),
+(65, 237),
+(65, 238),
+(65, 236);
 
 -- --------------------------------------------------------
 
@@ -276,28 +234,6 @@ CREATE TABLE `messages` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_latvian_ci;
 
---
--- Dumping data for table `messages`
---
-
-INSERT INTO `messages` (`id`, `conversation_id`, `sender_id`, `content`, `created_at`) VALUES
-(1, 1, 36, 'yoo', '2024-05-21 01:07:56'),
-(2, 1, 36, 'what is good?', '2024-05-21 01:08:05'),
-(3, 1, 41, 'nothing much wbu?\r\n', '2024-05-21 01:08:27'),
-(4, 1, 41, 'that is good to hear', '2024-05-21 01:08:45'),
-(5, 2, 41, 'what is poppin?', '2024-05-21 01:09:44'),
-(6, 2, 36, 'nothing much wbu?', '2024-05-21 01:09:57'),
-(7, 2, 38, 'I am the best', '2024-05-21 01:10:15'),
-(8, 3, 45, 'erhuoghoerg', '2024-05-21 16:39:05'),
-(9, 3, 45, 'fsdfsjkf\r\n', '2024-05-21 16:39:08'),
-(10, 3, 45, 'rizz', '2024-05-21 16:39:36'),
-(11, 6, 46, 'qweqw', '2024-05-29 01:55:25'),
-(12, 7, 44, 'qweqe', '2024-06-02 21:10:05'),
-(13, 6, 46, 'qweq', '2024-06-02 21:51:59'),
-(14, 6, 46, 'rer', '2024-06-02 21:52:01'),
-(15, 6, 46, 'tt', '2024-06-02 21:52:04'),
-(16, 4, 46, 'ffff', '2024-06-03 00:07:50');
-
 -- --------------------------------------------------------
 
 --
@@ -308,8 +244,47 @@ CREATE TABLE `notifications` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `message` varchar(255) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `type` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_latvian_ci;
+
+--
+-- Dumping data for table `notifications`
+--
+
+INSERT INTO `notifications` (`id`, `user_id`, `message`, `created_at`, `type`) VALUES
+(128, 66, 'Uz tavu komentāru tika nospiests patīk', '2024-06-20 02:39:30', 'like'),
+(129, 66, 'Uz tavu komentāru tika nospiests patīk', '2024-06-20 02:39:31', 'like'),
+(130, 65, 'Uz tavu komentāru tika nospiests patīk', '2024-06-20 02:56:23', 'like'),
+(131, 57, 'Comment \'Šī majaslapa ir tik forša\' was liked by gangsteris', '2024-06-20 02:56:23', 'like'),
+(132, 57, 'Comment \'Šī majaslapa ir tik forša\' was unliked by gangsteris', '2024-06-20 02:56:24', 'unlike'),
+(133, 65, 'Uz tavu komentāru tika nospiests patīk', '2024-06-20 02:56:26', 'like'),
+(134, 57, 'Comment \'Šī majaslapa ir tik forša\' was liked by gangsteris', '2024-06-20 02:56:26', 'like'),
+(135, 57, 'Comment \'Šī majaslapa ir tik forša\' was unliked by gangsteris', '2024-06-20 02:56:28', 'unlike'),
+(136, 65, 'Uz tavu komentāru tika nospiests patīk', '2024-06-20 02:56:31', 'like'),
+(137, 57, 'Comment \'Šī majaslapa ir tik forša\' was liked by gangsteris', '2024-06-20 02:56:31', 'like'),
+(138, 57, 'Comment \'Šī majaslapa ir tik forša\' was unliked by gangsteris', '2024-06-20 02:56:31', 'unlike'),
+(139, 65, 'Uz tavu komentāru tika nospiests patīk', '2024-06-20 02:56:32', 'like'),
+(140, 57, 'Comment \'Šī majaslapa ir tik forša\' was liked by gangsteris', '2024-06-20 02:56:32', 'like'),
+(141, 57, 'Comment \'Šī majaslapa ir tik forša\' was unliked by gangsteris', '2024-06-20 02:56:32', 'unlike'),
+(142, 57, 'Comment \'Kā iet?\' was liked by gangsteris', '2024-06-20 02:56:40', 'like'),
+(143, 57, 'Comment \'Kā iet?\' was unliked by gangsteris', '2024-06-20 02:56:40', 'unlike'),
+(144, 57, 'Comment \'Mani sauc eduards\' was liked by gangsteris', '2024-06-20 02:56:48', 'like'),
+(145, 57, 'Comment \'cik tev daudz naudas?\' was liked by gangsteris', '2024-06-20 02:56:49', 'like'),
+(146, 57, 'Comment \'Kā iet?\' was liked by gangsteris', '2024-06-20 02:56:50', 'like'),
+(147, 66, 'Uz tavu komentāru tika nospiests patīk', '2024-06-20 02:56:51', 'like'),
+(148, 57, 'Comment \'Es esmu klāt\' was liked by gangsteris', '2024-06-20 02:56:51', 'like'),
+(149, 66, 'Uz tavu komentāru tika nospiests patīk', '2024-06-20 02:56:52', 'like'),
+(150, 57, 'Comment \'Man suns beidzot atnāca mājās!\' was liked by gangsteris', '2024-06-20 02:56:52', 'like'),
+(151, 65, 'Uz tavu komentāru tika nospiests patīk', '2024-06-20 02:56:53', 'like'),
+(152, 57, 'Comment \'Šī majaslapa ir tik forša\' was liked by gangsteris', '2024-06-20 02:56:53', 'like'),
+(153, 57, 'Comment \'Es esmu klāt\' was unliked by gangsteris', '2024-06-20 02:56:55', 'unlike'),
+(154, 57, 'Comment \'Šī majaslapa ir tik forša\' was unliked by gangsteris', '2024-06-20 03:01:35', 'unlike'),
+(155, 65, 'Uz tavu komentāru tika nospiests patīk', '2024-06-20 03:01:37', 'like'),
+(156, 57, 'Comment \'Šī majaslapa ir tik forša\' was liked by gangsteris', '2024-06-20 03:01:37', 'like'),
+(157, 57, 'Uz tavu komentāru tika nospiests patīk', '2024-06-20 03:15:49', 'like'),
+(158, 57, 'Uz tavu komentāru tika nospiests patīk', '2024-06-20 03:15:50', 'like'),
+(159, 57, 'Uz tavu komentāru tika nospiests patīk', '2024-06-20 03:15:50', 'like');
 
 -- --------------------------------------------------------
 
@@ -336,7 +311,13 @@ INSERT INTO `password_resets` (`id`, `email`, `token`, `expires_at`) VALUES
 (5, 'mamot86742@fincainc.com', 'ae02d9ab0d92274f8de1c0c0d811c832c2379a3fb36e8222279dfa3db851ac69e761de8a5ecde1f7b6744094ff2428615347', '2024-06-02 18:57:34'),
 (6, 'mamot86742@fincainc.com', '83a2151ab70b4e413c8b70c793d1c1f77f0ce016f9d796e7502ef5b3b026389d5ae1ab0c431dbaf7106d881495e273d7ede0', '2024-06-02 19:12:29'),
 (7, 'mamot86742@fincainc.com', '0b69271b3377ef0bd559728cbebdad3c71f3f82e57efde2f519e7df94fa59afaefbc1af56ec17480e3091082de016f49a202', '2024-06-02 19:12:30'),
-(8, 'mamot86742@fincainc.com', 'a898390bb356c806ec9923630c11d04bbd061adfb48c43d65441c2d5cbe0586266c4c9a6a2e12f82cacedf7ddc14c59c213f', '2024-06-02 19:12:31');
+(8, 'mamot86742@fincainc.com', 'a898390bb356c806ec9923630c11d04bbd061adfb48c43d65441c2d5cbe0586266c4c9a6a2e12f82cacedf7ddc14c59c213f', '2024-06-02 19:12:31'),
+(9, 'peWxznSyYSVQDVJ3hVd7Tkh7H8V++EO6I4g8iUiWtv8=', 'd94c553b079fe1a6529b038399c2ea5d4e7f2a291cd16b92b6221894aeb726bbaed65ce013e4bc086adf98156d6bb4176d43', '2024-06-14 09:12:41'),
+(10, 'peWxznSyYSVQDVJ3hVd7Tkh7H8V++EO6I4g8iUiWtv8=', 'b73d64bba75d77f04b3270c9ec71812c683d3c571d97b50fd64c6c25e1b29042fa91544eb0fef1c9cd3a63c2cbd28a6b2c37', '2024-06-14 09:13:13'),
+(11, 'peWxznSyYSVQDVJ3hVd7Tkh7H8V++EO6I4g8iUiWtv8=', '82bb9e5eed4e77d6148c5a8b66013b279b57b899d1f14c0a29e237ff76c33cbba551173eb8ab3ffecb843f6fa9f12d6bb037', '2024-06-14 09:16:49'),
+(12, 'YiaCzNZYe7b7gR3xtVvVxX8dgVCPO2DVXZaHoluVAGI=', '022b7786ac1aff0c96637600c45ffd7b7beb07d3f9704cfc15e4f6f73221cfa94921548755dfb0684104b54abb078ce6fd70', '2024-06-20 01:43:18'),
+(13, 'I3tc1UeW+jyL6YtOyOu6aehkxT3qUBE64g/fK8esZ1E=', 'dd87344e6150578aa2ce6134969497b8788836d3d139b33a83418b13d5869c17c98501ce6a5ff967fcdd7e04aa62ca9129e8', '2024-06-20 06:18:07'),
+(14, 'I3tc1UeW+jyL6YtOyOu6aehkxT3qUBE64g/fK8esZ1E=', '022a167790fe2ff0dc556fc4dc2b9737ab8d980c4208761a422db5b7b75e8fa7ab2edbbbbbb60cad989d3a07016659ebeff5', '2024-06-20 06:18:23');
 
 -- --------------------------------------------------------
 
@@ -369,11 +350,7 @@ CREATE TABLE `rezcuska` (
 --
 
 INSERT INTO `rezcuska` (`id`, `user_id`, `score`, `timestamp`) VALUES
-(1, 46, 2, '2024-05-22 19:59:55'),
-(2, 46, 1, '2024-05-22 20:17:06'),
-(3, 46, 7, '2024-06-02 22:00:01'),
-(4, 46, 0, '2024-06-02 23:13:57'),
-(5, 46, 0, '2024-06-02 23:41:14');
+(7, 61, 1, '2024-06-19 22:22:23');
 
 -- --------------------------------------------------------
 
@@ -393,12 +370,8 @@ CREATE TABLE `rezmerkatreneris` (
 --
 
 INSERT INTO `rezmerkatreneris` (`id`, `user_id`, `score`, `timestamp`) VALUES
-(1, 46, 2, '2024-05-22 20:34:27'),
-(2, 46, 6, '2024-06-02 21:59:36'),
-(3, 46, 0, '2024-06-02 23:13:52'),
-(4, 46, 0, '2024-06-02 23:41:11'),
-(5, 46, 6, '2024-06-02 23:59:28'),
-(6, 46, 6, '2024-06-02 23:59:35');
+(9, 46, 9, '2024-06-13 04:05:51'),
+(10, 61, 12, '2024-06-19 22:22:16');
 
 -- --------------------------------------------------------
 
@@ -431,26 +404,8 @@ CREATE TABLE `reztrex` (
 --
 
 INSERT INTO `reztrex` (`id`, `user_id`, `score`, `timestamp`) VALUES
-(1, 46, 361, '2024-05-22 20:05:30'),
-(2, 46, 368, '2024-05-22 20:18:07'),
-(3, 46, 481, '2024-05-31 15:13:56'),
-(4, 46, 361, '2024-05-31 15:13:59'),
-(5, 46, 841, '2024-06-02 23:06:39'),
-(6, 46, 361, '2024-06-02 23:14:14'),
-(7, 46, 361, '2024-06-02 23:41:21');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `sekotaji`
---
-
-CREATE TABLE `sekotaji` (
-  `id` int(11) NOT NULL,
-  `follower_user_id` int(11) NOT NULL,
-  `following_user_id` int(11) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_latvian_ci;
+(95, 46, 421, '2024-06-13 03:50:04'),
+(96, 61, 1088, '2024-06-19 22:22:50');
 
 -- --------------------------------------------------------
 
@@ -467,13 +422,6 @@ CREATE TABLE `user_notes` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_latvian_ci;
 
 --
--- Dumping data for table `user_notes`
---
-
-INSERT INTO `user_notes` (`id`, `user_id`, `note_text`, `created_at`, `updated_at`) VALUES
-(41, 45, 'qweqerer', '2024-05-21 16:27:50', '2024-05-21 16:27:53');
-
---
 -- Indexes for dumped tables
 --
 
@@ -482,8 +430,8 @@ INSERT INTO `user_notes` (`id`, `user_id`, `note_text`, `created_at`, `updated_a
 --
 ALTER TABLE `blocked_users`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`),
-  ADD KEY `blocked_user_id` (`blocked_user_id`);
+  ADD KEY `blocked_users_ibfk_1` (`user_id`),
+  ADD KEY `blocked_users_ibfk_2` (`blocked_user_id`);
 
 --
 -- Indexes for table `conversations`
@@ -496,15 +444,15 @@ ALTER TABLE `conversations`
 --
 ALTER TABLE `conversation_members`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `conversation_id` (`conversation_id`),
-  ADD KEY `user_id` (`user_id`);
+  ADD KEY `conversation_members_ibfk_1` (`conversation_id`),
+  ADD KEY `conversation_members_ibfk_2` (`user_id`);
 
 --
 -- Indexes for table `follows`
 --
 ALTER TABLE `follows`
   ADD PRIMARY KEY (`follower_id`,`followed_id`),
-  ADD KEY `followed_id` (`followed_id`);
+  ADD KEY `follows_ibfk_2` (`followed_id`);
 
 --
 -- Indexes for table `komentari`
@@ -518,22 +466,22 @@ ALTER TABLE `komentari`
 --
 ALTER TABLE `lietotaji`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `epasts` (`epasts`);
+  ADD UNIQUE KEY `lietotājvārds` (`lietotājvārds`);
 
 --
 -- Indexes for table `messages`
 --
 ALTER TABLE `messages`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `conversation_id` (`conversation_id`),
-  ADD KEY `sender_id` (`sender_id`);
+  ADD KEY `messages_ibfk_1` (`conversation_id`),
+  ADD KEY `messages_ibfk_2` (`sender_id`);
 
 --
 -- Indexes for table `notifications`
 --
 ALTER TABLE `notifications`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`);
+  ADD KEY `notifications_ibfk_1` (`user_id`);
 
 --
 -- Indexes for table `password_resets`
@@ -546,8 +494,8 @@ ALTER TABLE `password_resets`
 --
 ALTER TABLE `reposts`
   ADD PRIMARY KEY (`repost_id`),
-  ADD KEY `user_id` (`user_id`),
-  ADD KEY `content_id` (`content_id`);
+  ADD KEY `reposts_ibfk_1` (`user_id`),
+  ADD KEY `reposts_ibfk_2` (`content_id`);
 
 --
 -- Indexes for table `rezcuska`
@@ -574,19 +522,11 @@ ALTER TABLE `reztrex`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `sekotaji`
---
-ALTER TABLE `sekotaji`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `unique_following_relationship` (`follower_user_id`,`following_user_id`),
-  ADD KEY `fk_following_user` (`following_user_id`);
-
---
 -- Indexes for table `user_notes`
 --
 ALTER TABLE `user_notes`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`);
+  ADD KEY `user_notes_ibfk_1` (`user_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -596,91 +536,85 @@ ALTER TABLE `user_notes`
 -- AUTO_INCREMENT for table `blocked_users`
 --
 ALTER TABLE `blocked_users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
 
 --
 -- AUTO_INCREMENT for table `conversations`
 --
 ALTER TABLE `conversations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `conversation_members`
 --
 ALTER TABLE `conversation_members`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `komentari`
 --
 ALTER TABLE `komentari`
-  MODIFY `comment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=181;
+  MODIFY `comment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=241;
 
 --
 -- AUTO_INCREMENT for table `lietotaji`
 --
 ALTER TABLE `lietotaji`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
 
 --
 -- AUTO_INCREMENT for table `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=160;
 
 --
 -- AUTO_INCREMENT for table `password_resets`
 --
 ALTER TABLE `password_resets`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `reposts`
 --
 ALTER TABLE `reposts`
-  MODIFY `repost_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `repost_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=424;
 
 --
 -- AUTO_INCREMENT for table `rezcuska`
 --
 ALTER TABLE `rezcuska`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `rezmerkatreneris`
 --
 ALTER TABLE `rezmerkatreneris`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `reztet`
 --
 ALTER TABLE `reztet`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `reztrex`
 --
 ALTER TABLE `reztrex`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
-
---
--- AUTO_INCREMENT for table `sekotaji`
---
-ALTER TABLE `sekotaji`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=97;
 
 --
 -- AUTO_INCREMENT for table `user_notes`
 --
 ALTER TABLE `user_notes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
 
 --
 -- Constraints for dumped tables
@@ -690,22 +624,22 @@ ALTER TABLE `user_notes`
 -- Constraints for table `blocked_users`
 --
 ALTER TABLE `blocked_users`
-  ADD CONSTRAINT `blocked_users_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `lietotaji` (`id`),
-  ADD CONSTRAINT `blocked_users_ibfk_2` FOREIGN KEY (`blocked_user_id`) REFERENCES `lietotaji` (`id`);
+  ADD CONSTRAINT `blocked_users_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `lietotaji` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `blocked_users_ibfk_2` FOREIGN KEY (`blocked_user_id`) REFERENCES `lietotaji` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `conversation_members`
 --
 ALTER TABLE `conversation_members`
-  ADD CONSTRAINT `conversation_members_ibfk_1` FOREIGN KEY (`conversation_id`) REFERENCES `conversations` (`id`),
-  ADD CONSTRAINT `conversation_members_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `lietotaji` (`id`);
+  ADD CONSTRAINT `conversation_members_ibfk_1` FOREIGN KEY (`conversation_id`) REFERENCES `conversations` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `conversation_members_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `lietotaji` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `follows`
 --
 ALTER TABLE `follows`
-  ADD CONSTRAINT `follows_ibfk_1` FOREIGN KEY (`follower_id`) REFERENCES `lietotaji` (`id`),
-  ADD CONSTRAINT `follows_ibfk_2` FOREIGN KEY (`followed_id`) REFERENCES `lietotaji` (`id`);
+  ADD CONSTRAINT `follows_ibfk_1` FOREIGN KEY (`follower_id`) REFERENCES `lietotaji` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `follows_ibfk_2` FOREIGN KEY (`followed_id`) REFERENCES `lietotaji` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `komentari`
@@ -717,34 +651,27 @@ ALTER TABLE `komentari`
 -- Constraints for table `messages`
 --
 ALTER TABLE `messages`
-  ADD CONSTRAINT `messages_ibfk_1` FOREIGN KEY (`conversation_id`) REFERENCES `conversations` (`id`),
-  ADD CONSTRAINT `messages_ibfk_2` FOREIGN KEY (`sender_id`) REFERENCES `lietotaji` (`id`);
+  ADD CONSTRAINT `messages_ibfk_1` FOREIGN KEY (`conversation_id`) REFERENCES `conversations` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `messages_ibfk_2` FOREIGN KEY (`sender_id`) REFERENCES `lietotaji` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `notifications`
 --
 ALTER TABLE `notifications`
-  ADD CONSTRAINT `notifications_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `lietotaji` (`id`);
+  ADD CONSTRAINT `notifications_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `lietotaji` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `reposts`
 --
 ALTER TABLE `reposts`
-  ADD CONSTRAINT `reposts_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `lietotaji` (`id`),
-  ADD CONSTRAINT `reposts_ibfk_2` FOREIGN KEY (`content_id`) REFERENCES `komentari` (`comment_id`);
-
---
--- Constraints for table `sekotaji`
---
-ALTER TABLE `sekotaji`
-  ADD CONSTRAINT `fk_follower_user` FOREIGN KEY (`follower_user_id`) REFERENCES `lietotaji` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `fk_following_user` FOREIGN KEY (`following_user_id`) REFERENCES `lietotaji` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `reposts_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `lietotaji` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `reposts_ibfk_2` FOREIGN KEY (`content_id`) REFERENCES `komentari` (`comment_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `user_notes`
 --
 ALTER TABLE `user_notes`
-  ADD CONSTRAINT `user_notes_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `lietotaji` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `user_notes_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `lietotaji` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
