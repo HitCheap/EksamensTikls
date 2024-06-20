@@ -62,3 +62,29 @@ $(document).ready(function() {
         }
     });
 });
+
+$(document).ready(function() {
+    $('.delete-conversation').on('click', function() {
+        var conversationId = $(this).data('conversation-id');
+        
+        if (confirm('Are you sure you want to delete this conversation?')) {
+            $.ajax({
+                type: 'POST',
+                url: 'delete_conversation.php', // Replace with your delete conversation PHP script
+                data: { 
+                    delete_conversation: true,
+                    conversation_id: conversationId
+                },
+                success: function() {
+                    // Optionally update UI to reflect conversation deletion
+                    $(this).closest('li').remove(); // Remove conversation from sidebar
+                    // Redirecting to messenger.php after deletion is handled in PHP
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                    alert('Error deleting conversation.');
+                }
+            });
+        }
+    });
+});

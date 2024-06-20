@@ -82,6 +82,19 @@ if (isset($_GET['username'])) {
                     }
                 }
             }
+
+            $profilePicture = !empty($user['profile_picture']) ? $user['profile_picture'] : 'bildes/default.png';
+
+if ($profilePicture === 'bildes/default.png') {
+    $profilePicturePath = './' . $profilePicture;
+} else {
+    $profilePicturePath = './profile_pictures/' . $profilePicture;
+}
+
+if (!file_exists($profilePicturePath) || empty($profilePicture)) {
+    $profilePicturePath = './bildes/default.png'; // Ensure this path is correct
+}
+
             ?>
             <!DOCTYPE html>
             <html lang="lv">
@@ -107,28 +120,35 @@ if (isset($_GET['username'])) {
                         border-radius: 5px;
                         white-space: nowrap;
                     }
+                    .profile-actions {
+                        display: flex;
+                        gap: 10px;
+                        align-items: center;
+                    }
                 </style>
             </head>
             <body class="mx-2">
             <main class="main">
     <div class="profile-header">
-        <img src="profile_pictures/<?php echo htmlspecialchars($profilePicture); ?>" alt="Profile Picture" class="profile-picture">
+    <img src="<?php echo htmlspecialchars($profilePicturePath); ?>" alt="Profile Picture" class="profile-picture inline-image">
         <div class="profile-info">
             <p><?php echo htmlspecialchars($profileInfo['lietotājvārds']); ?>
                 <?php if ($showEasterEggTooltip): ?>
                 <span class="star-tooltip">*</span>
                 <?php endif; ?>
             </p>
-            <button class="button" onclick="piezimes()">Piezīmju grāmatiņa</button>
-            <?php if ($profileId !== $_SESSION['id']) { ?>
-                <button class="button" id="followButton" data-followed-id="<?php echo $profileId; ?>"><?php echo $isFollowing ? 'Nesekot' : 'Sekot'; ?></button>
-            <?php } ?>
-            <?php if ($profileId === $_SESSION['id']) { ?>
-                <form action="upload_profile_picture.php" method="POST" enctype="multipart/form-data">
-                    <input type="file" name="profile_picture" accept=".jpg, .jpeg, .png, .gif" required>
-                    <button type="submit">Change Profile Picture</button>
-                </form>
-            <?php } ?>
+            <div class="profile-actions">
+                <button class="button" onclick="piezimes()">Piezīmju grāmatiņa</button>
+                <?php if ($profileId !== $_SESSION['id']) { ?>
+                    <button class="button" id="followButton" data-followed-id="<?php echo $profileId; ?>"><?php echo $isFollowing ? 'Nesekot' : 'Sekot'; ?></button>
+                <?php } ?>
+                <?php if ($profileId === $_SESSION['id']) { ?>
+                    <form action="upload_profile_picture.php" method="POST" enctype="multipart/form-data" class="inline-form">
+                        <input type="file" class="file-input" name="profile_picture" accept=".jpg, .jpeg, .png, .gif" required>
+                        <button type="submit">Mainīt profila bildi</button>
+                    </form>
+                <?php } ?>
+            </div>
         </div>
     </div>
     <div id="messagesContainer">
@@ -151,7 +171,7 @@ if (isset($_GET['username'])) {
         }
         ?>
     </div>
-    <button id="seeMoreButton" onclick="loadMoreMessages(<?php echo $profileId; ?>)">See more</button>
+    <!-- <button id="seeMoreButton" onclick="loadMoreMessages(<?php echo $profileId; ?>)">Redzēt vairāk</button> -->
 </main>
             </body>
             </html>
@@ -208,31 +228,39 @@ document.getElementById("followButton").addEventListener("click", function() {
     xhr.send('followed_id=' + followedId);
 });
 
-let offset = 10; // Start with the next set of messages
-const limit = 10;
-
 function loadMoreMessages(profileId) {
+    console.log('Loading more messages for profile ID:', profileId);
     var xhr = new XMLHttpRequest();
     xhr.open('GET', `load_more_messages.php?profile_id=${profileId}&offset=${offset}&limit=${limit}`, true);
     xhr.onreadystatechange = function() {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            var response = JSON.parse(xhr.responseText);
-            var messagesContainer = document.getElementById('messagesContainer');
-            if (response.messages.length > 0) {
-                response.messages.forEach(function(message) {
-                    var messageDiv = document.createElement('div');
-                    messageDiv.classList.add('message');
-                    messageDiv.innerHTML = `<p>${message.teksts}</p><small>${new Date(message.datums).toLocaleString()}</small>`;
-                    messagesContainer.appendChild(messageDiv);
-                });
-                offset += limit;
-            }
-            if (!response.hasMore) {
-                var seeMoreButton = document.getElementById('seeMoreButton');
-                seeMoreButton.style.display = 'none';
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                try {
+                    var response = JSON.parse(xhr.responseText);
+                    console.log('Response received:', response);
+                    var messagesContainer = document.getElementById('messagesContainer');
+                    if (response.messages.length > 0) {
+                        response.messages.forEach(function(message) {
+                            var messageDiv = document.createElement('div');
+                            messageDiv.classList.add('message');
+                            messageDiv.innerHTML = `<p>${message.teksts}</p><small>${new Date(message.datums).toLocaleString()}</small>`;
+                            messagesContainer.appendChild(messageDiv);
+                        });
+                        offset += limit;
+                    }
+                    if (!response.hasMore) {
+                        var seeMoreButton = document.getElementById('seeMoreButton');
+                        seeMoreButton.style.display = 'none';
+                    }
+                } catch (e) {
+                    console.error('Error parsing response:', e);
+                }
+            } else {
+                console.error('AJAX request failed:', xhr.status, xhr.statusText);
             }
         }
     };
     xhr.send();
 }
+
 </script>

@@ -44,59 +44,6 @@ if (isset($_GET['username'])) {
             $blockResult = $sql3->get_result();
             $isBlocked = $blockResult->num_rows > 0;
             ?>
-            <div class="border">
-                <div class="items">
-                    <p><?php echo htmlspecialchars($profileInfo['lietotājvārds']); ?></p>
-
-                    <?php
-                    if (isset($_SESSION['statuss']) && $_SESSION['statuss'] === 'Administrators') {
-                        echo "User is an administrator.";
-                        echo '<button class="delete-btn" onclick="confirmDeleteUser()">Delete User</button>';
-                    }
-
-                    function confirmDeleteUser() {
-                        if (confirm("Are you sure you want to delete this user?")) {
-                            // Delete user logic here
-                            $userId = $_GET['user_id']; // Get the user ID from the URL or session
-                            $sql = $conn->prepare("DELETE FROM lietotaji WHERE id =?");
-                            $sql->bind_param("i", $userId);
-                            $sql->execute();
-                            echo "User deleted successfully!";
-                        } else {
-                            echo "Deletion cancelled.";
-                        }
-                        }
-                    ?>
-
-                    <?php if (!$isBlocked) { ?>
-                        <button class="button" id="followButton" data-followed-id="<?php echo $profileId; ?>"><?php echo $isFollowing ? 'Nesekot' : 'Sekot'; ?></button>
-                    <?php } ?>
-                    <div class="comment">
-                        <button class="block-btn" data-user-id="<?php echo $profileInfo['id']; ?>"><?php echo $isBlocked ? 'Atbloķēt' : 'Bloķēt'; ?> <?php echo htmlspecialchars($profileInfo['lietotājvārds']); ?></button>
-                    </div>
-                    <div id="messagesContainer">
-                        <?php
-                        // Fetch user comments
-                        $commentsSql = $conn->prepare("SELECT teksts, datums FROM komentari WHERE lietotaja_id = ? ORDER BY datums DESC LIMIT 10");
-                        $commentsSql->bind_param('i', $profileId);
-                        $commentsSql->execute();
-                        $commentsResult = $commentsSql->get_result();
-
-                        if ($commentsResult->num_rows > 0) {
-                            while ($comment = $commentsResult->fetch_assoc()) {
-                                echo '<div class="message">';
-                                echo '<p>' . htmlspecialchars($comment['teksts']) . '</p>';
-                                echo '<small>' . date('g:i A l, F j, Y', strtotime($comment['datums'])) . '</small>';
-                                echo '</div>';
-                            }
-                        } else {
-                            echo '<p>No comments to display.</p>';
-                        }
-                        ?>
-                    </div>
-                    <button id="seeMoreButton" onclick="loadMoreMessages(<?php echo $profileId; ?>)">See more</button>
-                </div>
-            </div>
             <?php
         } else {
             echo "Profile not found.";
@@ -108,6 +55,63 @@ if (isset($_GET['username'])) {
     echo "Username not provided.";
 }
 ?>
+
+
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Profils</title>
+</head>
+<body class="mx-2">
+<main class="main">
+    <div class="border">
+        <div class="items">
+            <p><?php echo htmlspecialchars($profileInfo['lietotājvārds']); ?></p>
+
+            <?php
+            if (isset($_SESSION['statuss']) && $_SESSION['statuss'] === 'Administrators') {
+                echo "User is an administrator.";
+                echo '<button class="delete-btn" onclick="confirmDeleteUser()">Delete User</button>';
+            }
+            ?>
+
+            <?php if (!$isBlocked) { ?>
+                <button class="button" id="followButton" data-followed-id="<?php echo $profileId; ?>"><?php echo $isFollowing ? 'Nesekot' : 'Sekot'; ?></button>
+            <?php } ?>
+            <button class="block-btn" data-user-id="<?php echo $profileInfo['id']; ?>"><?php echo $isBlocked ? 'Atbloķēt' : 'Bloķēt'; ?> <?php echo htmlspecialchars($profileInfo['lietotājvārds']); ?></button>
+        </div>
+
+        <div class="comment-section">
+            <div id="messagesContainer">
+                <?php
+                // Fetch user comments
+                $commentsSql = $conn->prepare("SELECT teksts, datums FROM komentari WHERE lietotaja_id = ? ORDER BY datums DESC LIMIT 5");
+                $commentsSql->bind_param('i', $profileId);
+                $commentsSql->execute();
+                $commentsResult = $commentsSql->get_result();
+
+                if ($commentsResult->num_rows > 0) {
+                    while ($comment = $commentsResult->fetch_assoc()) {
+                        echo '<div class="message">';
+                        echo '<p>' . htmlspecialchars($comment['teksts']) . '</p>';
+                        echo '<small>' . date('g:i A l, F j, Y', strtotime($comment['datums'])) . '</small>';
+                        echo '</div>';
+                    }
+                } else {
+                    echo '<p>No comments to display.</p>';
+                }
+                ?>
+            </div>
+            <button id="seeMoreButton" onclick="loadMoreMessages(<?php echo $profileId; ?>)">Redzēt vairāk</button>
+        </div>
+    </div>
+</main>
+</body>
+</html>
+
 
 <script>
 
@@ -172,8 +176,8 @@ document.getElementById("followButton").addEventListener("click", function() {
 });
 
 
-let offset = 10; // Start with the next set of messages
-const limit = 10;
+let offset = 5; // Start with the next set of messages
+const limit = 5;
 
 function loadMoreMessages(profileId) {
     var xhr = new XMLHttpRequest();
@@ -200,18 +204,3 @@ function loadMoreMessages(profileId) {
     xhr.send();
 }
 </script>
-
-<!DOCTYPE html>
-<html lang="lv">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>Profils</title>
-</head>
-<body class="mx-2">
-    <main class="main">
-        <!-- Profile content will be loaded here -->
-    </main>
-</body>
-</html>

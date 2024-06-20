@@ -128,24 +128,27 @@ if (isset($_GET['conversation_id'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Messenger</title>
+    <title>Čats</title>
     <link rel="stylesheet" href="messenger.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-    <div class="messenger-container">
-        <div class="conversations-sidebar">
-            <h2>Sarunas</h2>
-            <ul>
-                <?php while ($conversation = $conversations->fetch_assoc()):?>
-                    <li>
-                        <a href="?conversation_id=<?php echo $conversation['id'];?>">
-                            <?php echo htmlspecialchars($conversation['name']);?>
-                        </a>
-                    </li>
-                <?php endwhile;?>
-            </ul>
-        </div>
+<div class="conversations-sidebar">
+    <h2>Sarunas</h2>
+    <ul>
+        <?php while ($conversation = $conversations->fetch_assoc()):?>
+            <li>
+                <a href="?conversation_id=<?php echo $conversation['id'];?>">
+                    <?php echo htmlspecialchars($conversation['name']);?>
+                </a>
+                <?php if ($conversation['deletable']): ?>
+                    <button class="delete-conversation" data-conversation-id="<?php echo $conversation['id']; ?>">Delete</button>
+                <?php endif; ?>
+            </li>
+        <?php endwhile;?>
+    </ul>
+</div>
+
         <div class="messages-container">
             <div class="messages-header">
                 <h2>Ziņas</h2>

@@ -31,9 +31,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
         // Display reset link directly
         $resetLink = "http://localhost/reset_password.php?token=$token";
-        $_SESSION['message'] = "Password reset link: <a href='$resetLink'>$resetLink</a>";
+        $_SESSION['message'] = "Paroles atjaunošanas saite: <a href='$resetLink'>$resetLink</a>";
     } else {
-        $_SESSION['error'] = "This email doesn't exist in our database.";
+        $_SESSION['error'] = "Šis epasts nav reģistrēts.";
     }
 }
 ?>
@@ -57,6 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
       </div>
       <div class="button-group">
         <button class="login-button" type="submit">Sūtīt atjaunošanas saiti</button>
+        <button class="back-button" type="button" onclick="history.back()">Atpakaļ</button>
         <?php
           if (isset($_SESSION['error'])) {
               echo '<div class="error-message">' . $_SESSION['error'] . '</div>';

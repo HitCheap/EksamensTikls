@@ -254,6 +254,17 @@ function handleLikeClick(event) {
     }
 }
 
+document.addEventListener('DOMContentLoaded', function() {
+    var likedPosts = JSON.parse(localStorage.getItem('likedPosts')) || {};
+    Object.keys(likedPosts).forEach(function(postId) {
+        var likeButton = document.getElementById('likeButton_' + postId);
+        if (likeButton) {
+            likeButton.classList.add('liked');
+            likeButton.textContent = 'Atcelt patīk';
+        }
+    });
+});
+
 function handleLike(postID, button) {
     var xhr = new XMLHttpRequest();
     xhr.open('POST', 'like.php');

@@ -196,10 +196,10 @@ function gameOver() {
   gameOverScreen.style.display = 'flex';
   gameOverScreen.innerHTML = `
     <div class="game-over-content">
-      <p>Game Over!</p>
-      <p>Score: ${player.score}</p>
-      <button onclick="restartGame()">Restart</button>
-      <button onclick="goBack()">Back</button>
+      <p>Spēle beidzās!</p>
+      <p>Rezultāts: ${player.score}</p>
+      <button onclick="restartGame()">Restartēt</button>
+      <button onclick="goBack()">Atpakaļ</button>
     </div>
   `;
   saveScore(player.score, game); // Save the score to the server
@@ -280,7 +280,7 @@ function calculateSilhouette() {
 }
 
 function updateScore() {
-  document.getElementById("score").innerText = "Score: " + player.score;
+  document.getElementById("score").innerText = "Rezultāts: " + player.score;
 }
 
 document.addEventListener("keydown", (event) => {

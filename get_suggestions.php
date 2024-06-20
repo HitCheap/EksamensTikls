@@ -25,7 +25,7 @@ if ($result->num_rows > 0) {
         echo "<div class='suggestion' onclick=\"openProfile('{$row['lietotājvārds']}')\">" . $row['lietotājvārds'] . "</div>";
     }
 } else {
-    echo "No suggestions found";
+    echo "Nav piedāvājumi";
 }
 
 $conn->close();

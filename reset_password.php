@@ -49,19 +49,19 @@ if (isset($_GET['token'])) {
     <link rel="stylesheet" href="pieslegsanas.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reset Password</title>
+    <title>Atjaunot paroli</title>
 </head>
 <body class="mx-2">
   <main class="login-container">
     <hr>
     <form class="login-form" action="reset_password.php?token=<?php echo htmlspecialchars($token); ?>" method="POST">
-      <p class="login-title">Reset Password</p>
+      <p class="login-title">Atjaunot Paroli</p>
       <div class="input-group">
-        <label for="parole" class="input-label">New Password:</label>
+        <label for="parole" class="input-label">Jaunā parole:</label>
         <input type="password" id="parole" name="parole" placeholder="••••••" class="input-field" required/>
       </div>
       <div class="button-group">
-        <button class="login-button" type="submit">Reset Password</button>
+        <button class="login-button" type="submit">Atjaunot paroli</button>
         <?php
           if (isset($_SESSION['error'])) {
               echo '<div class="error-message">' . $_SESSION['error'] . '</div>';

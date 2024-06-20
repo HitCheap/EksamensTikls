@@ -42,6 +42,14 @@
     background-color: #555;
 }
 
+.like-btn.liked {
+    background-color: #800080; /* Purple color */
+    color: #fff;
+}
+
+
+
+
 .modal {
     display: none;
     position: fixed;
@@ -60,7 +68,7 @@
     margin: 5% auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 80%;
+    width: 11%;
     z-index: 1001; /* Ensure modal content is above the overlay */
 }
 
@@ -175,6 +183,72 @@
 
 /* Hover effect */
 .button:hover {
+    background-color: rgb(141, 22, 165); /* Darken the background color on hover */
+}
+
+button[type="submit"] {
+    background-color: #a455a4;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    /* ... existing styles ... */
+    display: flex; /* Make the button a flex container */
+    justify-content: center; /* Center the button horizontally */
+    align-items: center; /* Center the button vertically (optional) */
+    margin: auto;
+  }
+
+  button[type="submit"]:hover {
+    background-color: rgb(141, 22, 165); /* Change text color to blue when hovered */;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transform: translateY(-0.125rem);
+  }
+
+  .file-input {
+    background-color: #a455a4;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    /* ... existing styles ... */
+    display: flex; /* Make the button a flex container */
+    justify-content: center; /* Center the button horizontally */
+    align-items: center; /* Center the button vertically (optional) */
+    margin: auto;
+  }
+
+  .file-input:hover {
+    background-color: rgb(141, 22, 165); /* Change text color to blue when hovered */;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transform: translateY(-0.125rem);
+  }
+
+  .block-btn {
+    font-size: 0.875rem; /* Equivalent to text-sm in Tailwind CSS */
+    font-weight: 600; /* Equivalent to font-semibold in Tailwind CSS */
+    cursor: pointer;
+    display: inline-block; /* Make it a block element */
+    padding: 0.5rem 1rem; /* Add padding for better spacing */
+    background-color: #a455a4; /* Add a background color */
+    color: #fff; /* Set text color to white */
+    text-decoration: none; /* Remove default underline */
+    border-radius: 0.25rem; /* Apply border radius */
+    transition: background-color 0.3s; /* Smooth transition for background color change */
+}
+
+/* Hover effect */
+.block-btn:hover {
     background-color: rgb(141, 22, 165); /* Darken the background color on hover */
 }
 

@@ -40,13 +40,19 @@ if (!$isAdmin) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Notifications</title>
+    <title>Paziņojumi</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.2/xlsx.full.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        /* Add a margin-top to the body to make room for the navbar */
+        body {
+            margin-top: 50px; /* adjust the value to match the height of your navbar */
+        }
+    </style>
 </head>
 <body>
-    <h1>Notifications</h1>
+    <h1>Paziņojumi</h1>
 
     <?php if ($isAdmin):?>
         <button onclick="exportToExcel()">Export to Excel</button>

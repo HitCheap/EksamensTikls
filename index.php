@@ -49,7 +49,7 @@ function attelotKomentarus($parent_id = null, $level = 0) {
             $source = $row['source']; // Paņem komentāra avotu (oriģināls vai pārpublicēts)
             $profilePicture = $row['profile_picture']; // Paņem lietotāja profila attēlu
             $statuss = $row['statuss']; // Paņem lietotāja statusu
-
+            $liked = false;
             // Iegūst laiku skaitu no datubāzes
             $likeCountSQL = $conn->prepare("SELECT COUNT(*) AS like_count FROM likes_table WHERE post_id = ?");
             $likeCountSQL->bind_param("i", $commentId); // Piesaista komentāra ID parametram
@@ -60,6 +60,15 @@ function attelotKomentarus($parent_id = null, $level = 0) {
                 $likeCountData = $likeCountResult->fetch_assoc(); // Iegūst laiku skaita datus
                 $initialLikeCount = $likeCountData['like_count']; // Iestata sākotnējo laiku skaitu
             }
+
+            if (isset($_SESSION['id'])) {
+              $checkLikeSQL = $conn->prepare("SELECT * FROM likes_table WHERE user_id = ? AND post_id = ?");
+              $checkLikeSQL->bind_param("ii", $_SESSION['id'], $commentId);
+              $checkLikeSQL->execute();
+              $checkLikeResult = $checkLikeSQL->get_result();
+              $liked = $checkLikeResult->num_rows > 0;
+          }
+      
 
             // Nosaka profila attēla ceļu
             if ($profilePicture === 'bildes/default.png') {
@@ -196,6 +205,12 @@ function isBlocked($currentUserId, $commenterId) {
   <script src="script.js"></script> <!-- Saite uz JavaScript failu -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> <!-- JQuery bibliotēka -->
   <title>Sākumlapa</title>
+  <style>
+    /* Add a margin-top to the comment container to make room for the navbar */
+   .comment-container {
+        margin-top: 20px; /* adjust the value to match the height of your navbar */
+    }
+</style>
 </head>
 <body class="mx-2">
   <main class="main">

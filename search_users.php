@@ -14,9 +14,9 @@ include 'datubaze.php';
 
 <div class="search-container">
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="GET">
-        <input type="text" name="query" id="searchInput" placeholder="Search for users" onkeyup="showSuggestions(this.value)">
+        <input type="text" name="query" id="searchInput" placeholder="Meklēt lietotājus" onkeyup="showSuggestions(this.value)">
         <div id="suggestions"></div>
-        <button type="submit">Search</button>
+        <button type="submit">Meklēt</button>
     </form>
 
     <?php
@@ -41,7 +41,7 @@ include 'datubaze.php';
             }
             echo '</div>';
         } else {
-            echo '<p>No users found.</p>';
+            echo '<p>Nav atrasti lietotāji.</p>';
         }
 
         $stmt->close();

@@ -45,6 +45,7 @@ $conn->close();
         <label for="email">Ievadi savu e-pastu:</label><br>
         <input type="email" id="email" name="email" required><br>
         <button type="submit">Atjauno Lietotājvārdu</button>
+        <button class="back-button" type="button" onclick="history.back()">Atpakaļ</button>
     </form>
 
     <?php if (isset($message)): ?>

@@ -46,7 +46,7 @@ $currentEmail = decrypt_email($currentEncryptedEmail);
 
 // Check if new email is the same as the current email
 if ($newEmail === $currentEmail) {
-    echo json_encode(['success' => false, 'error' => 'The new email cannot be the same as the current email.']);
+    echo json_encode(['success' => false, 'error' => 'Jaunais epasts nevar būt tāds pats kā esošais.']);
     exit();
 }
 

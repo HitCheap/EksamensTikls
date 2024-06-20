@@ -12,7 +12,7 @@ session_start();
 </head>
 <body>
     <h1>Šis konts ir ticis deaktivizēts</h1>
-    <p>Lūdzu sazināties ar mums šeit ja ir kādas neskaidrības.</p>
+    <p>Lūdzu sazināties ar mums uz HubSphere@gmail.com ja ir kādas neskaidrības.</p>
     <a href="login.php">Atpakaļ uz pieteikšanās lapu</a>
 </body>
 </html>

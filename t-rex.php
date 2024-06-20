@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>T-Rex Game</title>
+    <title>T-Rex Spēle</title>
     <style>
         body {
             margin: 0;
@@ -139,8 +139,8 @@
                 frame++;
             } else {
                 ctx.font = '30px Arial';
-                ctx.fillText('Game Over', canvas.width / 2 - 70, canvas.height / 2);
-                ctx.fillText('Score: ' + score, canvas.width / 2 - 70, canvas.height / 2 + 40);
+                ctx.fillText('Spēla beidzās', canvas.width / 2 - 70, canvas.height / 2);
+                ctx.fillText('Rezultāts: ' + score, canvas.width / 2 - 70, canvas.height / 2 + 40);
             }
 
             requestAnimationFrame(update);
