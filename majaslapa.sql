@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 20, 2024 at 07:09 AM
+-- Generation Time: Jun 20, 2024 at 10:10 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -233,6 +233,15 @@ CREATE TABLE `messages` (
   `content` text NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_latvian_ci;
+
+--
+-- Dumping data for table `messages`
+--
+
+INSERT INTO `messages` (`id`, `conversation_id`, `sender_id`, `content`, `created_at`) VALUES
+(35, 11, 65, 'Ka iet?', '2024-06-20 07:27:34'),
+(36, 11, 57, 'Man diez gan labi', '2024-06-20 07:28:04'),
+(37, 11, 57, 'Ka tev?', '2024-06-20 07:28:11');
 
 -- --------------------------------------------------------
 
@@ -566,7 +575,7 @@ ALTER TABLE `lietotaji`
 -- AUTO_INCREMENT for table `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `notifications`

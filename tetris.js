@@ -108,20 +108,20 @@ function draw() {
   context.fillStyle = '#000';
   context.fillRect(0, 0, canvas.width, canvas.height);
 
-  // Draw the silhouette
+  // Uzzīmēt siluetu
   const silhouettePos = calculateSilhouette();
   drawMatrix(player.matrix, silhouettePos, context, [255, 255, 255]);
 
-  // Draw the arena
+  // Uzzīmēt arēnu
   drawMatrix(arena, { x: 0, y: 0 }, context);
 
-  // Draw the actual piece
+  // Uzzīmēt pašreizējo figūru
   drawMatrix(player.matrix, player.pos, context);
 
-  // Draw the held piece
+  // Uzzīmēt turēto figūru
   holdContext.clearRect(0, 0, holdCanvas.width, holdCanvas.height);
   if (holdPiece) {
-    const offset = { x: 1, y: 1 }; // Adjust the offset for a better visual position
+    const offset = { x: 1, y: 1 }; // Pielāgot nobīdi labākai vizuālajai pozīcijai
     drawMatrix(holdPiece, offset, holdContext);
   }
 }
@@ -191,7 +191,7 @@ function isGameOver() {
 
 function gameOver() {
   gameOverFlag = true;
-  // Display game over screen with restart and back buttons
+  // Parādīt spēles beigu ekrānu ar restartēšanas un atpakaļ pogām
   const gameOverScreen = document.getElementById('game-over-screen');
   gameOverScreen.style.display = 'flex';
   gameOverScreen.innerHTML = `
@@ -202,7 +202,7 @@ function gameOver() {
       <button onclick="goBack()">Atpakaļ</button>
     </div>
   `;
-  saveScore(player.score, game); // Save the score to the server
+  saveScore(player.score, game); // Saglabāt punktu skaitu serverī
 }
 
 function playerMove(offset) {
@@ -221,7 +221,7 @@ function playerReset() {
   if (collide(arena, player)) {
     gameOver();
   }
-  hasPlacedPiece = true; // Reset the flag to allow holding a piece
+  hasPlacedPiece = true; // Atiestatīt flagu, lai ļautu turēt figūru
 }
 
 function playerRotate(dir) {
@@ -243,11 +243,11 @@ let dropCounter = 0;
 let dropInterval = 1000;
 let lastTime = 0;
 
-let holdPiece = null; // Variable to store the hold piece
-let hasHeldPiece = false; // Variable to track if a piece has been held previously
-let hasPlacedPiece = true; // Variable to track if a piece has been placed after holding
+let holdPiece = null; // Mainīgais, lai saglabātu turēto figūru
+let hasHeldPiece = false; // Mainīgais, lai izsekotu, vai figūra ir turēta
+let hasPlacedPiece = true; // Mainīgais, lai izsekotu, vai figūra ir novietota pēc turēšanas
 
-// Function to hold the current piece
+// Funkcija, lai turētu pašreizējo figūru
 function holdCurrentPiece() {
   if (hasPlacedPiece) {
     if (holdPiece) {
@@ -265,7 +265,7 @@ function holdCurrentPiece() {
   }
 }
 
-// Add this function to calculate the silhouette position
+// Funkcija, lai aprēķinātu siluetas pozīciju
 function calculateSilhouette() {
   const originalPos = { ...player.pos };
   while (!collide(arena, player)) {
@@ -285,75 +285,76 @@ function updateScore() {
 
 document.addEventListener("keydown", (event) => {
   if (event.keyCode === 37) {
-    playerMove(-1);
+    playerMove(-1); // Pārvietot figūru pa kreisi
   } else if (event.keyCode === 39) {
-    playerMove(1);
+    playerMove(1); // Pārvietot figūru pa labi
   } else if (event.keyCode === 40) {
-    playerDrop();
+    playerDrop(); // Nolaiž figūru
   } else if (event.keyCode === 38) {
-    playerRotate(1);
-  } else if (event.keyCode === 67) { // 'c' button keycode
-    holdCurrentPiece();
+    playerRotate(1); // Rotēt figūru pretēji pulksteņrādītāja virzienam
+  } else if (event.keyCode === 67) { // 'c' poga
+    holdCurrentPiece(); // Turēt pašreizējo figūru
   } else if (event.keyCode === 32) {
     while (!collide(arena, player)) {
       player.pos.y++;
     }
     player.pos.y--;
-    merge(arena, player);
-    playerReset();
-    arenaSweep();
-    updateScore();
+    merge(arena, player); // Apvienot figūru ar arēnu
+    playerReset(); // Atiestatīt figūru uz sākuma pozīciju
+    arenaSweep(); // Pārbaudīt un notīrīt pilnas rindas
+    updateScore(); // Atjaunot rezultātu
   }
 });
 
 const colors = [
   null,
-  "#00ffff",
-  "#ff7f00",
-  "#0000ff",
-  "#ffff00",
-  "#ff0000",
-  "#00ff00",
-  "#800080",
+  "#00ffff", // I figūras krāsa
+  "#ff7f00", // L figūras krāsa
+  "#0000ff", // J figūras krāsa
+  "#ffff00", // O figūras krāsa
+  "#ff0000", // Z figūras krāsa
+  "#00ff00", // S figūras krāsa
+  "#800080", // T figūras krāsa
 ];
 
-const arena = createMatrix(12, 20);
+const arena = createMatrix(12, 20); // Izveidot arēnas matricu
 const player = {
-  pos: { x: 0, y: 0 },
-  matrix: null,
-  score: 0,
+  pos: { x: 0, y: 0 }, // Sākuma pozīcija
+  matrix: null, // Pašreizējā figūra
+  score: 0, // Rezultāts
 };
 
-playerReset();
-updateScore();
-update();
+playerReset(); // Inicializēt spēlētāju
+updateScore(); // Atjaunot sākuma rezultātu
+update(); // Sākt spēles atjaunošanu
 
+// Funkcija, lai saglabātu rezultātu
 function saveScore(score, name) {
   const xhr = new XMLHttpRequest();
-  xhr.open('POST', 'save_score.php', true);
+  xhr.open('POST', 'save_score.php', true); // Izveidot POST pieprasījumu uz serveri
   xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
   xhr.onreadystatechange = function () {
       if (xhr.readyState === 4 && xhr.status === 200) {
-          console.log(xhr.responseText);
+          console.log(xhr.responseText); // Izvadīt atbildi konsolē
       }
   };
-  xhr.send('score=' + encodeURIComponent(score) + '&game=' + encodeURIComponent(name));
+  xhr.send('score=' + encodeURIComponent(score) + '&game=' + encodeURIComponent(name)); // Nosūtīt rezultātu un spēles nosaukumu
 }
 
-// Function to restart the game
+// Funkcija, lai restartētu spēli
 function restartGame() {
-  gameOverFlag = false;
-  arena.forEach(row => row.fill(0));
-  player.score = 0;
-  holdPiece = null; // Clear the held piece
-  hasHeldPiece = false; // Reset the hold flag
-  playerReset();
-  updateScore();
-  document.getElementById('game-over-screen').style.display = 'none';
-  update();
+  gameOverFlag = false; // Atiestatīt spēles beigu flagu
+  arena.forEach(row => row.fill(0)); // Notīrīt arēnu
+  player.score = 0; // Atiestatīt rezultātu
+  holdPiece = null; // Notīrīt turēto figūru
+  hasHeldPiece = false; // Atiestatīt turēšanas flagu
+  playerReset(); // Atiestatīt spēlētāju
+  updateScore(); // Atjaunot rezultātu
+  document.getElementById('game-over-screen').style.display = 'none'; // Paslēpt spēles beigu ekrānu
+  update(); // Sākt spēles atjaunošanu
 }
 
-// Function to go back to the previous page
+// Funkcija, lai atgrieztos uz iepriekšējo lapu
 function goBack() {
-  window.location.href = 'speles.php'; // Adjust the URL as necessary
+  window.location.href = 'speles.php'; // Pārslēgties uz norādīto URL
 }

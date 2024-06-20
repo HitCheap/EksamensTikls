@@ -1,61 +1,61 @@
 $(document).ready(function() {
-    // Edit message functionality
+    // Rediģēt ziņojumu funkcionalitāte
     $('.messages-list').on('click', '.edit-button', function() {
-        var li = $(this).closest('li');
-        var messageId = li.data('message-id');
-        var messageContent = li.find('.message-content').text();
-        var editInput = $('<input type="text" class="edit-input" value="' + messageContent + '">');
-        li.find('.message-content').html(editInput);
-        li.find('.edit-button, .delete-button').hide();
-        li.find('.save-button, .cancel-button').show();
+        var li = $(this).closest('li'); // Atrodam tuvāko <li> elementu
+        var messageId = li.data('message-id'); // Iegūstam ziņojuma ID
+        var messageContent = li.find('.message-content').text(); // Iegūstam ziņojuma saturu
+        var editInput = $('<input type="text" class="edit-input" value="' + messageContent + '">'); // Izveidojam rediģēšanas ievadi
+        li.find('.message-content').html(editInput); // Aizvietojam ziņojuma saturu ar ievadi
+        li.find('.edit-button, .delete-button').hide(); // Slēpjam rediģēšanas un dzēšanas pogas
+        li.find('.save-button, .cancel-button').show(); // Rādām saglabāšanas un atcelšanas pogas
     });
 
-    // Save edited message
+    // Saglabāt rediģēto ziņojumu
     $('.messages-list').on('click', '.save-button', function() {
-        var li = $(this).closest('li');
-        var messageId = li.data('message-id');
-        var newMessageContent = li.find('.edit-input').val().trim();
+        var li = $(this).closest('li'); // Atrodam tuvāko <li> elementu
+        var messageId = li.data('message-id'); // Iegūstam ziņojuma ID
+        var newMessageContent = li.find('.edit-input').val().trim(); // Iegūstam jauno ziņojuma saturu
         
-        // Send AJAX request to update message content in database
+        // Sūtam AJAX pieprasījumu, lai atjauninātu ziņojuma saturu datubāzē
         $.ajax({
             type: 'POST',
-            url: 'update_message.php',
-            data: { message_id: messageId, content: newMessageContent },
+            url: 'update_message.php', // PHP fails, kas apstrādā ziņojuma atjaunināšanu
+            data: { message_id: messageId, content: newMessageContent }, // Sūtam ziņojuma ID un jauno saturu
             success: function(response) {
-                if (response === 'Message updated successfully') {
-                    li.find('.message-content').html(newMessageContent + '<em>' + li.find('em').text() + '</em>');
-                    li.find('.edit-button, .delete-button').show();
-                    li.find('.save-button, .cancel-button').hide();
+                if (response === 'Message updated successfully') { // Ja atjaunināšana veiksmīga
+                    li.find('.message-content').html(newMessageContent + '<em>' + li.find('em').text() + '</em>'); // Atjaunojam ziņojuma saturu HTML
+                    li.find('.edit-button, .delete-button').show(); // Rādām rediģēšanas un dzēšanas pogas
+                    li.find('.save-button, .cancel-button').hide(); // Slēpjam saglabāšanas un atcelšanas pogas
                 } else {
-                    alert('Error updating message');
+                    alert('Error updating message'); // Ja atjaunināšana neveiksmīga, rādām kļūdas ziņu
                 }
             }
         });
     });
 
-    // Cancel edit message
+    // Atcelt rediģēšanu
     $('.messages-list').on('click', '.cancel-button', function() {
-        var li = $(this).closest('li');
-        var originalContent = li.find('.edit-input').val();
-        li.find('.message-content').html(originalContent + '<em>' + li.find('em').text() + '</em>');
-        li.find('.edit-button, .delete-button').show();
-        li.find('.save-button, .cancel-button').hide();
+        var li = $(this).closest('li'); // Atrodam tuvāko <li> elementu
+        var originalContent = li.find('.edit-input').val(); // Iegūstam oriģinālo ziņojuma saturu
+        li.find('.message-content').html(originalContent + '<em>' + li.find('em').text() + '</em>'); // Atjaunojam ziņojuma saturu HTML
+        li.find('.edit-button, .delete-button').show(); // Rādām rediģēšanas un dzēšanas pogas
+        li.find('.save-button, .cancel-button').hide(); // Slēpjam saglabāšanas un atcelšanas pogas
     });
 
-    // Delete message functionality
+    // Dzēst ziņojumu funkcionalitāte
     $('.messages-list').on('click', '.delete-button', function() {
-        var messageId = $(this).closest('li').data('message-id');
-        if (confirm('Are you sure you want to delete this message?')) {
-            // Send AJAX request to delete message from database
+        var messageId = $(this).closest('li').data('message-id'); // Iegūstam ziņojuma ID
+        if (confirm('Are you sure you want to delete this message?')) { // Apstiprinājuma dialogs
+            // Sūtam AJAX pieprasījumu, lai dzēstu ziņojumu no datubāzes
             $.ajax({
                 type: 'POST',
-                url: 'delete_message.php',
-                data: { message_id: messageId },
+                url: 'delete_message.php', // PHP fails, kas apstrādā ziņojuma dzēšanu
+                data: { message_id: messageId }, // Sūtam ziņojuma ID
                 success: function(response) {
-                    if (response === 'Message deleted successfully') {
-                        location.reload();
+                    if (response === 'Message deleted successfully') { // Ja dzēšana veiksmīga
+                        location.reload(); // Pārlādējam lapu, lai atjauninātu interfeisu
                     } else {
-                        alert('Error deleting message');
+                        alert('Error deleting message'); // Ja dzēšana neveiksmīga, rādām kļūdas ziņu
                     }
                 }
             });
@@ -65,24 +65,24 @@ $(document).ready(function() {
 
 $(document).ready(function() {
     $('.delete-conversation').on('click', function() {
-        var conversationId = $(this).data('conversation-id');
+        var conversationId = $(this).data('conversation-id'); // Iegūstam sarunas ID
         
-        if (confirm('Are you sure you want to delete this conversation?')) {
+        if (confirm('Are you sure you want to delete this conversation?')) { // Apstiprinājuma dialogs
             $.ajax({
                 type: 'POST',
-                url: 'delete_conversation.php', // Replace with your delete conversation PHP script
+                url: 'delete_conversation.php', // PHP fails, kas apstrādā sarunas dzēšanu
                 data: { 
                     delete_conversation: true,
-                    conversation_id: conversationId
+                    conversation_id: conversationId // Sūtam sarunas ID
                 },
                 success: function() {
-                    // Optionally update UI to reflect conversation deletion
-                    $(this).closest('li').remove(); // Remove conversation from sidebar
-                    // Redirecting to messenger.php after deletion is handled in PHP
+                    // Atjaunojam UI, lai atspoguļotu sarunas dzēšanu
+                    $(this).closest('li').remove(); // Noņemam sarunu no sānjoslas
+                    // Novirzīšana uz messenger.php pēc dzēšanas tiek apstrādāta PHP failā
                 },
                 error: function(xhr, status, error) {
-                    console.error(xhr.responseText);
-                    alert('Error deleting conversation.');
+                    console.error(xhr.responseText); // Konsolējam kļūdas ziņu
+                    alert('Error deleting conversation.'); // Rādām kļūdas ziņu
                 }
             });
         }

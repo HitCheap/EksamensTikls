@@ -141,9 +141,9 @@ if (isset($_GET['conversation_id'])) {
                 <a href="?conversation_id=<?php echo $conversation['id'];?>">
                     <?php echo htmlspecialchars($conversation['name']);?>
                 </a>
-                <?php if ($conversation['deletable']): ?>
+                <!-- <#?php if ($conversation['deletable']): ?>
                     <button class="delete-conversation" data-conversation-id="<?php echo $conversation['id']; ?>">Delete</button>
-                <?php endif; ?>
+                <#?php endif; ?> -->
             </li>
         <?php endwhile;?>
     </ul>
